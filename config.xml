@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <widget
  id = "ar.com.ingverger.mtimer"
  versionCode = "00900"
@@ -11,7 +11,7 @@
 		Se establece el tiempo disponible en minutos y segundos.
 		El tiempo fijado por defecto se modifica con las flechas que apuntan hacia arriba para incrementar y hacia abajo para decrementar.
 		Una vez establecido el tiempo disponible se esta en condiciones de iniciar la cuenta regresiva. Esto se hace picando en el boton inicio (play)
-		En pantalla se presenta el tiempo restante. Cuando se ha completado el tiempo comienza un sonido audible para alertar sobre esta situación.
+		En pantalla se presenta el tiempo restante. Cuando se ha completado el tiempo comienza un sonido audible para alertar sobre esta situaciÃ³n.
 		Se puede interrumpir el conteo de tiempo en cualquier instante pulsando el boton detener.
  </description>
 
@@ -20,7 +20,7 @@
  </author>
 
  <preference name="android-targetSdkVersion"  value="26" /> 
- <preference name="orientation" value="ALL" />  <!-- all: default means both landscape and portrait are enabled -->
+ <preference name="orientation" value="all" />  <!-- all: default means both landscape and portrait are enabled -->
 
  <content src="index.html" />
  <access origin="*" />
