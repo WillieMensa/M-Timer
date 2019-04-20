@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="sp">
+<head>
+<!-- 
+	index-con-botones-c.html
+		numeros svg
+
+	Timer para contar minutos:segundos restantes
+	basado en https://www.w3schools.com/howto/howto_js_countdown.asp
+	tutorial grilla  https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids	
+
+	Incluir
+		Pausar
+		volver a pantalla inicio
+
+	Modificar el ingreso del tiempo para el timer
+		usar flecha arriba/abajo para incrementar/decrementar tiempo
+
+	nombres utilizados
+	minutos	id texto minutos
+	segundos	id texto segundos
+
+
+-->
+
+	<title>Temporizador</title> 
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+<style>
+
+	@font-face {
+			font-family: 'balooregular';
+			src: url('baloo-regular-webfont.woff2') format('woff2'),
+					 url('baloo-regular-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+	}
+
+
+	@media screen and (max-width:400px) {
+		body {
+			background-color: #440;
+			max-width: 400px;
+			max-height: 300px;
+		}
+		.setButton {
+			font-size:  1em;
+		}
+	}
+
+	@media screen and (max-width:640px)  and (min-width:400px) {
+		body {
+			background-color: #600;
+			max-width: 600px;
+			max-height: 300px;
+		}
+		.setButton {
+			font-size:  2em;
+		}
+	}
+
+	@media screen and (max-width:1024px) and (min-width:640px) {
+		body {
+			background-color: #060;
+			max-width: 800px;
+			max-height: 500px;
+		}
+		.setButton {
+			font-size:  5em;
+		}
+	}
+
+	@media screen and (min-width:1024px) {
+		body {
+			background-color: #006;
+			max-width: 1200px;
+			max-height: 600px;
+		}
+		.setButton {
+			font-size:  8em;
+		}
+	}
+
+	
+	* {
+		box-sizing: border-box;
+	}
+
+
+	body {
+		background-color: #011;
+	  margin: 0 auto;
+	  font-family: 'balooregular;
+		color: "red";
+		padding:0px;	
+	}
+
+
+	div {
+		/*	border-style: solid;
+		border-width: 1px;
+	  border-color: gray;		*/
+		text-align: center;
+		vertical-align: middle;
+	}
+
+
+	/* para centrar los iconos 
+	.cross-center {
+			/* Centramos verticalmente el ícono con el texto 
+			display     : flex;
+			align-items : center;
+	}
+	*/
+
+	h2 {
+    font-family: 'balooregular';
+		font-size: 12px;
+
+	}
+
+
+	.grossNum {
+		padding: 0px;	
+		margin: 0px;	
+		text-align: center;
+    font-family: 'balooregular';
+		/*	line-height: 100%;	*/
+		color: #ace;
+
+	}
+
+	.digitos {
+		margin-top: 0px;
+		text-align: center;
+    font-family: 'balooregular';
+		font-size: 13em;
+		color: #ace;
+	}
+
+	.setButton {
+		/*		width: 100px;	*/
+		padding: 0px;	
+		/*	margin-top: -4px;		*/
+		border: 0px;	
+		background: #011;
+		/*	text-align: center;	*/
+		word-spacing: 10px;
+		line-height: 100%;
+		color: #ace;
+	}
+
+	.small {  color: #eee; font-family: 'balooregular'; font-size: 1em; }
+	.heavy { font-family: 'balooregular', cursive; font-size: 40px; }
+	.auxiliar { fill:gray; stroke:#444;stroke-width:1;opacity:0.8; }
+
+</style>
+
+</head>
+
+
+
+
+
+<body onload="init()" id="cuerpo">
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-2">
+			<br><img src="logomensa.png" width="092" height="092" border="0" alt="Timer para mensanos">
+		</div>
+		<div class="col-sm-8" >
+			<p id="medidas" class= "small"></p>
+		</div>
+		<div class="col-sm-2" >
+			<br>
+			<!-- aqui seleccionamos idioma -->
+			<div class="dropdown">
+				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+					Idioma
+				</button>
+
+				<ul class="dropdown-menu">
+					<li><a href="#">Espa&#241ol</a> </li>
+					<li><a href="#">English</a>     </li>
+					<li><a href="#">Deutsch</a>     </li>
+				</ul>
+
+		  </div>
+
+		</div>
+	</div>
+
+
+	<div class="row">
+	<!-- fila para botones de ajuste de tiempo (incremento)-->
+		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+		<button id="incMinu" class="btn setButton" onclick="ajustaMinu(1);" > &#9650; </button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+		<button id="inicia" type="button" class="btn setButton" onclick="fijaTiempo(),startButton();">
+				<span class="glyphicon glyphicon-play"></span>
+				</button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+		<button id="incSegu" type="button" class="btn btn-dark setButton" onclick="ajustaSegu(1);">&#9650;</button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+	</div>
+
+
+	<div class="row">
+	<!-- fila para digitos del temporizador y botones de ajuste de tiempo -->
+		<svg 
+			xmlns="http://www.w3.org/2000/svg" 
+			width="100%" height="60%"
+			viewBox="0 0 500 150"
+			>
+			<!-- <rect x="0" y="0" width="100%" height="100%" style="stroke-width:1; stroke:#ccc; fill:#202"/> -->
+			<text
+				id="minutos"
+				transform="translate(05,130)"
+				x="00"
+				y="00"
+				class = "digitos"
+				fill="#ace" >00
+			</text>
+			
+			<text
+				id="separador"
+				transform="translate(225,130)"
+				x="00"
+				y="00"
+				class = "digitos"
+				fill="#ace">:
+			</text>
+			
+			<text
+				id="segundos"
+				transform="translate(265,130)"
+				x="00"
+				y="00"
+				class = "digitos"
+				fill="#ace" >00
+			</text>
+		</svg>
+
+	</div>
+
+
+	<div class="row">
+	<!-- fila para botones de ajuste de tiempo (incremento)-->
+		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+		<button id="decMinu" type="button" class="btn btn-dark setButton" onclick="ajustaMinu(-1);">&#9660;</button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+		<button id="detiene" type="button" class="btn btn-dark setButton" onclick="detiene();">
+			<span class="glyphicon glyphicon-stop"></span>
+		</button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+		<button id="decSegu" type="button" class="btn btn-dark setButton" onclick="ajustaSegu(-1);">&#9660;</button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+		</svg>
+
+	</div>
+
+</div>
+
+
+
+
+<!-- inicio de los scripts -->
+<script type="text/javascript">
+
+//	-------------------------
+//	Constantes
+//	-------------------------
+const
+	VERSION	= "0.9.0",			//	version inicial
+	FONDO_APP = "#011",		//	 "#ffc",
+	FONT_NIVEL1 = "balooregular"	//	titulo:	"Bangers",	"Luckiest Guy",	"titan_one", "Sigmar One"
+	//	FONT_NIVEL2 = "bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
+	//	FONT_NIVEL3 = "sriracharegular",		//	textos:
+	DEBUG = false,
+	//	DEBUG = true,				//	depurar o no depurar
+	minutosOff = 150,		//	pos izq txt min
+	foo = 0;
+
+var	
+	nDist = undefined,		//	tiempo fijado en el timer en milisegundos
+	cMin = "20", 
+	cSeg = "00",					//	minutos y segundos en formato texto
+	stopTime = undefined,	//	el horario de finalizacion
+	detener = false,			//	variable indica solicitud detener temporizador
+	audioElement = document.createElement('audio');	//	contiene el elemento de audio para avisar finalizacion de tiempo
+
+
+
+
+function init() {
+	fijaTiempo();
+	if (DEBUG)
+	{
+		var	screenWidth = window.innerWidth,
+			screenHeight = window.innerHeight;
+			//	document.getElementById("medidas").innerHTML = 
+			"ancho: " + screenWidth + "; alto: " + screenHeight ;
+	}
+	document.getElementById('detiene').style.visibility='hidden';
+
+}
+
+
+
+
+function ajustaMinu( nDir ) {
+	//	ajustar valores iniciales del timer
+	var nMin = undefined;
+	nMin = parseInt( cMin ) + nDir;
+	nMin = ((nMin < 0) ? 0 : ((nMin > 60) ? 60 : nMin ) );	
+	cMin = ("00" + nMin).slice(-2);
+	document.getElementById("minutos").innerHTML = cMin;
+	//	console.log ("nMin, cMin: " + nMin + ", " + cMin);
+}
+
+
+function ajustaSegu( nDir ) {
+	//	ajustar valores iniciales del timer
+	var nSeg = undefined;
+	nSeg = parseInt( cSeg ) + nDir;
+	nSeg = ((nSeg < 0) ? 0 : ((nSeg > 60) ? 60 : nSeg ) );	
+	cSeg = ("00" + nSeg).slice(-2);
+	document.getElementById("segundos").innerHTML = cSeg;
+}
+
+
+
+function fijaTiempo() {
+	document.getElementById("minutos").innerHTML = cMin;
+  document.getElementById("segundos").innerHTML = cSeg;
+
+}
+
+
+
+function startButton() {
+	nDist = cMin * 60000 + cSeg * 1000;
+	console.log( "nDist: " + nDist );
+
+	if (nDist > 0) {
+
+		
+			detener = false;
+			document.getElementById('detiene').style.visibility='visible';
+
+			stopTime = new Date().getTime() + nDist + 10;		//	devuelve la hora de finalizacion
+				//	agrego 2 milisegundos para compensar tiempo de calculo previo 
+				//	caso contrario no muestra el primer momento correctamente
+
+			if (DEBUG) { console.log("Tiempo inicial, stopTime: " + cMin + ":" + cSeg + ", " + stopTime);	}
+
+			ocultaBotones();
+			iniciaReloj();
+
+
+	} else {
+		nDist = 0;
+		cMin = "00";
+		cSeg = "00";
+		detener = true;
+	}
+
+	if (DEBUG){	console.log("despues de iniciaReloj()");}
+	//	muestraBotones();
+
+}
+
+
+//	boton para iniciar timer
+function iniciaReloj() {
+
+	document.getElementById('detiene').style.visibility='visible';
+
+
+	//	setInterval() Ejecuta una función o un fragmento de código de forma repetitiva cada vez 
+	//	que termina el periodo de tiempo determinado. Devuelve un ID de proceso.
+	//	en este caso actualiza la cuenta regresiva cada segundo
+	var x = setInterval(function() {
+
+		// Get todays date and time
+		var now = new Date().getTime();
+
+		//	console.log( "stopTime, now, cDist antes: " + stopTime +", " + now +", " + cDist )
+
+		// Find the distance between now and the count down date
+		nDist = stopTime - now;
+		//	console.log( "nDist, stopTime, now: " + nDist +", "+ stopTime +", "+ now );
+
+		actualizaReloj();
+
+			
+		// If the count down is over, write some text 
+		if (nDist < 10 ) {
+			clearInterval(x);
+			//	aqui poner aviso: una alarma de sonido, parpadeo y/o similar
+		
+			// creamos el objeto audio
+			//	var audioElement = document.createElement('audio');
+			// indicamos el archivo de audio a cargar
+			audioElement.setAttribute('src', 'psicosis.mp3');
+			//	Si deseamos que una vez cargado empieze a sonar...
+			//	audioElement.setAttribute('autoplay', 'autoplay');			 
+			//	iniciamos el audio
+			audioElement.play();
+
+		} else if (detener) {
+			//	sin alarma porque fue detencion solicitada
+			clearInterval(x);
+			
+		}
+
+	}, 1000);
+
+}
+
+
+
+function actualizaReloj() {
+		// Time calculations for minutes and seconds
+		cMin = ("00" + Math.floor((nDist % (3600000)) / 60000 )).slice(-2);
+		cSeg = ("00" + Math.floor((nDist % 60000 ) / 1000)).slice(-2);
+
+		// Output the result 
+		//	<!-- document.getElementById("minutos").innerHTML = strMin.slice(-2); -->
+		document.getElementById("minutos").innerHTML = cMin;
+		document.getElementById("segundos").innerHTML = cSeg;
+
+		//	console.log( "cDist, : " +  cDist + ", " + strMin.slice(-2) + ":" + strSeg.slice(-2));
+		//	console.log( strSeg + ", " + strSeg.length + ", " + strSeg.slice(-2));
+}
+
+
+//--------------------
+// hidden all button
+//--------------------
+function ocultaBotones() {
+	//	oculta botones innecesarios mientras funciona el timer
+	document.getElementById('incMinu').style.visibility='hidden';
+	document.getElementById('decMinu').style.visibility='hidden';
+	document.getElementById('inicia').style.visibility='hidden';
+	document.getElementById('detiene').style.visibility='hidden';
+	document.getElementById('incSegu').style.visibility='hidden';
+	document.getElementById('decSegu').style.visibility='hidden';
+
+}
+
+
+
+//--------------------
+// muestra todos los botones
+//--------------------
+function muestraBotones() {
+	//	oculta botones innecesarios mientras funciona el timer
+	document.getElementById('incMinu').style.visibility='visible';
+	document.getElementById('decMinu').style.visibility='visible';
+	document.getElementById('inicia').style.visibility='visible';
+	document.getElementById('detiene').style.visibility='visible';
+	document.getElementById('incSegu').style.visibility='visible';
+	document.getElementById('decSegu').style.visibility='visible';
+
+}
+
+
+
+function detiene() {
+	detener=true;
+	muestraBotones();
+	document.getElementById('detiene').style.visibility='hidden';
+
+	audioElement.pause();
+	audioElement.currentTime = 0;
+	//	audioElement.muted = true;
+ 
+}
+
+//-------------------------------------------------------------------
+// adaptacion idiomas
+//-------------------------------------------------------------------
+function initLanguage()		//	para adaptar a diferentes idiomas
+{
+	var sysLang = "sp";
+
+	if(sysLang == "en" || sysLang == "en") { //	ingles
+		txtAyuda	= "Help";
+		txtJugar = "Play",
+		txtAcerca = "About",
+		txtDescAcerca =
+			'About MENSA timer version ' + VERSION  + '\n' +
+			'Is a timer developed by Willie Verger Ingenuity Games \n' + 
+			'Support: info@ingverger.com.ar\n' +
+			'Web: ingverger.com.ar\n' +
+			'\n';
+		txtDescAyuda = 
+			'How does it work? \n' +
+			'There is a set of cards, each with an image, placed in such a way \n' +
+			'The game ends when all pairs have been found. \n',
+			txtFin = "Well resolved!\nCongratulations! ",
+			txtTiempo = "Elapsed time: ";
+		finishText = "Congratulation";
+		levelText = "Level";
+	} else if(sysLang == "de" || sysLang == "de") { //	aleman
+		txtAyuda	= "Hilfe";
+		txtJugar = "Spielen",
+		txtAcerca = "Über",
+		txtDificu = "Schwierigkeit";
+		txtDescAcerca =
+			'Über MEMORIOSO Version ' + VERSION  + '\n' +
+			'Es ist ein von Willie Verger Ingenuity Games \n' + 
+			'entwickeltes Spiel, um Konzentration und \n' +
+			'Gedächtnis zu trainieren. \n' +
+			'Unterstützung: info@ingverger.com.ar\n' +
+			'Web: ingverger.com.ar\n' +
+			'\n';
+		txtDescAyuda = 
+			'Was ist es?\n' +
+			'MEMORIOSO ist ein Spiel der Konzentration und des Gedächtnisses.\n' +
+			'Es gibt eine Reihe von Karten mit jeweils einem Bild so platziert,\n' +
+			'dass seine Vorderseite nicht sichtbar ist.\n' +
+			'Es gibt zwei Registerkarten für jedes Bild. Das Spiel ist zu finden\n' +
+			'die Paare gleicher Bilder.\n' +
+			'Wenn Sie auf ein Bild klicken, wird es umgedreht.\n' +
+			'Es werden zwei aufeinander folgende Karten ausgewählt. Wenn sie \n' +
+			'sich als gleich herausstellen, werden sie vom Board entfernt. \n' +
+			'Wenn sie unterschiedlich sind, kehren sie zur ursprünglichen \n' +
+			'Position zurück.\n' +
+			'Das Spiel endet, wenn alle Paare gefunden wurden.\n',
+		txtFin = "Gut gelöst!\nGlückwunsch! ",
+		txtTiempo = "Verstrichene Zeit: ";
+		noSolutionText = "keine losung ";
+		nextText = "Nächste";
+		finishText = "Glückwunsch!";
+		levelText = "Niveau";
+	}
+}
+
+
+
+</script>
+
+</body>
+</html>
+
