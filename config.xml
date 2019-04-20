@@ -20,7 +20,7 @@
  </author>
 
  <preference name="android-targetSdkVersion"  value="26" /> 
- <preference name="orientation" value="ALL" />  <!-- all: default means both landscape and portrait are enabled -->
+ <preference name="orientation" value="all" />  <!-- all: default means both landscape and portrait are enabled -->
 
  <content src="index.html" />
  <access origin="*" />
