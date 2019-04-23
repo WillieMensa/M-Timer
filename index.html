@@ -175,10 +175,12 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-2">
-			<br><img src="logomensa.png" width="092" height="092" border="0" alt="Timer para mensanos">
+			<img src="logomensa.png" width="092" height="092" border="0" alt="Timer para mensanos">
 		</div>
 		<div class="col-sm-8" >
-			<p id="medidas" class= "small"></p>
+			<p id="medidas" class= "small">
+				<span id="Version"></span>
+			</p>
 		</div>
 		<div class="col-sm-2" >
 			<br>
@@ -207,14 +209,12 @@
 		</svg>
 
 		<button id="incMinu" class="btn setButton" onclick="ajustaMinu(1);" > &#9650; </button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
 			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
 		</svg>
 
-		<button id="inicia" type="button" class="btn setButton" onclick="fijaTiempo(),startButton();">
-				<span class="glyphicon glyphicon-play"></span>
-				</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+		<button id="inicia" type="button" class="btn setButton" onclick="fijaTiempo(),startButton();">&#9654;</button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
 			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
 		</svg>
 
@@ -272,14 +272,12 @@
 		</svg>
 
 		<button id="decMinu" type="button" class="btn btn-dark setButton" onclick="ajustaMinu(-1);">&#9660;</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
 			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
 		</svg>
 
-		<button id="detiene" type="button" class="btn btn-dark setButton" onclick="detiene();">
-			<span class="glyphicon glyphicon-stop"></span>
-		</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16%" height="10%"	viewBox="0 0 80 10"	>
+		<button id="detiene" type="button" class="btn btn-dark setButton" onclick="detiene();">&#9632;</button>
+		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
 			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
 		</svg>
 
@@ -302,7 +300,7 @@
 //	Constantes
 //	-------------------------
 const
-	VERSION	= "0.9.2",			//	version inicial
+	VERSION	= "0.9.4",			//	version inicial
 	FONDO_APP = "#011",			//	 "#ffc",
 	FONT_NIVEL1 = "balooregular"	//	titulo:	"Bangers",	"Luckiest Guy",	"titan_one", "Sigmar One"
 	//	FONT_NIVEL2 = "bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
