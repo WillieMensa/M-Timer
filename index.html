@@ -171,6 +171,7 @@
 
 <body onload="init()" id="cuerpo">
 
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-2">
@@ -301,13 +302,13 @@
 //	Constantes
 //	-------------------------
 const
-	VERSION	= "0.9.1",			//	version inicial
+	VERSION	= "0.9.2",			//	version inicial
 	FONDO_APP = "#011",			//	 "#ffc",
 	FONT_NIVEL1 = "balooregular"	//	titulo:	"Bangers",	"Luckiest Guy",	"titan_one", "Sigmar One"
 	//	FONT_NIVEL2 = "bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
 	//	FONT_NIVEL3 = "sriracharegular",		//	textos:
-	DEBUG = false,
-	//	DEBUG = true,				//	depurar o no depurar
+	//	DEBUG = false,
+	DEBUG = true,				//	depurar o no depurar
 	minutosOff = 150,		//	pos izq txt min
 	foo = 0;
 
@@ -330,6 +331,10 @@ function init() {
 			screenHeight = window.innerHeight;
 			//	document.getElementById("medidas").innerHTML = 
 			"ancho: " + screenWidth + "; alto: " + screenHeight ;
+		
+		document.getElementById("Version").innerHTML = "Version: " + VERSION;
+
+
 	}
 	document.getElementById('detiene').style.visibility='hidden';
 
