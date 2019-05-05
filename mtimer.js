@@ -216,6 +216,39 @@ function detiene() {
 
 }
 
+
+/*	=======================================
+BEGIN for set|get|clear localstorage
+
+documentacion en:
+	https://developer.mozilla.org/es/docs/Web/API/API_de_almacenamiento_web/Usando_la_API_de_almacenamiento_web
+
+======================================	*/
+
+function setStorage(key, value) 
+{
+	if(typeof(window.localStorage) != 'undefined'){ 
+		window.localStorage.setItem(key,value); 
+	} 
+}
+
+function getStorage(key) 
+{
+	var value = null;
+	if(typeof(window.localStorage) != 'undefined'){ 
+		value = window.localStorage.getItem(key); 
+	} 
+	return value;
+}
+
+function clearStorage(key) 
+{
+	if(typeof(window.localStorage) != 'undefined'){ 
+		window.localStorage.removeItem(key); 
+	} 
+}
+
+
 //-------------------------------------------------------------------
 // adaptacion idiomas
 //-------------------------------------------------------------------
