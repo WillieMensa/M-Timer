@@ -20,6 +20,8 @@
 	minutos	id texto minutos
 	segundos	id texto segundos
 
+	tecnica para almacenar parametros propios de cada dispositivo en
+		https://developer.mozilla.org/es/docs/Web/API/API_de_almacenamiento_web/Usando_la_API_de_almacenamiento_web
 
 -->
 
@@ -28,8 +30,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
 
-	<!-- enlace a w3css -->
+	<!-- enlace a w3css 
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	 -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 
 
 	<link rel="stylesheet" href="style.css">
@@ -49,29 +57,30 @@
 <body onload="init()" id="cuerpo">
 
 
-<div class="w3-container">
+<div class="container">
 
-	<div class="w3-row">
-		<div class="w3-quarter w3-container">
-			<img src="logomensa.png" width="092" height="092" border="0" alt="Timer para mensanos">
-		</div>
-		<div class="w3-half w3-container ">
-			<p id="medidas" class= "small"></p>
-			<p id="Version" class= "small"></p>
-		</div>
-		<div class="w3-quarter w3-container w3-left-align">
-			<!-- aqui seleccionamos idioma -->
+	<div class="row">
 
-			<div class="dropdown">
-				<button onclick="myFunction()" class="dropbtn">Idioma</button>
-				<div id="myDropdown" class="dropdown-content">
-					<a href="#home">Espa&#241ol	</a>
-					<a href="#abou">English			</a>
-					<a href="#cont">Deutsch			</a>
-				</div>
+		<img src="logomensa.png" width="092" height="092" border="0" alt="Timer para mensanos" class="logo">
+
+		<form>
+			<div class="form-group">
+
+				<!-- <p class="dropbtn">Country</p> -->
+				<!-- onclick="alert('picó en el boton')"   -->
+				<!-- <select id="idioma" name="idioma" class="dropbtn" onchange="languageButton(this.value);"> -->
+				<select id="idioma" name="idioma" class="input-lg dropbtn" onchange="languageButton(this.value);">
+				<!-- <select id="idioma" name="idioma" class="dropdown-content" onchange="languageButton(this.value);"> -->
+					<option value="sp">Espa&#241ol</option>
+					<option value="en">English		</option>
+					<option value="de">Deutsch		</option>
+				</select>
+
+
 			</div>
+		</form>
 
-		</div>
+
 	</div>
 
 
@@ -161,6 +170,11 @@
 			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
 		</svg>
 
+	</div>
+
+	<div class="row">
+		<p id="medidas" class= "small"></p>
+		<p id="Version" class= "small"></p>
 	</div>
 
 </div>
