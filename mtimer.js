@@ -34,8 +34,7 @@ function init() {
 	{
 		var	screenWidth = window.innerWidth,
 			screenHeight = window.innerHeight;
-			document.getElementById("medidas").innerHTML = "ancho: " + screenWidth + "; alto: " + screenHeight ;
-			document.getElementById("Version").innerHTML = "Version: " + VERSION;
+			document.getElementById("medidas").innerHTML = "Pantall: " + screenWidth + " x " + screenHeight + " / Version: " + VERSION;
 
 	}
 
