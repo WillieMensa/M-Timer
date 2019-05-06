@@ -1,6 +1,8 @@
 M-Timer
 
 20/4/2019 - Version 0.9.0
+5/5/2019 -  Version 0.9.6
+
 
 # M-Timer
 by Willie Verger Juegos de Ingenio / Wit Games / wit Spiele

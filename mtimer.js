@@ -7,7 +7,7 @@
 //	Constantes
 //	-------------------------
 const
-	VERSION	= "0.9.5",			//	version inicial
+	VERSION	= "0.9.6",			//	version inicial
 	FONDO_APP = "#011",			//	 "#ffc",
 	FONT_NIVEL1 = "balooregular"	//	titulo:	"Bangers",	"Luckiest Guy",	"titan_one", "Sigmar One"
 	//	FONT_NIVEL2 = "bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
