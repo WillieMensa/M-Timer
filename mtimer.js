@@ -18,6 +18,7 @@ const
 	foo = 0;
 
 var
+	sysLang = undefined,	//	identificacion idioma a utilizar, se almacena como "elIdioma"
 	nDist = undefined,		//	tiempo fijado en el timer en milisegundos
 	cMin = "20",
 	cSeg = "00",					//	minutos y segundos en formato texto
@@ -27,15 +28,19 @@ var
 
 
 
-
 function init() {
 	fijaTiempo();
-	if (DEBUG)
-	{
+
+	//	en inicio / reinicio
+	//	leer idioma local
+	//	si hay idioma seleccionado, adoptar
+	//	else adoptar idioma por defecto
+	initLanguage();		//	leer idioma local, si hay idioma seleccionado, adoptar,	else adoptar idioma por defecto
+
+	if (DEBUG)	{
 		var	screenWidth = window.innerWidth,
 			screenHeight = window.innerHeight;
 			document.getElementById("medidas").innerHTML = "Pantall: " + screenWidth + " x " + screenHeight + " / Version: " + VERSION;
-
 	}
 
 	document.getElementById('detiene').style.visibility='hidden';
@@ -52,7 +57,7 @@ function ajustaMinu( nDir ) {
 	nMin = ((nMin < 0) ? 0 : ((nMin > 60) ? 60 : nMin ) );
 	cMin = ("00" + nMin).slice(-2);
 	document.getElementById("minutos").innerHTML = cMin;
-	//	console.log ("nMin, cMin: " + nMin + ", " + cMin);
+	if (DEBUG)	{	console.log ("nMin, cMin: " + nMin + ", " + cMin);	}
 }
 
 
@@ -114,7 +119,7 @@ function iniciaReloj() {
 	document.getElementById('detiene').style.visibility='visible';
 
 
-	//	setInterval() Ejecuta una función o un fragmento de código de forma repetitiva cada vez
+	//	setInterval() Ejecuta una funciÃ³n o un fragmento de cÃ³digo de forma repetitiva cada vez
 	//	que termina el periodo de tiempo determinado. Devuelve un ID de proceso.
 	//	en este caso actualiza la cuenta regresiva cada segundo
 	var x = setInterval(function() {
@@ -223,7 +228,6 @@ documentacion en:
 	https://developer.mozilla.org/es/docs/Web/API/API_de_almacenamiento_web/Usando_la_API_de_almacenamiento_web
 
 ======================================	*/
-
 function setStorage(key, value) 
 {
 	if(typeof(window.localStorage) != 'undefined'){ 
@@ -248,65 +252,6 @@ function clearStorage(key)
 }
 
 
-//-------------------------------------------------------------------
-// adaptacion idiomas
-//-------------------------------------------------------------------
-function initLanguage()		//	para adaptar a diferentes idiomas
-{
-	var sysLang = "sp";
-
-	if(sysLang == "en" || sysLang == "en") { //	ingles
-		txtAyuda	= "Help";
-		txtJugar = "Play",
-		txtAcerca = "About",
-		txtDescAcerca =
-			'About MENSA timer version ' + VERSION  + '\n' +
-			'Is a timer developed by Willie Verger Ingenuity Games \n' +
-			'Support: info@ingverger.com.ar\n' +
-			'Web: ingverger.com.ar\n' +
-			'\n';
-		txtDescAyuda =
-			'How does it work? \n' +
-			'There is a set of cards, each with an image, placed in such a way \n' +
-			'The game ends when all pairs have been found. \n',
-			txtFin = "Well resolved!\nCongratulations! ",
-			txtTiempo = "Elapsed time: ";
-		finishText = "Congratulation";
-		levelText = "Level";
-	} else if(sysLang == "de" || sysLang == "de") { //	aleman
-		txtAyuda	= "Hilfe";
-		txtJugar = "Spielen",
-		txtAcerca = "Über",
-		txtDificu = "Schwierigkeit";
-		txtDescAcerca =
-			'Über MEMORIOSO Version ' + VERSION  + '\n' +
-			'Es ist ein von Willie Verger Ingenuity Games \n' +
-			'entwickeltes Spiel, um Konzentration und \n' +
-			'Gedächtnis zu trainieren. \n' +
-			'Unterstützung: info@ingverger.com.ar\n' +
-			'Web: ingverger.com.ar\n' +
-			'\n';
-		txtDescAyuda =
-			'Was ist es?\n' +
-			'MEMORIOSO ist ein Spiel der Konzentration und des Gedächtnisses.\n' +
-			'Es gibt eine Reihe von Karten mit jeweils einem Bild so platziert,\n' +
-			'dass seine Vorderseite nicht sichtbar ist.\n' +
-			'Es gibt zwei Registerkarten für jedes Bild. Das Spiel ist zu finden\n' +
-			'die Paare gleicher Bilder.\n' +
-			'Wenn Sie auf ein Bild klicken, wird es umgedreht.\n' +
-			'Es werden zwei aufeinander folgende Karten ausgewählt. Wenn sie \n' +
-			'sich als gleich herausstellen, werden sie vom Board entfernt. \n' +
-			'Wenn sie unterschiedlich sind, kehren sie zur ursprünglichen \n' +
-			'Position zurück.\n' +
-			'Das Spiel endet, wenn alle Paare gefunden wurden.\n',
-		txtFin = "Gut gelöst!\nGlückwunsch! ",
-		txtTiempo = "Verstrichene Zeit: ";
-		noSolutionText = "keine losung ";
-		nextText = "Nächste";
-		finishText = "Glückwunsch!";
-		levelText = "Niveau";
-	}
-}
 
 
 /* When the user clicks on the button, 
@@ -330,4 +275,186 @@ window.onclick = function(event) {
 }
 
 
+	/*	=======================================
+	BEGIN for set|get|clear localstorage
+
+	documentacion en:
+		https://developer.mozilla.org/es/docs/Web/API/API_de_almacenamiento_web/Usando_la_API_de_almacenamiento_web
+
+	======================================	*/
+
+	function setStorage(key, value) {
+		if (typeof(window.localStorage) != 'undefined') {
+			window.localStorage.setItem(key, value);
+		}
+	}
+
+	function getStorage(key) {
+		var value = null;
+		if (typeof(window.localStorage) != 'undefined') {
+			value = window.localStorage.getItem(key);
+		}
+		return value;
+	}
+
+	function clearStorage(key) {
+		if (typeof(window.localStorage) != 'undefined') {
+			window.localStorage.removeItem(key);
+		}
+	}
+
+
+
+	//	-----------------------------------------------------
+	//	definicion de contenedores de texto para multi idioma
+	//	-----------------------------------------------------
+	let	
+		txtAcerca = "Acerca de",
+		txtAyuda	= "Ayuda",
+		txtJugar = "Jugar",
+		txtMenu = "Menu",
+		txtVolver = "Volver",
+		txtDificu = "Dificultad",
+		txtFin = "Bien resuelto!\nFelicitaciones! ",
+		txtTiempo = "Tiempo: ";
+
+		txtDescAcerca =
+			'Acerca de MENSA Timer version ' + VERSION + '\n' +
+			'Es un timer \n' +
+			'desarrollado por \n' +
+			'Willie Verger Juegos de Ingenio\n\n' +
+			'Soporte: info@ingverger.com.ar\n' +
+			'Web: ingverger.com.ar\n' +
+			'\n',
+		txtDescAyuda = 'Que es?\n' +
+			'M-Timer permite especificar el tiempo a controlar \n' + 
+			'mediante botones para incrementar y decrementar minutos y segundos.\n' + 
+			'Una vez establecido el tiempo se estÃ¡ en condiciones de iniciar la \n' + 
+			'cuenta regresiva pulsando el boton de inicio.\n' + 
+			'El timer se puede detener en cualquier instante \n' + 
+			'con el botÃ³n  \n' + 
+			'y reanudar otra vez. \n' + 
+			' \n' + 
+			'Al finalizar el tiempo establecido se tendrÃ¡ un sonido de aviso.',
+			txtFin = "Bien resuelto!\nFelicitaciones! ",
+			txtTiempo = "Tiempo: ";
+
+
+	//-------------------------------------------------------------------
+	// adaptacion idiomas
+	//-------------------------------------------------------------------
+	function initLanguage() //	para adaptar a diferentes idiomas
+	{
+		console.log("sysLang: " + sysLang + ", " + typeof(sysLang));
+
+		sysLang = getStorage("elIdioma")
+
+		//	if(typeof(sysLang) == 'undefined'){
+		if (sysLang == null) {
+			sysLang = "en";
+		}
+		console.log("sysLang: " + sysLang);
+
+		SelectElement("idioma", sysLang)
+
+		if (sysLang == "en" || sysLang == "en") { //	ingles
+
+			txtNoSoluc = "No Solution ";
+			txtAcerca = "About",
+			txtAyuda = "Help";
+			txtDificu = "Difficulty",
+			txtFin = "Congratulation",
+			txtJugar = "Play",
+			txtMenu = "Menu",
+			txtNivel = "Level";
+			txtProx = "Next";
+			txtTiempo = "Time: ";
+			txtVolver = "Back",
+
+			txtDescAcerca =
+				'About MENSA timer version ' + VERSION  + '\n' +
+				'Is a timer developed by Willie Verger Ingenuity Games \n' +
+				'Support: info@ingverger.com.ar\n' +
+				'Web: ingverger.com.ar\n' +
+				'\n',
+			txtDescAyuda =
+				'How does it work? \n' +
+				'There is a set of cards, each with an image, placed in such a way \n' +
+				'The game ends when all pairs have been found. \n',
+				txtFin = "Well resolved!\nCongratulations! ",
+				txtTiempo = "Elapsed time: ";
+
+
+		} else if (sysLang == "de" || sysLang == "de") { //	aleman
+
+			txtAcerca = "ï¿½ber",
+			txtAyuda = "Hilfe";
+			txtDificu = "Schwierigkeit";
+			txtFin = "Gut gelÃ¶st!\nGlÃ¼ckwunsch! ",
+			txtJugar = "Spielen",
+			txtMenu = "Menu",
+			txtNivel = "Niveau";
+			txtNoSoluc = "keine losung ";
+			txtProx = "NÃ¤chste";
+			txtTiempo = "Verstrichene Zeit: ";
+			txtVolver = "Back",
+
+			txtDescAcerca =
+				'Ãœber M-Timer Version ' + VERSION  + '\n' +
+				'Es ist ein app von Willie Verger Ingenuity Games \n' +
+				'UnterstÃ¼tzung: info@ingverger.com.ar\n' +
+				'Web: ingverger.com.ar\n' +
+				'\n';
+			txtDescAyuda =
+				'Was ist es?\n' +
+				'M-Timer ist ein  -----.\n' +
+				'Das Spiel endet, wenn alle Paare gefunden wurden.\n';
+
+		}
+	}
+
+
+	function SelectElement(id, valueToSelect) {
+		var element = document.getElementById(id);
+		element.value = valueToSelect;
+	}
+
+
+
+
+	/* When the user clicks on the button,
+	toggle between hiding and showing the dropdown content */
+	function myFunction(id) {
+		document.getElementById("myDropdown").classList.toggle("show");
+
+		language = id;
+		console.log("language: " + id);
+
+	}
+
+	// Close the dropdown if the user clicks outside of it
+	window.onclick = function(event) {
+		if (!event.target.matches('.dropbtn')) {
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+
+
+	//-----------------
+	// on level change
+	//-----------------
+	function languageButton(id) {
+		sysLang = id;
+
+		console.log("language: " + id);
+
+		setStorage("elIdioma", id)
+	}
 
