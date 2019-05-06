@@ -27,7 +27,7 @@
 
  <platform name="android">
   <allow-intent href="market:*" />
-  <icon   src="icon.png" />
+  <icon   src="iconMtimer.png" />
  </platform>
 
 </widget>
