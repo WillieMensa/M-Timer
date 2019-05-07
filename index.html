@@ -2,8 +2,7 @@
 <html lang="sp">
 <head>
 <!-- 
-	index-w3css-a.html
-		numeros svg
+	7/5/2019	-	version 0.9.7a
 
 	Timer para contar minutos:segundos restantes
 	basado en https://www.w3schools.com/howto/howto_js_countdown.asp
@@ -83,98 +82,108 @@
 	</div>
 
 	<div class="row">
-		<hr style="margin:8px; border:1px solid #911;">
+		<div class="col-sm-12" style="background-color:red;">
+			<hr style="margin:8px; border:1px solid #911;">
+		</div>
 	</div>
 
 	<div class="row">
-	<!-- fila para botones de ajuste de tiempo (incremento)-->
-		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
+		<div class="col-sm-12" style="background-color:black;">
+		<!-- fila para botones de ajuste de tiempo (incremento)-->
+			<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
 
-		<button id="incMinu" class="btn setButton" onclick="ajustaMinu(1);" > &#9650; </button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
+			<button id="incMinu" class="btn setButton" onclick="ajustaMinu(1);" > &#9650; </button>
+			<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
 
-		<button id="inicia" type="button" class="btn setButton" onclick="fijaTiempo(),startButton();">&#9654;</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
+			<button id="inicia" type="button" class="btn setButton" onclick="fijaTiempo(),startButton();">&#9654;</button>
+			<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
 
-		<button id="incSegu" type="button" class="btn btn-dark setButton" onclick="ajustaSegu(1);">&#9650;</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
+			<button id="incSegu" type="button" class="btn btn-dark setButton" onclick="ajustaSegu(1);">&#9650;</button>
+			<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
 
-	</div>
-
-
-	<div class="row">
-	<!-- fila para digitos del temporizador y botones de ajuste de tiempo -->
-		<svg 
-			xmlns="http://www.w3.org/2000/svg" 
-			width="100%" height="60%"
-			viewBox="0 0 500 150"
-			>
-			<!-- <rect x="0" y="0" width="100%" height="100%" style="stroke-width:1; stroke:#ccc; fill:#202"/> -->
-			<text
-				id="minutos"
-				transform="translate(05,130)"
-				x="00"
-				y="00"
-				class = "digitos"
-				fill="#ace" >00
-			</text>
-			
-			<text
-				id="separador"
-				transform="translate(225,130)"
-				x="00"
-				y="00"
-				class = "digitos"
-				fill="#ace">:
-			</text>
-			
-			<text
-				id="segundos"
-				transform="translate(265,130)"
-				x="00"
-				y="00"
-				class = "digitos"
-				fill="#ace" >00
-			</text>
-		</svg>
-
+		</div>
 	</div>
 
 
 	<div class="row">
-	<!-- fila para botones de ajuste de tiempo (incremento)-->
-		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
+		<div class="col-sm-12" style="background-color:red;">
+		<!-- fila para digitos del temporizador y botones de ajuste de tiempo -->
+			<svg 
+				xmlns="http://www.w3.org/2000/svg" 
+				width="100%" height="60%"
+				viewBox="0 0 500 150"
+				>
+				<!-- <rect x="0" y="0" width="100%" height="100%" style="stroke-width:1; stroke:#ccc; fill:#202"/> -->
+				<text
+					id="minutos"
+					transform="translate(05,130)"
+					x="00"
+					y="00"
+					class = "digitos"
+					fill="#ace" >00
+				</text>
+				
+				<text
+					id="separador"
+					transform="translate(225,130)"
+					x="00"
+					y="00"
+					class = "digitos"
+					fill="#ace">:
+				</text>
+				
+				<text
+					id="segundos"
+					transform="translate(265,130)"
+					x="00"
+					y="00"
+					class = "digitos"
+					fill="#ace" >00
+				</text>
+			</svg>
 
-		<button id="decMinu" type="button" class="btn btn-dark setButton" onclick="ajustaMinu(-1);">&#9660;</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
+		</div>
+	</div>
 
-		<button id="detiene" type="button" class="btn btn-dark setButton" onclick="detiene();">&#9632;</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
 
-		<button id="decSegu" type="button" class="btn btn-dark setButton" onclick="ajustaSegu(-1);">&#9660;</button>
-		<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
-			<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
-		</svg>
+	<div class="row">
+		<div class="col-sm-12" style="background-color:blue;">
+		<!-- fila para botones de ajuste de tiempo (incremento)-->
+			<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
 
+			<button id="decMinu" type="button" class="btn btn-dark setButton" onclick="ajustaMinu(-1);">&#9660;</button>
+			<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
+
+			<button id="detiene" type="button" class="btn btn-dark setButton" onclick="detiene();">&#9632;</button>
+			<svg xmlns="http://www.w3.org/2000/svg" width="18%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
+
+			<button id="decSegu" type="button" class="btn btn-dark setButton" onclick="ajustaSegu(-1);">&#9660;</button>
+			<svg xmlns="http://www.w3.org/2000/svg" width="12%" height="10%"	viewBox="0 0 80 10"	>
+				<rect x="0" y="0" width="100%" height="100%" style="fill:#011"/>
+			</svg>
+
+		</div>
 	</div>
 
 	<div class="row">
-		<p id="medidas" class= "small"></p>
-		<p id="Version" class= "small"></p>
+		<div class="col-sm-12" style="background-color:red;">
+			<p id="medidas" class= "small"></p>
+			<p id="Version" class= "small"></p>
+		</div>
 	</div>
 
 </div>
