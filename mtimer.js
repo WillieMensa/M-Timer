@@ -20,7 +20,9 @@ const
 var
 	sysLang = undefined,	//	identificacion idioma a utilizar, se almacena como "elIdioma"
 	nDist = undefined,		//	tiempo fijado en el timer en milisegundos
-	cMin = "20",
+	//	if (DEBUG)	{	cMin = "20"	}
+	//	cMin = "20",
+	cMin = (DEBUG) ? "00" : "20",
 	cSeg = "00",					//	minutos y segundos en formato texto
 	stopTime = undefined,	//	el horario de finalizacion
 	detener = false,			//	variable indica solicitud detener temporizador
@@ -149,10 +151,16 @@ function iniciaReloj() {
 			//	audioElement.setAttribute('autoplay', 'autoplay');
 			//	iniciamos el audio
 			audioElement.play();
+			
+
+			//	document.getElementById("alert").play();
 
 		} else if (detener) {
 			//	sin alarma porque fue detencion solicitada
 			clearInterval(x);
+
+			//	audioElement.pause();
+			//	audioElement.currentTime = 0;
 
 		}
 
@@ -217,6 +225,7 @@ function detiene() {
 	audioElement.pause();
 	audioElement.currentTime = 0;
 	//	audioElement.muted = true;
+
 
 }
 
