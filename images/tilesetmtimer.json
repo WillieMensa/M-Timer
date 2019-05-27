@@ -1,0 +1,52 @@
+{"frames": {
+
+"decre.png":
+{
+	"frame": {"x":0,"y":100,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+"incre.png":
+{
+	"frame": {"x":100,"y":100,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+"init.png":
+{
+	"frame": {"x":100,"y":0,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+},
+"logomensa.png":
+{
+	"frame": {"x":0,"y":200,"w":174,"h":174},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":174,"h":174},
+	"sourceSize": {"w":174,"h":174}
+},
+"stop.png":
+{
+	"frame": {"x":0,"y":0,"w":100,"h":100},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
+	"sourceSize": {"w":100,"h":100}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "tilesetmtimer.png",
+	"format": "RGBA8888",
+	"size": {"w":200,"h":374},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ed08e9cf17fa5f65086b52ff0b123227:bc52d894b26f4ac1cae4f460560401b7:1b2f802d12284f8e87ac96a6b617e89b$"
+}
+}

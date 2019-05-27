@@ -1,0 +1,1616 @@
+/*
+		index.js
+		15/5/2019 - version 0.9.8
+		Mensa Timer
+
+		para funcionar con pixi
+
+	*/
+
+	//	-------------------------
+	//	equivalencias - Aliases
+	//	-------------------------
+	//	let Container = PIXI.Container,
+	//		autoDetectRenderer = PIXI.autoDetectRenderer,
+	//		Graphics = PIXI.Graphics,
+	//	Sprite = PIXI.Sprite,
+	//	AnimatedSprite = PIXI.extras.AnimatedSprite,
+	//	TilingSprite = PIXI.extras.TilingSprite,
+	//	loader = PIXI.loader;
+	//	resources = PIXI.loader.resources;
+	//	let	Text = PIXI.Text,
+
+	//	-------------------------
+	//	Constantes
+	//	-------------------------
+	const	APLICACION = "M-TIMER",
+		COLU_BOTONES = 100,			//	X POS
+		FILA_1_CTRL	=	160,
+		FILA_DIGITOS	=	290,
+		FILA_2_CTRL	=	440,
+		FILA_BOTONES = 550,			//	Y POS
+		RENDERER_W = 1000,			//	1000,
+		RENDERER_H = 600,
+		FONDO_JUEGO = 0x002222,			//	0xcccccc,		//	 "#ffc",
+		VERSION	= "0.9.8",			//	version inicial
+		FONDO_AYUDA = 0x008cff,
+		FONDO_AJUSTE = 0x002244,
+		FONT_NIVEL1 = "balooregular"		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
+		FONT_NIVEL2 = "balooregular"		//	"bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
+		FONT_NIVEL3 = "balooregular"		//	textos:	"sriracharegular",		//
+		COLOR_BOTON = 0x66ddee,				//	COLOR_BOTON = 0x006600,
+		TIEMPO_AVISO = 5000,
+		//	DEBUG = false;
+		DEBUG = true;
+
+
+
+	//	Create a Pixi (stage and) renderer
+	//	let	stage = new Container(),
+	let rendererOptions = {
+		antialiasing: false,
+		transparent: false,
+		resolution: window.devicePixelRatio,
+		autoResize: true,
+		backgroundColor: FONDO_JUEGO,
+		//	backgroundColor: linear-gradient( to bottom right, #eeff88, #33bb22 ),
+	}
+
+	//	Create the renderer
+	let renderer = PIXI.autoDetectRenderer( RENDERER_W, RENDERER_H, rendererOptions );
+
+	// Put the renderer on screen in the corner
+	renderer.view.style.position = "absolute";
+	renderer.view.style.top = "0px";
+	renderer.view.style.left = "0px";
+
+	document.body.appendChild(renderer.view);
+
+
+	//	Scale the canvas to the maximum window size
+	//	let scale = scaleToWindow(renderer.view);
+
+	//Set the initial game state
+	let state = Menu;
+	let myReq = undefined;
+
+
+	//	-------------------------
+	//	variables globales varias. might be used in more than one function
+	//	-------------------------
+	let	BotonAcercaDe = undefined,
+		BotonAtras = undefined,
+		BotonAyuda = undefined,
+		BotonJugar = undefined,
+		//	BotonMenu = undefined,
+		Crono = undefined,
+		start = undefined,
+		elapsed = undefined,
+		ctrlIncMin = undefined,
+		ctrlDecMin = undefined,
+		ctrlIniciar = undefined,
+		ctrlIncSeg = undefined,
+		ctrlDecSeg = undefined,
+		ctrlDetener = undefined,
+		CtrlDetener = undefined,				//	detiene temporizador
+		//	EscenaDificultad = undefined,		//	container seleccion nivel de dificultad
+		//	EscenaFinJuego = undefined,			//	container aviso de fin del juego
+		EscenaAcercaDe = undefined,			//	container de estadisticas
+		EscenaAjustes = undefined,			//	container de ajustes
+		EscenaDeAyudas = undefined,			//	container ayudas
+		EscenaDeJuego = undefined,			//	container juego
+		EscenaMenuInic = undefined,			//	container pantalla de inicio
+		EscenarioGral = undefined,
+		foo;			//	container del total (1er nivel)
+
+
+	//	-----------------------------------------------------
+	//	definicion de contenedores de texto para multi idioma
+	//	-----------------------------------------------------
+	let	
+			txtAcerca = undefined,
+			txtAyuda	= undefined,
+			txtConfig	= undefined,
+			//	txtDificu = undefined,
+			txtFin = undefined,
+			txtIdioma = undefined,
+			txtJugar = undefined,
+			//	txtMenu = undefined,
+			txtNoSol = undefined,
+			txtOtro = undefined,
+			txtTiempo = undefined,
+			txtVolver = undefined,
+			txtDescAcerca = undefined,
+			txtDescAyuda = undefined;
+
+
+
+	//	==========================================================================
+	//	variables especificas de esta aplicacion
+	let nCol = undefined,					//	cantidad de columnas de baldositas en tablero
+		nFil = undefined,					//	cantidad de filas de baldositas en tablero
+		//	nivJuego = 1,						//	nivel de juego; debe ser un valor entre 1 y 12.
+		//	txtNivDif = undefined,
+		//	tilesOnBoard = undefined, 
+		txtMinu = undefined,			//	array con los numeros de las piezas
+		txtSegu = undefined,			//	array con los numeros de las piezas
+		//	chosenTiles = undefined;			//	array con los numeros de las piezas
+		xfoo;
+
+
+	let
+		sysLang = undefined,	//	identificacion idioma a utilizar, se almacena como "elIdioma"
+		nDist = undefined,		//	tiempo fijado en el timer en milisegundos
+		cMin = (DEBUG) ? "00" : "20",
+		cSeg = "00",					//	minutos y segundos en formato texto
+		stopTime = undefined,	//	el horario de finalizacion
+		detener = false,			//	variable indica solicitud detener temporizador
+		audioElement = document.createElement('audio');	//	contiene el elemento de audio para avisar finalizacion de tiempo
+
+
+
+
+	//	======================================================================
+
+	function init() {
+	};
+
+
+	//load resources; a JSON file and run the `setup` function when it's done 
+	PIXI.loader
+		.add("images/tilesetmtimer.json")		//	PIXI.loader.add("assets/tileset.json").load(setup);
+		.load(setup);
+
+
+
+	//	======================================================================
+	function setup() {
+
+		console.log(APLICACION + " versión: " + VERSION );
+		if (DEBUG) {console.log("window.innerWidth, innerHeight: " + window.innerWidth + ", " + window.innerHeight );}
+
+		//Get a reference to the texture atlas id's
+		//	Create an alias for the texture atlas frame ids
+		id = PIXI.loader.resources["images/tilesetmtimer.json"].textures;
+
+		/* Create the sprites */
+
+		//	Make the game scene and add it to the EscenarioGral
+		EscenarioGral = new PIXI.Container();
+
+		// Size the renderer to fill the screen
+		resize(); 
+		// Listen for and adapt to changes to the screen size, e.g.,
+		// user changing the window or rotating their device
+		window.addEventListener("resize", resize);
+		
+		//	Escenario menu inicial
+		EscenaMenuInic = new PIXI.Container();
+		EscenarioGral.addChild(EscenaMenuInic);
+
+		//	Escenario menu juego
+		EscenaDeJuego = new PIXI.Container();
+		EscenarioGral.addChild(EscenaDeJuego);
+
+		//	Create the EscenaFinJuego
+		//	EscenaFinJuego = new PIXI.Container();
+		//	EscenarioGral.addChild(EscenaFinJuego);
+
+		//	Crear escenario de ayudas
+		EscenaDeAyudas = new PIXI.Container();
+		EscenarioGral.addChild(EscenaDeAyudas);
+
+		//	Crear escenario de estadisticas
+		EscenaAcercaDe = new PIXI.Container();
+		EscenarioGral.addChild(EscenaAcercaDe);
+
+		EscenaAjustes = new PIXI.Container();
+		EscenarioGral.addChild(EscenaAjustes);
+
+		//	Crear escenario seleccion dificultad
+		//	EscenaDificultad = new PIXI.Container();
+		//	EscenarioGral.addChild(EscenaDificultad);
+
+		//	antes de dibujar verificamos carga de fonts
+		//	let fontFaceSet = document.fonts;
+		//	document.fonts.ready.then(function() {
+		//		  // Any operation that needs to be done only after all the fonts
+		//		  // have finished loading can go here.
+		//	});
+
+
+		initLanguage();					//	adaptación a diferentes idiomas
+
+		//	prepara los botones de la aplicacion
+		HaceBotones()
+
+		//	Prepara las diferentes pantallas / escenas.
+		PantallaInicio();		//	pantalla principal donde se muestra el temporizador
+		PantallaAyuda();
+		//	PantallaJugar();
+		PantallaAcercaDe();
+		PantallaAjustes();
+		//	PantallaFinJuego();
+		//	PantallaDificultad();
+
+		//	Set the initial game state
+		state = Menu;
+
+		//	Una grilla para ubicarnos en el canvas
+		if (DEBUG) {
+			DibujaGrilla()
+		}
+
+		resize();		//	para refresca la pagina
+
+		//Start the game loop
+		gameLoop();
+	}
+
+
+
+	function gameLoop(){
+
+		//Loop this function 60 times per second
+		myReq = requestAnimationFrame(gameLoop);
+
+		//Run the current state
+		state();
+
+		//Render the EscenarioGral
+		renderer.render(EscenarioGral);
+
+	}
+
+
+
+
+	function resize() {
+
+		// Determine which screen dimension is most constrained
+		var ratio = Math.min(window.innerWidth/RENDERER_W,
+					   window.innerHeight/RENDERER_H);
+
+		// Scale the view appropriately to fill that dimension
+		//	EscenarioGral.scale.x = EscenarioGral.scale.y = ratio;
+		EscenarioGral.scale.x = EscenarioGral.scale.y = ratio;
+
+		// Update the renderer dimensions
+		renderer.resize(Math.ceil(RENDERER_W * ratio),
+						Math.ceil(RENDERER_H * ratio));
+	}
+
+
+
+
+
+	function HaceBotones() {
+		//	-------------------------------------------------------------	
+		//	prepara botones y controles;
+		//	-------------------------------------------------------------	
+		//	ESTILO COMUN A TODOS LOS BOTONES-TEXTO
+		const ctrlStyle = new PIXI.TextStyle({
+			//	fillGradientStops: [ 0,100 ],
+			fill: COLOR_BOTON,
+			fontFamily: FONT_NIVEL2,		//	fontFamily: "Sigmar One",
+			fontSize: 36,
+			//	fontStyle: "italic",
+			//	fontWeight: "normal",
+			padding: 8,
+		});
+
+		//	-------------------------------------------------------------	
+		//	//	Preparacion del boton jugar
+		//	BotonJugar = new PIXI.Text( txtJugar, ctrlStyle);
+		//	BotonJugar.anchor.set(0.5);
+		//	BotonJugar.x = COLU_BOTONES;						// Set the initial position
+		//	BotonJugar.y = FILA_BOTONES;
+		//	// Opt-in to interactivity
+		//	BotonJugar.interactive = true;				
+		//	BotonJugar.buttonMode = true;			// Shows hand cursor
+		//	// Pointers normalize touch and mouse
+		//	BotonJugar.on('pointerdown', Jugar );
+		//	BotonJugar.on('click', Jugar ); // mouse-only
+		//	BotonJugar.on('tap', Jugar ); // touch-only
+
+		//	-------------------------------------------------------------
+		//	Preparacion del boton AcercaDe
+		BotonAcercaDe = new PIXI.Text( txtAcerca, ctrlStyle);
+		// Set the initial position
+		BotonAcercaDe.anchor.set(0.5);
+		BotonAcercaDe.x = 100;									//	RENDERER_W / 2;							// Set the initial position
+		BotonAcercaDe.y = FILA_BOTONES;
+		// Opt-in to interactivity
+		BotonAcercaDe.interactive = true;
+		BotonAcercaDe.buttonMode = true;				// Shows hand cursor
+		// Pointers normalize touch and mouse
+		BotonAcercaDe.on('pointerdown', AcercaDe );
+		BotonAcercaDe.on('click',	AcercaDe ); // mouse-only
+		BotonAcercaDe.on('tap',		AcercaDe ); // touch-only
+
+		//	-------------------------------------------------------------
+		//	Preparacion boton de ayudas
+		BotonAyuda = new PIXI.Text( txtAyuda, ctrlStyle);
+		BotonAyuda.anchor.set(0.5);
+		BotonAyuda.x = RENDERER_W - 100;					// Set the initial position
+		BotonAyuda.y = FILA_BOTONES;
+		// Opt-in to interactivity
+		BotonAyuda.interactive = true;
+		BotonAyuda.buttonMode = true;				// Shows hand cursor
+		// Pointers normalize touch and mouse
+		BotonAyuda.on('pointerdown', Ayuda );
+		BotonAyuda.on('click', Ayuda ); // mouse-only
+		BotonAyuda.on('tap', Ayuda ); // touch-only
+		
+		//	txtConfig, BotonConfig
+		//	-------------------------------------------------------------
+		//	Preparacion boton de configuracion
+		BotonConfig = new PIXI.Text( txtConfig, ctrlStyle);
+		BotonConfig.anchor.set(0.5);
+		BotonConfig.x = RENDERER_W / 2;					// Set the initial position
+		BotonConfig.y = FILA_BOTONES;
+		// Opt-in to interactivity
+		BotonConfig.interactive = true;
+		BotonConfig.buttonMode = true;				// Shows hand cursor
+		// Pointers normalize touch and mouse
+		BotonConfig.on('pointerdown', Ajustes );
+		BotonConfig.on('click', Ajustes ); // mouse-only
+		BotonConfig.on('tap', Ajustes ); // touch-only
+		
+
+		//	-------------------------------------------------------------
+		//	Preparacion boton volver a inicio	
+		BotonAtras = new PIXI.Text( txtVolver , ctrlStyle);
+		BotonAtras.anchor.set(0.5);
+		BotonAtras.x = RENDERER_W / 2;					// Set the initial position	
+		BotonAtras.y = FILA_BOTONES;								// Set the initial position
+		BotonAtras.interactive = true;					// Opt-in to interactivity
+		BotonAtras.buttonMode = true;					// Shows hand cursor
+		// Pointers normalize touch and mouse
+		BotonAtras.on('pointerdown', Menu );
+		BotonAtras.on('click', Menu );
+		BotonAtras.on('tap', Menu );
+		
+		
+		/*
+		//	-------------------------------------------------------------
+		//	Preparacion otro botonMenu
+		BotonMenu = new PIXI.Text( txtMenu, ctrlStyle);
+		BotonMenu.anchor.set(0.5);
+		BotonMenu.x = FILA_BOTONES;								// Set the initial position
+		BotonMenu.y = 450;	
+		BotonMenu.interactive = true;					// Opt-in to interactivity
+		BotonMenu.buttonMode = true;					// Shows hand cursor
+		// Pointers normalize touch and mouse
+		BotonMenu.on('pointerdown', Menu );
+		BotonMenu.on('click', Menu );
+		BotonMenu.on('tap', Menu );
+		*/
+
+
+		//	----------------------------------------
+		//	botones especificos de esta aplicacion
+		//	----------------------------------------
+		//	Preparacion control incrementa Minutos
+		//	----------------------------------------
+		//	draw polygon / triangulo // pixi polygon
+		//	----------------------------------------
+		//	triang incremental a clonar
+		ctrlIncMin = new PIXI.Graphics();
+		const path0 = [
+			220, FILA_1_CTRL, 
+			300, FILA_1_CTRL, 
+			260, FILA_1_CTRL - 70];
+		ctrlIncMin.beginFill(COLOR_BOTON, 1);
+		ctrlIncMin.drawPolygon(path0);
+		ctrlIncMin.endFill();
+		ctrlIncMin.interactive = true;
+		ctrlIncMin.buttonMode = true;
+		ctrlIncMin.on('mousedown', subeMinutos );
+		ctrlIncMin.on('touchstart', subeMinutos );
+		ctrlIncMin.on('tap', subeMinutos );
+		EscenaMenuInic.addChild(ctrlIncMin);
+
+		
+		//	boton incrementar segundos
+		ctrlIncSeg = ctrlIncMin.clone();
+		ctrlIncSeg.position.set(480,0);
+		ctrlIncSeg.interactive = true;
+		ctrlIncSeg.buttonMode = true;
+		ctrlIncSeg.on('mousedown',  subeSegundos );
+		ctrlIncSeg.on('touchstart', subeSegundos );
+		ctrlIncSeg.on('tap', subeSegundos );
+		EscenaMenuInic.addChild(ctrlIncSeg);
+
+
+		//	triang decremental a clonar
+		ctrlDecMin = new PIXI.Graphics();
+		const path10 = [
+			220, FILA_2_CTRL, 
+			300, FILA_2_CTRL, 
+			260, FILA_2_CTRL + 70];
+		ctrlDecMin.beginFill(COLOR_BOTON, 1);
+		ctrlDecMin.drawPolygon(path10);
+		ctrlDecMin.endFill();
+		ctrlDecMin.interactive = true;						// Opt-in to interactivity
+		ctrlDecMin.buttonMode = true;							// Shows hand cursor
+		ctrlDecMin.on('mousedown',  bajaMinutos );
+		ctrlDecMin.on('touchstart', bajaMinutos );
+		ctrlDecMin.on('tap', bajaMinutos );
+		EscenaMenuInic.addChild(ctrlDecMin);
+
+		ctrlDecSeg = ctrlDecMin.clone();
+		ctrlDecSeg.position.set(480,0);
+		ctrlDecSeg.interactive = true;					// Opt-in to interactivity
+		ctrlDecSeg.buttonMode = true;					// Shows hand cursor
+		ctrlDecSeg.on('mousedown',	bajaSegundos );
+		ctrlDecSeg.on('touchstart', bajaSegundos );
+		ctrlDecSeg.on('tap', Menu );
+		EscenaMenuInic.addChild(ctrlDecSeg);
+
+
+
+		//	----------------------------------------
+		//	boton iniciar timer
+		ctrlIniciar = new PIXI.Graphics();
+		const path20 = [
+			465, FILA_1_CTRL-70,
+			465, FILA_1_CTRL+10, 
+			535, FILA_1_CTRL-30];
+		ctrlIniciar.beginFill(COLOR_BOTON, 1);
+		ctrlIniciar.drawPolygon(path20);
+		ctrlIniciar.endFill();
+		ctrlIniciar.interactive = true;					// Opt-in to interactivity
+		ctrlIniciar.buttonMode = true;					// Shows hand cursor
+		ctrlIniciar.on('mousedown',		startButton	);
+		ctrlIniciar.on('touchstart',	startButton	 );
+		ctrlIniciar.on('tap', startButton	 );
+		EscenaMenuInic.addChild(ctrlIniciar);
+
+
+		//	----------------------------------------
+		//	boton detención
+		ctrlDetener = new PIXI.Graphics();
+		ctrlDetener.beginFill(COLOR_BOTON, 1);
+		ctrlDetener.drawRect(460, FILA_2_CTRL, 80, 80);
+		ctrlDetener.endFill();
+		ctrlDetener.interactive = true;					// Opt-in to interactivity
+		ctrlDetener.buttonMode = true;					// Shows hand cursor
+		ctrlDetener.on('mousedown',		detiene	);
+		ctrlDetener.on('touchstart',	detiene	 );
+		ctrlDetener.on('tap', detiene	 );
+		EscenaMenuInic.addChild(ctrlDetener);
+
+	
+
+	}
+
+
+
+
+	//	-----------------------------------------------------------
+	function PantallaInicio() {
+		EscenaMenuInic.visible = true;
+
+		// create a new Sprite/image from an image path
+		const mlogo = PIXI.Sprite.from('logomensa.png');	
+		mlogo.anchor.set(0.5);			// sprite's anchor point
+		mlogo.scale.set(0.5);
+		mlogo.x = 60;
+		mlogo.y = 60;
+		EscenaMenuInic.addChild(mlogo);
+
+
+		const style = new PIXI.TextStyle({
+			fill: 0x992222,						//	"#040",					    //	
+			fontFamily: FONT_NIVEL1,			//	fontFamily: 'Titan One',
+			fontSize: 80,
+			fontWeight: "bold",
+			padding: 8,
+			dropShadow: true,
+			dropShadowColor: '#111111',
+			dropShadowBlur: 4,
+			dropShadowAngle: Math.PI / 6,
+			dropShadowDistance: 6,
+		});
+
+		//	titulo del menu y juego
+		var	txtTitulo = new PIXI.Text( APLICACION, style );
+		txtTitulo.x = RENDERER_W / 2;
+		txtTitulo.y = 50;			//	(RENDERER_H / 2);
+		txtTitulo.anchor.set(0.5);
+		//	txtTitulo.rotation = -0.2;
+
+		EscenaMenuInic.addChild(txtTitulo);
+
+
+
+		const buttonStyle = new PIXI.TextStyle({
+			fill: 0x9900cc,						//	"#040",					    //	
+			fontFamily: FONT_NIVEL1,			//	fontFamily: 'Titan One',
+			fontSize: 96,
+			fontWeight: "bold",
+			padding: 8,
+			dropShadow: true,
+			dropShadowColor: '#111111',
+			dropShadowBlur: 4,
+			dropShadowAngle: Math.PI / 6,
+			dropShadowDistance: 6,
+		});
+
+
+		//	BotonAcercaDe
+		//	EscenaMenuInic.addChild(BotonAcercaDe);
+		//	BotonAcercaDe.visible = true;
+
+
+		//	digitos del timer en pantalla de inicio (principal)
+		const digitStyle = new PIXI.TextStyle({
+			fill: 0x99bbcc,						//	"#040",					    //	
+			fontFamily: FONT_NIVEL1,			//	fontFamily: 'Titan One',
+			fontSize: 320,
+			fontWeight: "bold",
+			padding: 8,
+			dropShadow: false
+		});
+
+
+		//	minutos
+		txtMinu = new PIXI.Text( cMin, digitStyle );
+		txtMinu.x = 260;
+		txtMinu.y = FILA_DIGITOS;
+		txtMinu.anchor.set(0.5);
+		EscenaMenuInic.addChild(txtMinu);
+
+		//	separador
+		var	txtSepa = new PIXI.Text( ':', digitStyle );
+		txtSepa.x = 500;
+		txtSepa.y = FILA_DIGITOS;
+		txtSepa.anchor.set(0.5);
+		EscenaMenuInic.addChild(txtSepa);
+
+		//	segundos
+		txtSegu = new PIXI.Text( cSeg, digitStyle );
+		txtSegu.x = 740;
+		txtSegu.y = FILA_DIGITOS;
+		txtSegu.anchor.set(0.5);
+		EscenaMenuInic.addChild(txtSegu);
+
+		ctrlDetener.visible = false;
+
+	}
+
+
+
+	//	---------------------------------------------------
+	function PantallaAyuda() {
+		var graphics = new PIXI.Graphics();
+		// draw a rounded rectangle
+		graphics.lineStyle(4, 0x332211, 0.95)
+		graphics.beginFill( FONDO_AYUDA, 0.95);
+		graphics.drawRoundedRect(40, 40, RENDERER_W-120, RENDERER_H-120 );
+		graphics.endFill();
+
+		EscenaDeAyudas.addChild(graphics);
+
+		const style = new PIXI.TextStyle({
+			fill: "#ffffff",
+			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
+			fontSize: 24,
+			fontStyle: "normal",
+			fontWeight: "400"
+		});
+		const richText = new PIXI.Text( txtDescAyuda, style );
+
+		richText.x = 60;
+		richText.y = 60;
+
+		EscenaDeAyudas.addChild(richText);
+		EscenaDeAyudas.visible = true;
+
+		//	Botones que se deben visualizar en pantalla de ayuda
+		//	unicamente el de volver, entonces, remueve borones del padre y muestra el de ayuda
+
+		//	BotonAcercaDe.visible = false;
+
+	}
+
+
+
+	function Menu() {
+		//	definir cuales son las escenas visibles y cuales invisibles
+		EscenaDeAyudas.visible = false;		//	container ayudas
+		EscenaAjustes.visible = false;
+		EscenaDeJuego.visible = false;
+		EscenaAcercaDe.visible = false;		//	container estadisticas
+		//	EscenaFinJuego.visible = false;		//	container aviso de fin del juego
+		EscenaMenuInic.visible = true;		//	container pantalla de inicio
+		EscenarioGral.visible = true;		//	container del juego
+		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
+
+		//	BotonAyuda
+		EscenaMenuInic.addChild(BotonAyuda);
+		BotonAyuda.visible = true;
+		BotonAyuda.alpha=1;
+
+		//	BotonMenu.visible = true;
+
+		//	BotonAcercaDe
+		EscenaMenuInic.addChild(BotonAcercaDe);
+		BotonAcercaDe.visible =true;
+
+		//	BotonJugar
+		//	EscenaMenuInic.addChild(BotonJugar);
+		//	BotonJugar.visible =true;
+		//	BotonJugar.alpha=1;
+
+		//	BotonConfig
+		EscenaMenuInic.addChild(BotonConfig);
+		BotonConfig.visible = true;
+		BotonConfig.alpha=1;
+
+
+		state = Menu;
+
+	}
+
+
+
+
+	function AcercaDe() {
+	//	definir cuales son las escenas visibles y cuales invisibles
+		EscenaDeAyudas.visible = false;
+		EscenaAjustes.visible = false;
+		EscenaDeJuego.visible = false;
+		EscenaAcercaDe.visible = true;
+		//	EscenaFinJuego.visible = false;
+		EscenaMenuInic.visible = false;
+		EscenarioGral.visible = true;
+		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
+
+		EscenaAcercaDe.addChild(BotonAtras);
+		BotonAtras.visible = true;
+
+		state = AcercaDe;
+
+	}
+
+
+
+
+	function Ayuda() {
+	//	definir cuales son las escenas visibles y cuales invisibles
+		EscenaAcercaDe.visible = false;
+		EscenaAjustes.visible = false;
+		EscenaDeAyudas.visible = true;
+		EscenaDeJuego.visible = false;
+		//	EscenaFinJuego.visible = false;
+		EscenaMenuInic.visible = false;
+
+		EscenarioGral.visible = true;
+		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
+
+		EscenaDeAyudas.addChild(BotonAtras);
+		BotonAtras.visible = true;
+
+		state = Ayuda;
+
+	}
+
+
+
+
+	function Ajustes() {
+	//	definir cuales son las escenas visibles y cuales invisibles
+		EscenaDeAyudas.visible = false;
+		EscenaDeJuego.visible = false;
+		EscenaAcercaDe.visible = false;
+		//	EscenaFinJuego.visible = false;
+		EscenaMenuInic.visible = false;
+		EscenaAjustes.visible = true;
+		//	EscenarioGral.visible = true;
+
+		/*
+		<select id="idioma" name="idioma" class="input-lg dropbtn" onchange="languageButton(this.value);">
+			<!-- <select id="idioma" name="idioma" class="dropdown-content" onchange="languageButton(this.value);"> -->
+			<option value="es">Espa&#241ol</option>
+			<option value="en">English </option>
+			<option value="de">Deutsch </option>
+		</select>
+		*/
+
+		SelectLanguage();
+
+		state = Ajustes;
+
+	}
+
+
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	//	solamente para depurar
+	function DibujaGrilla() {
+
+		const style = new PIXI.TextStyle({
+			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
+			fontSize: 12,
+			//	fontStyle: "normal",
+			//	fontWeight: "400"
+		});
+
+		const delta = 60;
+		var	posX=60, posY=60;
+		var line = new PIXI.Graphics();
+
+		line.lineStyle(1, "#bbbbbbb", 0.5 )
+
+		//	lineas horizontales
+		//	while (posY<=RENDERER_H)
+		while (posY<= RENDERER_H )
+		{
+			line.moveTo(0, posY);
+			line.lineTo(RENDERER_W+200, posY);
+			//	line.x = 0;
+			//	line.y = ( 50 * i ) + 25 ;
+			EscenarioGral.addChild(line);
+
+			var numText = new PIXI.Text(posY, style );
+			numText.x = 25;
+			numText.y = posY;
+			EscenarioGral.addChild(numText);
+
+			posY = posY+delta;
+		}
+
+		//	lineas verticales
+		while (posX<= RENDERER_W )
+		{
+			line.moveTo(posX, 0);
+			line.lineTo(posX, RENDERER_H+200);
+			//	line.x = ( 50 * i ) + 25;
+			//	line.y = 0;
+			EscenarioGral.addChild(line);
+
+			var numText = new PIXI.Text(posX, style );
+			//	numText.text = posX;
+			numText.x = posX;
+			numText.y = 50;
+			EscenarioGral.addChild(numText);
+
+			posX = posX+delta;
+		}
+
+	}
+
+
+
+
+	function end() {
+		//	definir cuales son las escenas visibles y cuales invisibles
+
+		if (DEBUG) { console.log("=== function end ===" ); }
+
+		EscenaDeAyudas.visible = false;		//	container ayudas
+		EscenaDeJuego.visible = true;
+		EscenaAcercaDe.visible = false;		//	container estadisticas
+		//	EscenaFinJuego.visible = true;		//	container aviso de fin del juego
+		EscenaMenuInic.visible = false;		//	container pantalla de inicio
+		EscenarioGral.visible = true;		//	container del juego
+		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
+
+		EscenaDeJuego.alpha = 0.8 ;
+
+		//	BotonJugar
+		//	EscenaFinJuego.addChild(BotonJugar);
+		//	BotonJugar.visible =true;
+		//	BotonJugar.alpha=1;
+
+		//	EscenaFinJuego.addChild(BotonMenu);
+
+		//	BotonAyuda.visible = true;
+		//	BotonAcercaDe.visible = true;
+
+		state = end;
+		
+	}
+
+
+
+	//	-------------------------------------------------------
+	//	Funciones comunes a todas las aplicaciones con codigo especifico para la app
+	//	el codigo anterior no debiera modificarse salvo definiciones
+	//	-------------------------------------------------------
+
+	function PantallaAcercaDe() {
+		var graphics = new PIXI.Graphics();
+		// draw a rounded rectangle
+		graphics.lineStyle(4, 0x332211, 0.95)
+		graphics.beginFill( FONDO_AYUDA, 0.95);
+		graphics.drawRoundedRect(40, 40, RENDERER_W-200, RENDERER_H-200 );
+		graphics.endFill();
+
+		EscenaAcercaDe.addChild(graphics);
+
+		const style = new PIXI.TextStyle({
+			fill: "white",
+			fontStyle: "normal",
+			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
+			fontSize: 32,
+			fontWeight: "bold"
+		});
+		const richText = new PIXI.Text( txtDescAcerca, style);
+		richText.x = 60;
+		richText.y = 60;
+		EscenaAcercaDe.addChild(richText);
+
+		EscenaAcercaDe.visible = true;
+
+		BotonAyuda.visible = false;
+		BotonAcercaDe.visible = false;
+		//	ctrlIncMin.visible = false;
+
+		//	EscenaAcercaDe.addChild(BotonMenu);
+		//	BotonMenu.visible = true;
+
+		BotonConfig.visible = false;
+
+		//	BotonSalir.visible =false;
+
+	}
+
+
+
+/*
+	function PantallaJugar() {
+		var tablero,
+			i = undefined,			//	para conteo usos varios
+			aPosPolig = undefined,
+			num, cImagen;
+
+			ejemplo de usos
+
+		var tableroTexture = id["tablero.png"];
+		tablero = new PIXI.Sprite(tableroTexture);
+		//	tablero = id["sumado-tablero.png"];
+
+		tablero.x = TABLERO_OFF_X;
+		tablero.y = TABLERO_OFF_Y;
+		// make it a bit bigger, so it's easier to grab
+		//	tablero.scale.set(1.34);
+		tablero.scale.set(nESCALA);
+		EscenaDeJuego.addChild(tablero);
+
+		//	control del tiempo
+		Crono = new PIXI.Text( txtTiempo, { fontFamily: FONT_NIVEL3, fontSize: "16px", fill: "#a00"  } );	
+		Crono.position.set(400, 10 );
+		EscenaDeJuego.addChild(Crono);
+
+		//	creacion de los sprites draggables para cada nro
+		//	modelo en sumado.js
+
+
+	}
+
+
+
+	//	--------------------------------------
+	function play() {
+
+		//	if ( VerificaSuma() ) {
+		if ( chosenTiles.length == 0 ) {
+
+			EscenaFinJuego.visible = true;		//	container aviso de fin del juego
+			EscenaDeJuego.visible = false;
+			EscenaDeJuego.alpha = 0.8 ;
+
+			BotonJugar.visible = true;
+			BotonMenu.visible = true;
+
+			//	cancelAnimationFrame(myReq);
+
+			state = end;
+
+		} else {
+			elapsed = Math.floor(( new Date().getTime() - start ) / 100 ) / 10;
+		}
+		Crono.text = txtTiempo + elapsed + " seg.";
+
+	}
+*/
+
+
+/*
+	function PantallaFinJuego() {
+
+		const style = new PIXI.TextStyle({
+			fill: "#880000",
+			fontFamily: FONT_NIVEL2,
+			fontSize: 48,
+			fontWeight: "bold"
+		});
+
+		const	MessageFin = new PIXI.Text( txtFin, style);
+		MessageFin.x = ( RENDERER_W - MessageFin.width ) / 2;
+		MessageFin.y = ( RENDERER_H - MessageFin.height ) / 2;
+		//	EscenaFinJuego.addChild(MessageFin);
+		EscenaFinJuego.addChild(BotonJugar);
+		EscenaFinJuego.addChild(BotonMenu);
+
+	}
+*/
+
+
+
+	//	---------------------------------------------------
+	function PantallaAjustes() {					//	prepara la pantalla de ajustes
+		
+		//	var graphics = new PIXI.Graphics();
+		//	// draw a rounded rectangle
+		//	graphics.lineStyle(4, 0x332211, 0.95)
+		//	graphics.beginFill( FONDO_AYUDA, 0.95);
+		//	graphics.drawRoundedRect(40, 40, RENDERER_W-120, RENDERER_H-120 );
+		//	graphics.endFill();
+		//	EscenaAjustes.addChild(graphics);
+
+		//	texto a incluir; acercade 
+		const style = new PIXI.TextStyle({
+			fill: "#ffffff",
+			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
+			fontSize: 24,
+			fontStyle: "normal",
+			fontWeight: "400"
+		});
+		const richText = new PIXI.Text( "Texto, si es que hubiese, para los ajustes", style );
+		richText.x = 60;
+		richText.y = 60;
+
+		EscenaAjustes.addChild(richText);
+		EscenaAjustes.visible = true;
+
+		//	Botones que se deben visualizar en pantalla de ayuda
+		//	unicamente el de volver, entonces, remueve borones del padre y muestra el de ayuda
+		EscenaAjustes.addChild(BotonAtras);
+		BotonAtras.visible = true;
+
+	}
+
+
+
+	//	anulado porque no parece usarse
+/*
+//	--------------------------------------------------
+	function Jugar() {
+		//	acciones a realizar durante el juego
+
+		if (DEBUG) { console.log("=== function Jugar ===" ); }
+
+		
+		//	definir cuales son las escenas visibles y cuales invisibles
+		EscenaDeAyudas.visible = false;
+		EscenaDeJuego.visible = true;
+		EscenaAcercaDe.visible = false;
+		EscenaFinJuego.visible = false;
+		EscenaMenuInic.visible = false;
+		//	EscenarioGral.visible = true;
+
+		EscenaDeJuego.alpha = 0.99 ;
+
+
+		//	GenJuego()		//	genera un nuevo juego
+
+		//	iniciamos contador de tiempo
+		start = new Date().getTime();
+		elapsed = 0;
+
+		state = play;
+
+	}
+*/
+
+
+
+	//=======================================
+	// BEGIN for set|get|clear localstorage
+	//=======================================
+	function setStorage(key, value) {
+		if(typeof(window.localStorage) != 'undefined'){ 
+			window.localStorage.setItem(key,value); 
+		} 
+	}
+
+	function getStorage(key) {
+		var value = null;
+		if(typeof(window.localStorage) != 'undefined'){ 
+			value = window.localStorage.getItem(key); 
+		} 
+		return value;
+	}
+
+	function clearStorage(key) {
+		if(typeof(window.localStorage) != 'undefined'){ 
+			window.localStorage.removeItem(key); 
+		} 
+	}
+
+
+	//	function SelectElement(id, valueToSelect) {
+	//		console.log("id, valueToSelect: " + id + ", " + valueToSelect );
+	//		var element = document.getElementById(id);
+	//		element.value = valueToSelect;
+	//	}
+
+
+
+
+	//-------------------------------------------------------------------
+	// adaptacion idiomas
+	//-------------------------------------------------------------------
+	function initLanguage() //	para adaptar a diferentes idiomas
+	{
+		//	console.log("sysLang: " + sysLang + ", " + typeof(sysLang));
+
+		sysLang = getStorage("elIdioma")
+
+		//	if(typeof(sysLang) == 'undefined'){
+		if (sysLang == null) {
+			sysLang = "en";
+		}
+		
+
+		//	SelectElement("elIdioma", sysLang);
+		if (DEBUG)	{	console.log("sysLang: " + sysLang);		
+			//	sysLang = "en";
+		}
+
+		if (sysLang == "es" || sysLang == "es") { //	español
+
+			txtAcerca = "Acerca de";
+			txtAyuda	= "Ayuda";
+			txtConfig = "Ajustes";
+			txtDificu = "Dificultad";
+			txtFin = "Bien resuelto!\nFelicitaciones! ";
+			txtIdioma = "Idioma";
+			txtEspanol = "Espanol";
+			txtIngles = "Ingles";
+			txtAleman = "Aleman";
+			txtJugar = "Jugar";
+			txtMenu = "Menu";
+			txtNoSol = " Sin solución ";
+			txtOtro = "OTRO";
+			txtTiempo = "Tiempo: ";
+			txtVolver = "Volver";
+			txtDescAcerca =
+				'Acerca de MENSA Timer version ' + VERSION + '\n' +
+				'Es un timer \n' +
+				'desarrollado por \n' +
+				'Willie Verger Juegos de Ingenio\n\n' +
+				'Soporte: info@ingverger.com.ar\n' +
+				'Web: ingverger.com.ar\n' +
+				'\n';
+			txtDescAyuda = 'Que es?\n' +
+				'M-Timer permite especificar el tiempo a controlar \n' + 
+				'mediante botones para incrementar y decrementar minutos y segundos.\n' + 
+				'Una vez establecido el tiempo se está en condiciones de iniciar la \n' + 
+				'cuenta regresiva pulsando el boton de inicio.\n' + 
+				'El timer se puede detener en cualquier instante \n' + 
+				'con el botón  \n' + 
+				'y reanudar otra vez. \n' + 
+				' \n' + 
+				'Al finalizar el tiempo establecido se tendrá un sonido de aviso.';
+
+		}	else if (sysLang == "en" || sysLang == "en") { //	ingles
+
+			txtAcerca = "About",
+			txtAyuda = "Help";
+			txtConfig = "Settings";
+			txtDificu = "Difficulty",
+			txtFin = "Congratulation",
+			txtIdioma = "Language";
+			txtEspanol = "Spanish";
+			txtIngles = "English";
+			txtAleman = "German";
+			txtJugar = "Play",
+			txtMenu = "Menu",
+			txtNivel = "Level";
+			txtNoSoluc = "No Solution ";
+			txtOtro = "Another",
+			txtProx = "Next";
+			txtTiempo = "Time: ";
+			txtVolver = "Back",
+			txtDescAcerca =
+			'About ' + APLICACION + ' version ' + VERSION  + '\n' +
+			'It is a game to exercise concentration and memory \n' + 
+			'developed by Willie Verger Ingenuity Games \n' + 
+			'Support: info@ingverger.com.ar\n' +
+			'Web: ingverger.com.ar\n' +
+			'\n',
+			txtDescAyuda =
+				'How does it work? \n' +
+				'There is a set of cards, each with an image, placed in such a way \n' +
+				'The game ends when all pairs have been found. \n',
+				
+			APLICACION + ' is a game of .... \n' +
+			'There is a set of cards, each with an image, placed in such a way \n' +
+			'that images can not be seen. \n' +
+			'There are two cards of each image. The object of the game is to find \n' +
+			'the pairs of equal images. \n' +
+			'When you click on an image, it is turned over. \n' +
+			'Two consecutive cards are chosen. If they turn out to be the same, \n' +
+			'they are removed from the board. If they are different, they return \n' +
+			'to the original position \n' +
+			'The game ends when all pairs have been found. \n';
+
+
+		} else if (sysLang == "de" || sysLang == "de") { //	aleman
+
+			txtAcerca = "Über",
+			txtAyuda = "Hilfe";
+			txtConfig = "Einstellung";
+			txtDificu = "Schwierigkeit";
+			txtFin = "Gut gelöst!\nGlückwunsch! ",
+			txtIdioma = "Sprache";
+			txtEspanol = "Spanish";
+			txtIngles = "English";
+			txtAleman = "Deutsch";
+			txtJugar = "Spielen",
+			txtMenu = "Menu",
+			txtNivel = "Niveau";
+			txtNoSoluc = "keine Losung";
+			txtProx = "Nächste";
+			txtTiempo = "Verstrichene Zeit: ";
+			txtVolver = "Umkehren",
+			txtDescAcerca =
+				APLICACION + ' Version ' + VERSION  + '\n' +
+				'Es ist ein app von Willie Verger Clever Games \n' +
+				'Unterstützung: info@ingverger.com.ar\n' +
+				'Web: ingverger.com.ar\n' +
+				'\n',
+			txtDescAyuda =
+				APLICACION + ' ist ein Spiel der Konzentration und des Gedächtnisses.\n' +
+				'Es gibt eine Reihe von Karten mit jeweils einem Bild so platziert,\n' +
+				'dass seine Vorderseite nicht sichtbar ist.\n' +
+				'Es gibt zwei Registerkarten für jedes Bild. Das Spiel ist zu finden\n' +
+				'die Paare gleicher Bilder.\n' +
+				'Wenn Sie auf ein Bild klicken, wird es umgedreht.\n' +
+				'Es werden zwei aufeinander folgende Karten ausgewählt. Wenn sie \n' +
+				'sich als gleich herausstellen, werden sie vom Board entfernt. \n' +
+				'Wenn sie unterschiedlich sind, kehren sie zur ursprünglichen \n' +
+				'Position zurück.\n' +
+				'Das Spiel endet, wenn alle Paare gefunden wurden.\n';
+
+		}
+	}
+
+
+
+
+	//	=========================================
+	//	Codigo especifico para este juego
+	//	=========================================
+	//	function GenJuego(){			//	genera un nuevo juego
+	//	}
+
+
+
+//	=====================================================================
+//	lo que sigue son particularidades para la pantalla de esta aplicacion
+
+
+function subeMinutos() {
+	ajustaMinu(1);
+}
+
+function bajaMinutos() {
+	ajustaMinu(-1)
+}
+
+function ajustaMinu( nDir ) {
+	//	ajustar valores iniciales del timer
+	//	nDir indica si sumamos o restamos minutos
+	
+	var nMin = undefined;
+	nMin = parseInt( cMin ) + nDir;
+	nMin = ((nMin < 0) ? 0 : ((nMin > 60) ? 60 : nMin ) );	
+	cMin = ("00" + nMin).slice(-2);
+
+	// Output the result
+	txtMinu.text = cMin;
+
+	//	if (DEBUG)	{	console.log ("nMin, cMin: " + nMin + ", " + cMin);	}
+
+}
+
+
+
+function subeSegundos() {
+	ajustaSegu(1);
+}
+
+function bajaSegundos() {
+	ajustaSegu(-1)
+}
+
+function ajustaSegu( nDir ) {
+	//	ajustar valores iniciales del timer
+	var nSeg = undefined;
+	nSeg = parseInt( cSeg ) + nDir;
+	nSeg = ((nSeg < 0) ? 0 : ((nSeg > 60) ? 60 : nSeg ) );
+	cSeg = ("00" + nSeg).slice(-2);
+
+	// Output the result
+	txtSegu.text = cSeg;
+
+}
+
+
+
+//	---------------------------------
+function startButton() {
+	nDist = cMin * 60000 + cSeg * 1000;
+	console.log( "nDist: " + nDist );
+
+	if (nDist > 0) {
+
+		detener = false;
+
+		stopTime = new Date().getTime() + nDist + 10;		//	devuelve la hora de finalizacion
+			//	agrego 2 milisegundos para compensar tiempo de calculo previo
+			//	caso contrario no muestra el primer momento correctamente
+
+		if (DEBUG) { console.log("Tiempo inicial, stopTime: " + cMin + ":" + cSeg + ", " + stopTime);	}
+
+		ocultaBotones();
+		ctrlDetener.visible = true;
+		iniciaReloj();
+
+	} else {
+		if (DEBUG){	console.log("nDist es <= 0");}
+		nDist = 0;
+		cMin = "00";
+		cSeg = "00";
+		detener = true;
+
+	}
+
+	if (DEBUG){	console.log("despues de iniciaReloj()");}
+	//	muestraBotones();
+
+}
+
+
+
+
+//	boton para iniciar timer
+function iniciaReloj() {
+
+	ctrlDetener.visible = true;
+
+
+	//	setInterval() Ejecuta una función o un fragmento de código de forma repetitiva cada vez
+	//	que termina el periodo de tiempo determinado. Devuelve un ID de proceso.
+	//	en este caso actualiza la cuenta regresiva cada segundo
+	var x = setInterval(function() {
+
+		// Get todays date and time
+		var now = new Date().getTime();
+
+		//	console.log( "stopTime, now, cDist antes: " + stopTime +", " + now +", " + cDist )
+
+		// Find the distance between now and the count down date
+		nDist = stopTime - now;
+		//	console.log( "nDist, stopTime, now: " + nDist +", "+ stopTime +", "+ now );
+
+		actualizaReloj();
+
+
+		// If the count down is over, write some text
+		if (nDist < 10 ) {
+			clearInterval(x);
+			//	aqui poner aviso: una alarma de sonido, parpadeo y/o similar
+
+			// creamos el objeto audio
+			//	var audioElement = document.createElement('audio');
+			// indicamos el archivo de audio a cargar
+			audioElement.setAttribute('src', 'Psicosis.ogg');
+			//	Si deseamos que una vez cargado empieze a sonar...
+			//	audioElement.setAttribute('autoplay', 'autoplay');
+			//	iniciamos el audio
+			sonarAviso() 
+			//	audioElement.play();
+			
+
+			//	document.getElementById("alert").play();
+			//	detener = true;
+
+
+		} else if (detener) {
+			//	sin alarma porque fue detencion solicitada
+			clearInterval(x);
+
+			detiene();
+
+			//	audioElement.pause();
+			//	audioElement.currentTime = 0;
+
+		}
+
+	}, 1000);		//	fin de la funcion pasada a setInterval
+
+
+}
+
+
+
+function actualizaReloj() {
+		// Time calculations for minutes and seconds
+		cMin = ("00" + Math.floor((nDist % (3600000)) / 60000 )).slice(-2);
+		cSeg = ("00" + Math.floor((nDist % 60000 ) / 1000)).slice(-2);
+
+		// Output the result
+		txtMinu.text = cMin;
+		txtSegu.text = cSeg;
+
+}
+
+
+
+//--------------------
+// hidden all button
+//--------------------
+function ocultaBotones() {
+	//	oculta botones innecesarios mientras funciona el timer
+	ctrlIncMin.visible = false;
+	ctrlDecMin.visible = false;
+	ctrlIniciar.visible = false;
+	ctrlIncSeg.visible = false;
+	ctrlDecSeg.visible = false;
+	ctrlDetener.visible = false;
+
+}
+
+
+
+//--------------------
+// muestra todos los botones
+//--------------------
+function muestraBotones() {
+	//	muestra botones
+	ctrlIncMin.visible = true;
+	ctrlDecMin.visible = true;
+	ctrlIniciar.visible = true;
+	ctrlIncSeg.visible = true;
+	ctrlDecSeg.visible = true;
+	ctrlDetener.visible = true;
+}
+
+
+
+function sonarAviso() {
+	audioElement.play();
+
+	//	var	tpoAviso = TIEMPO_AVISO;
+	
+	var now = new Date().getTime();			// actual date and time
+
+	//	console.log( "stopTime, now, cDist antes: " + stopTime +", " + now +", " + cDist )
+	// Find the distance between now and the count down time
+	stopTime = now + TIEMPO_AVISO;
+	//	console.log( "nDist, stopTime, now: " + nDist +", "+ stopTime +", "+ now );
+
+
+	var y = setInterval(function(){ 
+		//	var transcurrido = audioElement.currentTime;
+		//	console.log("audioElement.currentTime: " + audioElement.currentTime )
+		
+		var now = new Date().getTime();
+
+		//	nDist = stopTime - now;
+
+
+		// If the count down is over, write some text
+		if (now > stopTime ) {
+
+			detiene();
+			clearInterval(y);
+
+		}
+	}, 1000);
+	
+}
+//	fin de sonarAviso ---------------------------
+
+
+
+
+function detiene() {
+	detener=true;
+	muestraBotones();
+	ctrlDetener.visible= false;
+
+	console.log("audioElement.currentTime (detenido): " + audioElement.currentTime )
+
+	audioElement.pause();
+	audioElement.currentTime = 0;
+	//	audioElement.muted = true;
+
+
+}
+
+
+	//	===========================================================
+	//	funciones paraSeleccion de idioma
+	function SelectLanguage(){
+		//	trato de hacerlo generico para cualquier seleccion
+		//	debiera funcionar asi:
+		//	se presenta una cuadrito con el titulo (BOTON): 'IDIOMA'
+		//	al pulsar el boton se despliegan los idiomas posibles, destacando el seleccionado
+		//	pulsando en alguno de los idiomas, cambia el seleccionado.
+
+		const	x0 = COLU_BOTONES;
+		const	y0 = FILA_1_CTRL;
+		const	anchoCaja = 200,
+			altoCaja = 40,
+			COLOR_CAJA = 0x0066ff,				//	0x99bbff,
+			COLOR_FLECHA = 0x990033;
+
+	var
+		BotonTema = undefined,		//	tema seleccion
+		BotonOpc1 = undefined,		//	opcion 1
+		BotonOpc2 = undefined,		//	opcion 2
+		BotonOpc3 = undefined;		//	opcion 3
+
+		//	Texto grande; numeros indicadores del nivel actual
+		var styleL = new PIXI.TextStyle({
+			fill: COLOR_BOTON,					    //	
+			fontFamily: FONT_NIVEL2,			//	fontFamily: 'Titan One',			//	cursive;
+			fontSize: 64,
+			fontWeight: "bold",
+			padding: 12,
+		});
+
+		//	---------------------------------------------------------------
+		//	Texto pequeño; Titulo del selector, texto de la caja e indicador de nivel
+		styleS = new PIXI.TextStyle({
+			fill: COLOR_BOTON,					    //	
+			fontFamily: FONT_NIVEL2,			//	fontFamily: 'Titan One',			//	cursive;
+			fontSize: 32,
+			fontWeight: "normal",
+			padding: 4,
+		});
+
+		//	boton para indicar seleccion de idioma
+		// draw a rounded rectangle
+		var graphics = new PIXI.Graphics();
+		graphics.beginFill(COLOR_CAJA, 0.98);
+		graphics.drawRoundedRect(x0, y0, anchoCaja, altoCaja, 10);
+		graphics.endFill();
+		EscenaAjustes.addChild(graphics);
+		//	texto identifica tema a seleccionar
+		BotonTema = new PIXI.Text( txtIdioma, styleS );
+		BotonTema.x = x0 + (0.5 * anchoCaja);
+		BotonTema.y = y0 + (20);
+		BotonTema.anchor.set(0.5);
+		//	BotonTema.interactive = true;				
+		//	BotonTema.buttonMode = true;			// Shows hand cursor
+		//	BotonTema.on('pointerdown', ElegirIdioma );
+		graphics.addChild(BotonTema);
+
+		//	opciones
+		// draw a rounded rectangle
+		var rect1 = new PIXI.Graphics();
+		rect1.beginFill(COLOR_CAJA, 0.98);
+		rect1.drawRoundedRect(x0, y0+50, anchoCaja, altoCaja, 10);
+		rect1.endFill();
+		rect1.interactive = true;				
+		rect1.buttonMode = true;			// Shows hand cursor
+		rect1.on('pointerdown', IdiomaEspanol );
+
+		EscenaAjustes.addChild(rect1);
+
+		BotonOpc1 = new PIXI.Text( txtEspanol, styleS );
+		BotonOpc1.x = x0 + (0.5 * anchoCaja);
+		BotonOpc1.y = y0 + 70;
+		BotonOpc1.anchor.set(0.5);
+		//	BotonOpc1.interactive = true;				
+		//	BotonOpc1.buttonMode = true;			// Shows hand cursor
+		//	BotonOpc1.on('pointerdown', IdiomaEspanol );
+		EscenaAjustes.addChild(BotonOpc1);
+
+		//	txtEspanol = "Espanol";
+		//	txtIngles = "Ingles";
+		//	txtAleman = "Aleman";
+
+		//	ctrlIncSeg = ctrlIncMin.clone();
+		//	ctrlIncSeg.position.set(480,0);
+		//	ctrlIncSeg.interactive = true;
+		//	ctrlIncSeg.buttonMode = true;
+		//	ctrlIncSeg.on('mousedown',  subeSegundos );
+		//	ctrlIncSeg.on('touchstart', subeSegundos );
+		//	ctrlIncSeg.on('tap', subeSegundos );
+		//	EscenaMenuInic.addChild(ctrlIncSeg);
+
+		// boton idioma ingles. draw a rounded rectangle
+		var rect2 = new PIXI.Graphics();
+		rect2.beginFill(COLOR_CAJA, 0.98);
+		rect2.drawRoundedRect(x0, y0+100, anchoCaja, altoCaja, 10);
+		rect2.endFill();
+		rect2.interactive = true;				
+		rect2.buttonMode = true;			// Shows hand cursor
+		rect2.on('pointerdown', IdiomaIngles );
+		EscenaAjustes.addChild(rect2);
+
+		BotonOpc2 = new PIXI.Text( txtIngles, styleS );
+		BotonOpc2.x = x0 + (0.5 * anchoCaja);
+		BotonOpc2.y = y0 + (120);
+		BotonOpc2.anchor.set(0.5);
+		//	BotonOpc2.interactive = true;				
+		//	BotonOpc2.buttonMode = true;			// Shows hand cursor
+		//	BotonOpc2.on('pointerdown', IdiomaIngles );
+		EscenaAjustes.addChild(BotonOpc2);
+
+		// draw a rounded rectangle
+		var rect3 = new PIXI.Graphics();
+		rect3.beginFill(COLOR_CAJA, 0.98);
+		rect3.drawRoundedRect(x0, y0+150, anchoCaja, altoCaja, 10);
+		rect3.endFill();
+		rect3.interactive = true;				
+		rect3.buttonMode = true;			// Shows hand cursor
+		rect3.on('pointerdown', IdiomaAleman );
+		EscenaAjustes.addChild(rect3);
+
+		BotonOpc3 = new PIXI.Text( txtAleman, styleS );
+		BotonOpc3.x = x0 + (0.5 * anchoCaja);
+		BotonOpc3.y = y0 + (170);
+		BotonOpc3.anchor.set(0.5);
+		//	BotonOpc3.interactive = true;				
+		//	BotonOpc3.buttonMode = true;			// Shows hand cursor
+		//	BotonOpc3.on('pointerdown', IdiomaAleman );
+		EscenaAjustes.addChild(BotonOpc3);
+
+
+		//	numero indicador de nivel de dificultad
+		//	la variable debe definirse entre las globales para ser luego actualizada 
+		//	mediante los botones que tambien deben ser reconocidos global
+		//	txtNivDif = new PIXI.Text( "8", style );
+		//	txtNivDif.x = x0+(anchoCaja/2);
+		//	txtNivDif.y = y0 + (0.56 * altoCaja);
+		//	txtNivDif.anchor.set(0.5);
+
+		//	var txtTitulo = new PIXI.Text( txtIdioma, style );
+		//	txtTitulo.x = x0+(anchoCaja/2);
+		//	txtTitulo.y = y0 + 16 ;
+		//	txtTitulo.anchor.set(0.5);
+
+		//	EscenaAjustes.addChild(txtNivDif);
+		//	EscenaAjustes.addChild(txtTitulo);
+		
+	}
+
+
+	//	function ElegirIdioma() {
+	//		//	muestra y permite seleccionar un idioma
+	//		BotonOpc1.visible = true;		//	opcion 1
+	//		BotonOpc2.visible = true;		//	opcion 2
+	//		BotonOpc3.visible = true;		//	opcion 3
+	//	}
+
+	function IdiomaEspanol() {
+		sysLang = 'es';
+		setStorage('elIdioma', 'es');
+		//	initLanguage();
+		setup();
+	}
+
+	function IdiomaIngles() {
+		sysLang = 'en';
+		setStorage('elIdioma', 'en');
+		setup();
+	}
+
+	function IdiomaAleman() {
+		sysLang = 'de';
+		setStorage('elIdioma', 'de');
+		setup();
+	}
+
+

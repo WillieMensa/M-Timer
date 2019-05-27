@@ -7,13 +7,13 @@
 //	Constantes
 //	-------------------------
 const
-	VERSION	= "0.9.7a",			//	version inicial
+	VERSION	= "0.9.7b",			//	version inicial
 	FONDO_APP = "#011",			//	 "#ffc",
 	FONT_NIVEL1 = "balooregular"	//	titulo:	"Bangers",	"Luckiest Guy",	"titan_one", "Sigmar One"
 	//	FONT_NIVEL2 = "bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
 	//	FONT_NIVEL3 = "sriracharegular",		//	textos:
-	//	DEBUG = false,
-	DEBUG = true,				//	depurar o no depurar
+	DEBUG = false,
+	//	DEBUG = true,				//	depurar o no depurar
 	minutosOff = 150,		//	pos izq txt min
 	foo = 0;
 
@@ -42,7 +42,7 @@ function init() {
 	if (DEBUG)	{
 		var	screenWidth = window.innerWidth,
 			screenHeight = window.innerHeight;
-			document.getElementById("medidas").innerHTML = "Pantall: " + screenWidth + " x " + screenHeight + " / Version: " + VERSION;
+			document.getElementById("medidas").innerHTML = "Pantalla: " + screenWidth + " x " + screenHeight + " / Version: " + VERSION;
 	}
 
 	document.getElementById('detiene').style.visibility='hidden';
@@ -88,25 +88,26 @@ function startButton() {
 
 	if (nDist > 0) {
 
+		detener = false;
+		document.getElementById('detiene').style.visibility='visible';
 
-			detener = false;
-			document.getElementById('detiene').style.visibility='visible';
+		stopTime = new Date().getTime() + nDist + 10;		//	devuelve la hora de finalizacion
+			//	agrego 2 milisegundos para compensar tiempo de calculo previo
+			//	caso contrario no muestra el primer momento correctamente
 
-			stopTime = new Date().getTime() + nDist + 10;		//	devuelve la hora de finalizacion
-				//	agrego 2 milisegundos para compensar tiempo de calculo previo
-				//	caso contrario no muestra el primer momento correctamente
+		if (DEBUG) { console.log("Tiempo inicial, stopTime: " + cMin + ":" + cSeg + ", " + stopTime);	}
 
-			if (DEBUG) { console.log("Tiempo inicial, stopTime: " + cMin + ":" + cSeg + ", " + stopTime);	}
-
-			ocultaBotones();
-			iniciaReloj();
-
+		ocultaBotones();
+		iniciaReloj();
 
 	} else {
+		if (DEBUG){	console.log("nDist es <= 0");}
 		nDist = 0;
 		cMin = "00";
 		cSeg = "00";
 		detener = true;
+		//	muestraBotones();
+		//	detiene();
 	}
 
 	if (DEBUG){	console.log("despues de iniciaReloj()");}
@@ -146,25 +147,32 @@ function iniciaReloj() {
 			// creamos el objeto audio
 			//	var audioElement = document.createElement('audio');
 			// indicamos el archivo de audio a cargar
-			audioElement.setAttribute('src', 'psicosis.mp3');
+			audioElement.setAttribute('src', 'Psicosis.ogg');
 			//	Si deseamos que una vez cargado empieze a sonar...
 			//	audioElement.setAttribute('autoplay', 'autoplay');
 			//	iniciamos el audio
-			audioElement.play();
+			sonarAviso() 
+			//	audioElement.play();
 			
 
 			//	document.getElementById("alert").play();
+			//	detener = true;
+
 
 		} else if (detener) {
 			//	sin alarma porque fue detencion solicitada
 			clearInterval(x);
+
+			detiene();
 
 			//	audioElement.pause();
 			//	audioElement.currentTime = 0;
 
 		}
 
-	}, 1000);
+	}, 1000);		//	fin de la funcion pasada a setInterval
+
+	//	detiene();
 
 }
 
@@ -216,11 +224,29 @@ function muestraBotones() {
 }
 
 
+function sonarAviso() {
+	audioElement.play();
+
+	var y = setInterval(function(){ 
+		var transcurrido = audioElement.currentTime;
+		console.log("audioElement.currentTime: " + audioElement.currentTime )
+		if (transcurrido > 10 ) {
+			detiene();
+			clearInterval(y);
+
+		}
+	}, 1000);
+	
+
+}
+
 
 function detiene() {
 	detener=true;
 	muestraBotones();
 	document.getElementById('detiene').style.visibility='hidden';
+
+	console.log("audioElement.currentTime (detenido): " + audioElement.currentTime )
 
 	audioElement.pause();
 	audioElement.currentTime = 0;
@@ -364,7 +390,7 @@ window.onclick = function(event) {
 		}
 		console.log("sysLang: " + sysLang);
 
-		SelectElement("idioma", sysLang)
+		//	SelectElement("idioma", sysLang)
 
 		if (sysLang == "en" || sysLang == "en") { //	ingles
 
