@@ -3,6 +3,8 @@ M-Timer
 20/4/2019 - Version 0.9.0
 5/5/2019 -  Version 0.9.6
 9/5/2019 -  Version 0.9.7b
+27/5/2019 - Version 0.9.8	-	Comienzo a utilizar Pixi js
+
 
 
 # M-Timer
