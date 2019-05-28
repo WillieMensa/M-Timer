@@ -3,154 +3,169 @@
 		15/5/2019 - version 0.9.8
 		Mensa Timer
 
+		27/5/2019 - version 0.9.8b
+
 		para funcionar con pixi
 
 	*/
 
-	//	-------------------------
-	//	equivalencias - Aliases
-	//	-------------------------
-	//	let Container = PIXI.Container,
-	//		autoDetectRenderer = PIXI.autoDetectRenderer,
-	//		Graphics = PIXI.Graphics,
-	//	Sprite = PIXI.Sprite,
-	//	AnimatedSprite = PIXI.extras.AnimatedSprite,
-	//	TilingSprite = PIXI.extras.TilingSprite,
-	//	loader = PIXI.loader;
-	//	resources = PIXI.loader.resources;
-	//	let	Text = PIXI.Text,
+"use strict";
 
-	//	-------------------------
-	//	Constantes
-	//	-------------------------
-	const	APLICACION = "M-TIMER",
-		COLU_BOTONES = 100,			//	X POS
-		FILA_1_CTRL	=	160,
-		FILA_DIGITOS	=	290,
-		FILA_2_CTRL	=	440,
-		FILA_BOTONES = 550,			//	Y POS
-		RENDERER_W = 1000,			//	1000,
-		RENDERER_H = 600,
-		FONDO_JUEGO = 0x002222,			//	0xcccccc,		//	 "#ffc",
-		VERSION	= "0.9.8",			//	version inicial
-		FONDO_AYUDA = 0x008cff,
-		FONDO_AJUSTE = 0x002244,
-		FONT_NIVEL1 = "balooregular"		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
-		FONT_NIVEL2 = "balooregular"		//	"bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
-		FONT_NIVEL3 = "balooregular"		//	textos:	"sriracharegular",		//
-		COLOR_BOTON = 0x66ddee,				//	COLOR_BOTON = 0x006600,
-		TIEMPO_AVISO = 5000,
-		//	DEBUG = false;
-		DEBUG = true;
+//	-------------------------
+//	equivalencias - Aliases
+//	-------------------------
+//	let Container = PIXI.Container,
+//		autoDetectRenderer = PIXI.autoDetectRenderer,
+//		Graphics = PIXI.Graphics,
+//	Sprite = PIXI.Sprite,
+//	AnimatedSprite = PIXI.extras.AnimatedSprite,
+//	TilingSprite = PIXI.extras.TilingSprite,
+//	loader = PIXI.loader;
+//	resources = PIXI.loader.resources;
+//	let	Text = PIXI.Text,
 
-
-
-	//	Create a Pixi (stage and) renderer
-	//	let	stage = new Container(),
-	let rendererOptions = {
-		antialiasing: false,
-		transparent: false,
-		resolution: window.devicePixelRatio,
-		autoResize: true,
-		backgroundColor: FONDO_JUEGO,
-		//	backgroundColor: linear-gradient( to bottom right, #eeff88, #33bb22 ),
-	}
-
-	//	Create the renderer
-	let renderer = PIXI.autoDetectRenderer( RENDERER_W, RENDERER_H, rendererOptions );
-
-	// Put the renderer on screen in the corner
-	renderer.view.style.position = "absolute";
-	renderer.view.style.top = "0px";
-	renderer.view.style.left = "0px";
-
-	document.body.appendChild(renderer.view);
-
-
-	//	Scale the canvas to the maximum window size
-	//	let scale = scaleToWindow(renderer.view);
-
-	//Set the initial game state
-	let state = Menu;
-	let myReq = undefined;
-
-
-	//	-------------------------
-	//	variables globales varias. might be used in more than one function
-	//	-------------------------
-	let	BotonAcercaDe = undefined,
-		BotonAtras = undefined,
-		BotonAyuda = undefined,
-		BotonJugar = undefined,
-		//	BotonMenu = undefined,
-		Crono = undefined,
-		start = undefined,
-		elapsed = undefined,
-		ctrlIncMin = undefined,
-		ctrlDecMin = undefined,
-		ctrlIniciar = undefined,
-		ctrlIncSeg = undefined,
-		ctrlDecSeg = undefined,
-		ctrlDetener = undefined,
-		CtrlDetener = undefined,				//	detiene temporizador
-		//	EscenaDificultad = undefined,		//	container seleccion nivel de dificultad
-		//	EscenaFinJuego = undefined,			//	container aviso de fin del juego
-		EscenaAcercaDe = undefined,			//	container de estadisticas
-		EscenaAjustes = undefined,			//	container de ajustes
-		EscenaDeAyudas = undefined,			//	container ayudas
-		EscenaDeJuego = undefined,			//	container juego
-		EscenaMenuInic = undefined,			//	container pantalla de inicio
-		EscenarioGral = undefined,
-		foo;			//	container del total (1er nivel)
-
-
-	//	-----------------------------------------------------
-	//	definicion de contenedores de texto para multi idioma
-	//	-----------------------------------------------------
-	let	
-			txtAcerca = undefined,
-			txtAyuda	= undefined,
-			txtConfig	= undefined,
-			//	txtDificu = undefined,
-			txtFin = undefined,
-			txtIdioma = undefined,
-			txtJugar = undefined,
-			//	txtMenu = undefined,
-			txtNoSol = undefined,
-			txtOtro = undefined,
-			txtTiempo = undefined,
-			txtVolver = undefined,
-			txtDescAcerca = undefined,
-			txtDescAyuda = undefined;
+//	-------------------------
+//	Constantes
+//	-------------------------
+const	APLICACION = "M-TIMER",
+	COLU_BOTONES = 100,			//	X POS
+	FILA_1_CTRL	=	160,
+	FILA_DIGITOS	=	290,
+	FILA_2_CTRL	=	440,
+	FILA_BOTONES = 550,			//	Y POS
+	RENDERER_W = 1000,			//	1000,
+	RENDERER_H = 600,
+	FONDO_JUEGO = 0x002222,			//	0xcccccc,		//	 "#ffc",
+	VERSION	= "0.9.8",			//	version inicial
+	FONDO_AYUDA = 0x004488,
+	FONDO_AJUSTE = 0x002244,
+	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
+	FONT_NIVEL2 = "balooregular",		//	"bangersregular",	//	botones: "Bangers",	//	"Sigmar One",
+	FONT_NIVEL3 = "balooregular",		//	textos:	"sriracharegular",		//
+	COLOR_BOTON = 0x66ddee,				//	COLOR_BOTON = 0x006600,
+	TIEMPO_AVISO = 5000,
+	DEBUG = false;
+	//	DEBUG = true;
 
 
 
-	//	==========================================================================
-	//	variables especificas de esta aplicacion
-	let nCol = undefined,					//	cantidad de columnas de baldositas en tablero
-		nFil = undefined,					//	cantidad de filas de baldositas en tablero
-		//	nivJuego = 1,						//	nivel de juego; debe ser un valor entre 1 y 12.
-		//	txtNivDif = undefined,
-		//	tilesOnBoard = undefined, 
-		txtMinu = undefined,			//	array con los numeros de las piezas
-		txtSegu = undefined,			//	array con los numeros de las piezas
-		//	chosenTiles = undefined;			//	array con los numeros de las piezas
-		xfoo;
+//	Create a Pixi (stage and) renderer
+//	let	stage = new Container(),
+let rendererOptions = {
+	antialiasing: false,
+	transparent: false,
+	resolution: window.devicePixelRatio,
+	autoResize: true,
+	backgroundColor: FONDO_JUEGO,
+	//	backgroundColor: linear-gradient( to bottom right, #eeff88, #33bb22 ),
+}
+
+//	Create the renderer
+let renderer = PIXI.autoDetectRenderer( RENDERER_W, RENDERER_H, rendererOptions );
+
+// Put the renderer on screen in the corner
+renderer.view.style.position = "absolute";
+renderer.view.style.top = "0px";
+renderer.view.style.left = "0px";
+
+document.body.appendChild(renderer.view);
 
 
-	let
-		sysLang = undefined,	//	identificacion idioma a utilizar, se almacena como "elIdioma"
-		nDist = undefined,		//	tiempo fijado en el timer en milisegundos
-		cMin = (DEBUG) ? "00" : "20",
-		cSeg = "00",					//	minutos y segundos en formato texto
-		stopTime = undefined,	//	el horario de finalizacion
-		detener = false,			//	variable indica solicitud detener temporizador
-		audioElement = document.createElement('audio');	//	contiene el elemento de audio para avisar finalizacion de tiempo
+//	Scale the canvas to the maximum window size
+//	let scale = scaleToWindow(renderer.view);
+
+//Set the initial game state
+let state = Menu;
+let myReq = undefined;
+
+
+//	-------------------------
+//	variables globales varias. might be used in more than one function
+//	-------------------------
+let	BotonAcercaDe = undefined,
+	BotonAtras = undefined,
+	BotonAyuda = undefined,
+	BotonJugar = undefined,
+	BotonConfig = undefined,
+	//	BotonMenu = undefined,
+	Crono = undefined,
+	start = undefined,
+	elapsed = undefined,
+	ctrlIncMin = undefined,
+	ctrlDecMin = undefined,
+	ctrlIniciar = undefined,
+	ctrlIncSeg = undefined,
+	ctrlDecSeg = undefined,
+	ctrlDetener = undefined,
+	CtrlDetener = undefined,				//	detiene temporizador
+	//	EscenaDificultad = undefined,		//	container seleccion nivel de dificultad
+	//	EscenaFinJuego = undefined,			//	container aviso de fin del juego
+	EscenaAcercaDe = undefined,			//	container de estadisticas
+	EscenaAjustes = undefined,			//	container de ajustes
+	EscenaDeAyudas = undefined,			//	container ayudas
+	EscenaDeJuego = undefined,			//	container juego
+	EscenaMenuInic = undefined,			//	container pantalla de inicio
+	EscenarioGral = undefined,
+	idTexturas = undefined,
+	foo;			//	container del total (1er nivel)
+
+
+//	-----------------------------------------------------
+//	definicion de contenedores de texto para multi idioma
+//	-----------------------------------------------------
+let	
+		//	txtDificu = undefined,
+		//	txtMenu = "Menu",
+		//	txtMenu = undefined,
+		//	txtNivel = "Level";
+		//	txtNoSoluc = "No Solution ";
+		//	txtOtro = "Another",
+		//	txtProx = "Next";
+		//	txtTiempo = "Time: ";
+		txtAcerca = undefined,
+		txtAyuda	= undefined,
+		txtConfig	= undefined,
+		txtFin = undefined,
+		txtIdioma = undefined,
+		txtJugar = undefined,
+		txtNoSol = undefined,
+		txtOtro = undefined,
+		txtTiempo = undefined,
+		txtVolver = undefined,
+		txtEspanol = undefined,
+		txtIngles = undefined,
+		txtAleman = undefined,
+		txtDescAcerca = undefined,
+		txtDescAyuda = undefined;
+
+
+
+//	==========================================================================
+//	variables especificas de esta aplicacion
+let nCol = undefined,					//	cantidad de columnas de baldositas en tablero
+	nFil = undefined,					//	cantidad de filas de baldositas en tablero
+	//	nivJuego = 1,						//	nivel de juego; debe ser un valor entre 1 y 12.
+	//	txtNivDif = undefined,
+	//	tilesOnBoard = undefined, 
+	txtMinu = undefined,			//	array con los numeros de las piezas
+	txtSegu = undefined,			//	array con los numeros de las piezas
+	//	chosenTiles = undefined;			//	array con los numeros de las piezas
+	xfoo;
+
+
+let
+	sysLang = undefined,	//	identificacion idioma a utilizar, se almacena como "elIdioma"
+	nDist = undefined,		//	tiempo fijado en el timer en milisegundos
+	cMin = (DEBUG) ? "00" : "20",
+	cSeg = "00",					//	minutos y segundos en formato texto
+	stopTime = undefined,	//	el horario de finalizacion
+	detener = false,			//	variable indica solicitud detener temporizador
+	audioElement = document.createElement('audio');	//	contiene el elemento de audio para avisar finalizacion de tiempo
 
 
 
 
-	//	======================================================================
+//	======================================================================
 
 	function init() {
 	};
@@ -166,12 +181,12 @@
 	//	======================================================================
 	function setup() {
 
-		console.log(APLICACION + " versión: " + VERSION );
-		if (DEBUG) {console.log("window.innerWidth, innerHeight: " + window.innerWidth + ", " + window.innerHeight );}
+		console.log( {APLICACION, VERSION });
+		if (DEBUG) {console.log( "window.innerWidth, innerHeight: " + window.innerWidth + ", " + window.innerHeight );}
 
 		//Get a reference to the texture atlas id's
 		//	Create an alias for the texture atlas frame ids
-		id = PIXI.loader.resources["images/tilesetmtimer.json"].textures;
+		idTexturas = PIXI.loader.resources["images/tilesetmtimer.json"].textures;
 
 		/* Create the sprites */
 
@@ -581,29 +596,42 @@
 	}
 
 
+	function fondoPantalla() {
+		var graphics = new PIXI.Graphics();
+		// draw a rounded rectangle
+		//	graphics.lineStyle(4, 0x332211, 0.95)
+		graphics.beginFill( FONDO_AYUDA, 0.95);
+		graphics.drawRoundedRect(90, 80, RENDERER_W-180, RENDERER_H-200 );
+		graphics.endFill();
+
+		return graphics
+	}
+
+
 
 	//	---------------------------------------------------
 	function PantallaAyuda() {
-		var graphics = new PIXI.Graphics();
-		// draw a rounded rectangle
-		graphics.lineStyle(4, 0x332211, 0.95)
-		graphics.beginFill( FONDO_AYUDA, 0.95);
-		graphics.drawRoundedRect(40, 40, RENDERER_W-120, RENDERER_H-120 );
-		graphics.endFill();
 
-		EscenaDeAyudas.addChild(graphics);
+		//	var graphics = new PIXI.Graphics();
+		//	// draw a rounded rectangle
+		//	//	graphics.lineStyle(4, 0x332211, 0.95)
+		//	graphics.beginFill( FONDO_AYUDA, 0.95);
+		//	graphics.drawRoundedRect(90, 80, RENDERER_W-180, RENDERER_H-200 );
+		//	graphics.endFill();
+		var fondo = fondoPantalla();
+		EscenaDeAyudas.addChild(fondo);
 
 		const style = new PIXI.TextStyle({
-			fill: "#ffffff",
+			fill: "#ddffff",
 			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
 			fontSize: 24,
-			fontStyle: "normal",
-			fontWeight: "400"
+			//	fontStyle: "normal",
+			//	fontWeight: "200"
 		});
 		const richText = new PIXI.Text( txtDescAyuda, style );
 
-		richText.x = 60;
-		richText.y = 60;
+		richText.x = 150;
+		richText.y = 120;
 
 		EscenaDeAyudas.addChild(richText);
 		EscenaDeAyudas.visible = true;
@@ -719,6 +747,9 @@
 		</select>
 		*/
 
+		EscenaAjustes.addChild(BotonAtras);
+		BotonAtras.visible = true;
+
 		SelectLanguage();
 
 		state = Ajustes;
@@ -784,7 +815,7 @@
 
 
 
-
+/*
 	function end() {
 		//	definir cuales son las escenas visibles y cuales invisibles
 
@@ -814,7 +845,7 @@
 		
 	}
 
-
+*/
 
 	//	-------------------------------------------------------
 	//	Funciones comunes a todas las aplicaciones con codigo especifico para la app
@@ -822,27 +853,28 @@
 	//	-------------------------------------------------------
 
 	function PantallaAcercaDe() {
-		var graphics = new PIXI.Graphics();
-		// draw a rounded rectangle
-		graphics.lineStyle(4, 0x332211, 0.95)
-		graphics.beginFill( FONDO_AYUDA, 0.95);
-		graphics.drawRoundedRect(40, 40, RENDERER_W-200, RENDERER_H-200 );
-		graphics.endFill();
+		//	var graphics = new PIXI.Graphics();
+		//	// draw a rounded rectangle
+		//	graphics.lineStyle(4, 0x332211, 0.95)
+		//	graphics.beginFill( FONDO_AYUDA, 0.95);
+		//	graphics.drawRoundedRect(100, 100, RENDERER_W-200, RENDERER_H-200 );
+		//	graphics.endFill();
 
-		EscenaAcercaDe.addChild(graphics);
+		var fondo = fondoPantalla();
+		EscenaAcercaDe.addChild(fondo);
 
 		const style = new PIXI.TextStyle({
 			fill: "white",
 			fontStyle: "normal",
 			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
-			fontSize: 32,
-			fontWeight: "bold"
+			fontSize: 24,
+			fontStyle: "normal",
+			fontWeight: "400"
 		});
 		const richText = new PIXI.Text( txtDescAcerca, style);
-		richText.x = 60;
-		richText.y = 60;
+		richText.x = 180;
+		richText.y = 180;
 		EscenaAcercaDe.addChild(richText);
-
 		EscenaAcercaDe.visible = true;
 
 		BotonAyuda.visible = false;
@@ -954,15 +986,17 @@
 
 		//	texto a incluir; acercade 
 		const style = new PIXI.TextStyle({
-			fill: "#ffffff",
+			fill: COLOR_BOTON,
 			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
-			fontSize: 24,
+			fontSize: 48,
 			fontStyle: "normal",
 			fontWeight: "400"
 		});
-		const richText = new PIXI.Text( "Texto, si es que hubiese, para los ajustes", style );
-		richText.x = 60;
-		richText.y = 60;
+		//	const richText = new PIXI.Text( "Texto, si es que hubiese, para los ajustes", style );
+		const richText = new PIXI.Text( txtConfig, style );
+		richText.x = RENDERER_W / 2;
+		richText.y = 90;
+		richText.anchor.set(0.5);
 
 		EscenaAjustes.addChild(richText);
 		EscenaAjustes.visible = true;
@@ -1034,7 +1068,7 @@
 
 
 	//	function SelectElement(id, valueToSelect) {
-	//		console.log("id, valueToSelect: " + id + ", " + valueToSelect );
+	//		console.log("id, valueToSelect: " +  =  + ", " + valueToSelect );
 	//		var element = document.getElementById(id);
 	//		element.value = valueToSelect;
 	//	}
@@ -1067,14 +1101,14 @@
 			txtAcerca = "Acerca de";
 			txtAyuda	= "Ayuda";
 			txtConfig = "Ajustes";
-			txtDificu = "Dificultad";
+			//	txtDificu = "Dificultad";
 			txtFin = "Bien resuelto!\nFelicitaciones! ";
 			txtIdioma = "Idioma";
 			txtEspanol = "Espanol";
 			txtIngles = "Ingles";
 			txtAleman = "Aleman";
 			txtJugar = "Jugar";
-			txtMenu = "Menu";
+			//	txtMenu = "Menu";
 			txtNoSol = " Sin solución ";
 			txtOtro = "OTRO";
 			txtTiempo = "Tiempo: ";
@@ -1087,76 +1121,72 @@
 				'Soporte: info@ingverger.com.ar\n' +
 				'Web: ingverger.com.ar\n' +
 				'\n';
-			txtDescAyuda = 'Que es?\n' +
-				'M-Timer permite especificar el tiempo a controlar \n' + 
-				'mediante botones para incrementar y decrementar minutos y segundos.\n' + 
-				'Una vez establecido el tiempo se está en condiciones de iniciar la \n' + 
-				'cuenta regresiva pulsando el boton de inicio.\n' + 
-				'El timer se puede detener en cualquier instante \n' + 
-				'con el botón  \n' + 
-				'y reanudar otra vez. \n' + 
-				' \n' + 
-				'Al finalizar el tiempo establecido se tendrá un sonido de aviso.';
+			txtDescAyuda =
+				'M-Timer permite especificar un tiempo a controlar.  \n' +
+				'El tiempo fijado por defecto se modifica con las flechas que \n' +
+				'apuntan hacia arriba para incrementar y hacia abajo para  \n' +
+				'decrementar. \n' +
+				'Una vez establecido el tiempo disponible se esta en  \n' +
+				'condiciones de iniciar la cuenta regresiva. Esto se hace  \n' +
+				'picando en el boton inicio. \n' +
+				'En pantalla se presenta el tiempo restante. Cuando se ha  \n' +
+				'completado el tiempo comienza un sonido audible para alertar  \n' +
+				'sobre esta situación. \n' +
+				'Se puede interrumpir el conteo de tiempo en cualquier instante  \n' +
+				'pulsando el boton detener y reanudar luego.  \n'
 
 		}	else if (sysLang == "en" || sysLang == "en") { //	ingles
 
 			txtAcerca = "About",
 			txtAyuda = "Help";
 			txtConfig = "Settings";
-			txtDificu = "Difficulty",
+			//	txtDificu = "Difficulty",
 			txtFin = "Congratulation",
 			txtIdioma = "Language";
 			txtEspanol = "Spanish";
 			txtIngles = "English";
 			txtAleman = "German";
 			txtJugar = "Play",
-			txtMenu = "Menu",
-			txtNivel = "Level";
-			txtNoSoluc = "No Solution ";
-			txtOtro = "Another",
-			txtProx = "Next";
-			txtTiempo = "Time: ";
+			//	txtMenu = "Menu",
+			//	txtNivel = "Level";
+			//	txtNoSoluc = "No Solution ";
+			//	txtOtro = "Another",
+			//	txtProx = "Next";
+			//	txtTiempo = "Time: ";
 			txtVolver = "Back",
 			txtDescAcerca =
-			'About ' + APLICACION + ' version ' + VERSION  + '\n' +
-			'It is a game to exercise concentration and memory \n' + 
-			'developed by Willie Verger Ingenuity Games \n' + 
-			'Support: info@ingverger.com.ar\n' +
-			'Web: ingverger.com.ar\n' +
-			'\n',
+				'About ' + APLICACION + ' version ' + VERSION  + '\n' +
+				'It is a game to exercise concentration and memory \n' + 
+				'developed by Willie Verger Ingenuity Games \n' + 
+				'Support: info@ingverger.com.ar\n' +
+				'Web: ingverger.com.ar\n' +
+				'\n',
 			txtDescAyuda =
-				'How does it work? \n' +
-				'There is a set of cards, each with an image, placed in such a way \n' +
-				'The game ends when all pairs have been found. \n',
-				
-			APLICACION + ' is a game of .... \n' +
-			'There is a set of cards, each with an image, placed in such a way \n' +
-			'that images can not be seen. \n' +
-			'There are two cards of each image. The object of the game is to find \n' +
-			'the pairs of equal images. \n' +
-			'When you click on an image, it is turned over. \n' +
-			'Two consecutive cards are chosen. If they turn out to be the same, \n' +
-			'they are removed from the board. If they are different, they return \n' +
-			'to the original position \n' +
-			'The game ends when all pairs have been found. \n';
-
+				APLICACION + ' allows you to specify the time to be controlled by \n' +
+				'buttons to increase and decrease minutes and seconds. \n' +
+				'Once the time is established, you are in a position to \n' +
+				'Start the countdown by pressing the start button. \n' +
+				'The timer can be stopped at any time with the button \n' +
+				'and resume later. \n' + 
+				'\n' +
+				'At the end of the set time there will be a warning sound. \n' ;
 
 		} else if (sysLang == "de" || sysLang == "de") { //	aleman
 
 			txtAcerca = "Über",
 			txtAyuda = "Hilfe";
 			txtConfig = "Einstellung";
-			txtDificu = "Schwierigkeit";
+			//	txtDificu = "Schwierigkeit";
 			txtFin = "Gut gelöst!\nGlückwunsch! ",
 			txtIdioma = "Sprache";
-			txtEspanol = "Spanish";
-			txtIngles = "English";
+			txtEspanol = "Spanisch";
+			txtIngles = "Englisch";
 			txtAleman = "Deutsch";
 			txtJugar = "Spielen",
-			txtMenu = "Menu",
-			txtNivel = "Niveau";
-			txtNoSoluc = "keine Losung";
-			txtProx = "Nächste";
+			//	txtMenu = "Menu",
+			//	txtNivel = "Niveau";
+			//	txtNoSoluc = "keine Losung";
+			//	txtProx = "Nächste";
 			txtTiempo = "Verstrichene Zeit: ";
 			txtVolver = "Umkehren",
 			txtDescAcerca =
@@ -1166,17 +1196,14 @@
 				'Web: ingverger.com.ar\n' +
 				'\n',
 			txtDescAyuda =
-				APLICACION + ' ist ein Spiel der Konzentration und des Gedächtnisses.\n' +
-				'Es gibt eine Reihe von Karten mit jeweils einem Bild so platziert,\n' +
-				'dass seine Vorderseite nicht sichtbar ist.\n' +
-				'Es gibt zwei Registerkarten für jedes Bild. Das Spiel ist zu finden\n' +
-				'die Paare gleicher Bilder.\n' +
-				'Wenn Sie auf ein Bild klicken, wird es umgedreht.\n' +
-				'Es werden zwei aufeinander folgende Karten ausgewählt. Wenn sie \n' +
-				'sich als gleich herausstellen, werden sie vom Board entfernt. \n' +
-				'Wenn sie unterschiedlich sind, kehren sie zur ursprünglichen \n' +
-				'Position zurück.\n' +
-				'Das Spiel endet, wenn alle Paare gefunden wurden.\n';
+				'Mit ' + APLICACION + ' können Sie die Zeit kontrollieren.\n' +
+				'Mit den Tasten zum Erhöhen und Verringern der Minuten und \n' +
+				'Sekunden können Sie die Zeit einstellen.\n' +
+				'Nach dem Einstellen der Uhrzeit können Sie den Countdown durch \n' +
+				'Drücken der Starttaste starten.\n' +
+				'Der Timer kann jederzeit mit der Taste gestoppt werden.\n' +
+				'und später fortfahren.\n' +
+				'Nach Ablauf der eingestellten Zeit ertönt ein Warnton.\n' 
 
 		}
 	}
@@ -1446,11 +1473,11 @@ function detiene() {
 		//	al pulsar el boton se despliegan los idiomas posibles, destacando el seleccionado
 		//	pulsando en alguno de los idiomas, cambia el seleccionado.
 
-		const	x0 = COLU_BOTONES;
+		const	x0 = 400;
 		const	y0 = FILA_1_CTRL;
 		const	anchoCaja = 200,
-			altoCaja = 40,
-			COLOR_CAJA = 0x0066ff,				//	0x99bbff,
+			altoCaja = 60,
+			COLOR_CAJA = 0x002266,				//	0x99bbff,
 			COLOR_FLECHA = 0x990033;
 
 	var
@@ -1470,7 +1497,7 @@ function detiene() {
 
 		//	---------------------------------------------------------------
 		//	Texto pequeño; Titulo del selector, texto de la caja e indicador de nivel
-		styleS = new PIXI.TextStyle({
+		var styleS = new PIXI.TextStyle({
 			fill: COLOR_BOTON,					    //	
 			fontFamily: FONT_NIVEL2,			//	fontFamily: 'Titan One',			//	cursive;
 			fontSize: 32,
@@ -1481,14 +1508,21 @@ function detiene() {
 		//	boton para indicar seleccion de idioma
 		// draw a rounded rectangle
 		var graphics = new PIXI.Graphics();
-		graphics.beginFill(COLOR_CAJA, 0.98);
-		graphics.drawRoundedRect(x0, y0, anchoCaja, altoCaja, 10);
+		graphics.beginFill(0xccddee, 0.98);
+		graphics.drawRoundedRect(x0-10, y0, anchoCaja+20, 280, 20);
 		graphics.endFill();
 		EscenaAjustes.addChild(graphics);
 		//	texto identifica tema a seleccionar
-		BotonTema = new PIXI.Text( txtIdioma, styleS );
+		BotonTema = new PIXI.Text( txtIdioma, {
+					fill: 0x002244,					    //	
+					fontFamily: FONT_NIVEL2,			//	fontFamily: 'Titan One',			//	cursive;
+					fontSize: 36,
+					fontWeight: "normal",
+					padding: 4,
+				}
+			);
 		BotonTema.x = x0 + (0.5 * anchoCaja);
-		BotonTema.y = y0 + (20);
+		BotonTema.y = y0 + (30);
 		BotonTema.anchor.set(0.5);
 		//	BotonTema.interactive = true;				
 		//	BotonTema.buttonMode = true;			// Shows hand cursor
@@ -1496,43 +1530,27 @@ function detiene() {
 		graphics.addChild(BotonTema);
 
 		//	opciones
-		// draw a rounded rectangle
+		// boton idioma español. draw a rounded rectangle
 		var rect1 = new PIXI.Graphics();
 		rect1.beginFill(COLOR_CAJA, 0.98);
-		rect1.drawRoundedRect(x0, y0+50, anchoCaja, altoCaja, 10);
+		rect1.drawRoundedRect(x0, y0+70, anchoCaja, altoCaja, 10);
 		rect1.endFill();
 		rect1.interactive = true;				
 		rect1.buttonMode = true;			// Shows hand cursor
 		rect1.on('pointerdown', IdiomaEspanol );
-
 		EscenaAjustes.addChild(rect1);
 
 		BotonOpc1 = new PIXI.Text( txtEspanol, styleS );
 		BotonOpc1.x = x0 + (0.5 * anchoCaja);
-		BotonOpc1.y = y0 + 70;
+		BotonOpc1.y = y0 + 100;
 		BotonOpc1.anchor.set(0.5);
-		//	BotonOpc1.interactive = true;				
-		//	BotonOpc1.buttonMode = true;			// Shows hand cursor
-		//	BotonOpc1.on('pointerdown', IdiomaEspanol );
 		EscenaAjustes.addChild(BotonOpc1);
 
-		//	txtEspanol = "Espanol";
-		//	txtIngles = "Ingles";
-		//	txtAleman = "Aleman";
-
-		//	ctrlIncSeg = ctrlIncMin.clone();
-		//	ctrlIncSeg.position.set(480,0);
-		//	ctrlIncSeg.interactive = true;
-		//	ctrlIncSeg.buttonMode = true;
-		//	ctrlIncSeg.on('mousedown',  subeSegundos );
-		//	ctrlIncSeg.on('touchstart', subeSegundos );
-		//	ctrlIncSeg.on('tap', subeSegundos );
-		//	EscenaMenuInic.addChild(ctrlIncSeg);
 
 		// boton idioma ingles. draw a rounded rectangle
 		var rect2 = new PIXI.Graphics();
 		rect2.beginFill(COLOR_CAJA, 0.98);
-		rect2.drawRoundedRect(x0, y0+100, anchoCaja, altoCaja, 10);
+		rect2.drawRoundedRect(x0, y0+140, anchoCaja, altoCaja, 10);
 		rect2.endFill();
 		rect2.interactive = true;				
 		rect2.buttonMode = true;			// Shows hand cursor
@@ -1541,7 +1559,7 @@ function detiene() {
 
 		BotonOpc2 = new PIXI.Text( txtIngles, styleS );
 		BotonOpc2.x = x0 + (0.5 * anchoCaja);
-		BotonOpc2.y = y0 + (120);
+		BotonOpc2.y = y0 + (170);
 		BotonOpc2.anchor.set(0.5);
 		//	BotonOpc2.interactive = true;				
 		//	BotonOpc2.buttonMode = true;			// Shows hand cursor
@@ -1551,7 +1569,7 @@ function detiene() {
 		// draw a rounded rectangle
 		var rect3 = new PIXI.Graphics();
 		rect3.beginFill(COLOR_CAJA, 0.98);
-		rect3.drawRoundedRect(x0, y0+150, anchoCaja, altoCaja, 10);
+		rect3.drawRoundedRect(x0, y0+210, anchoCaja, altoCaja, 10);
 		rect3.endFill();
 		rect3.interactive = true;				
 		rect3.buttonMode = true;			// Shows hand cursor
@@ -1560,7 +1578,7 @@ function detiene() {
 
 		BotonOpc3 = new PIXI.Text( txtAleman, styleS );
 		BotonOpc3.x = x0 + (0.5 * anchoCaja);
-		BotonOpc3.y = y0 + (170);
+		BotonOpc3.y = y0 + (240);
 		BotonOpc3.anchor.set(0.5);
 		//	BotonOpc3.interactive = true;				
 		//	BotonOpc3.buttonMode = true;			// Shows hand cursor
