@@ -5,6 +5,7 @@ M-Timer
 9/5/2019 -  Version 0.9.7b
 27/5/2019 - Version 0.9.8	-	Comienzo a utilizar Pixi js
 27/5/2019 - version 0.9.8b
+28/5/2019 - version 0.9.8c
 
 
 
@@ -31,11 +32,11 @@ M-Timer es ist ein Werkzeug, um die einer Aktivität zugewiesene Zeit zu steuern.
 
 ## Descripción completa
 
-M-Timer permite especificar un tiempo a controlar.
-El tiempo fijado por defecto se modifica con las flechas
+M-Timer permite controlar un tiempo que se establece
+previamente y avisa cuando se ha cumplido.
+El tiempo, fijado por defecto, se modifica con las flechas
 que apuntan hacia arriba para incrementar y hacia abajo para
-decrementar.
-Una vez establecido el tiempo disponible se esta en
+decrementar. Una vez establecido el tiempo se esta en
 condiciones de iniciar la cuenta regresiva. Esto se hace
 picando en el boton inicio.
 En pantalla se presenta el tiempo restante. Cuando se ha

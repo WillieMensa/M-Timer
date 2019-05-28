@@ -1,11 +1,12 @@
 /*
 		index.js
-		15/5/2019 - version 0.9.8
+		para funcionar con pixi
+
 		Mensa Timer
 
+		15/5/2019 - version 0.9.8
 		27/5/2019 - version 0.9.8b
-
-		para funcionar con pixi
+		28/5/2019 - version 0.9.8c
 
 	*/
 
@@ -36,7 +37,7 @@ const	APLICACION = "M-TIMER",
 	RENDERER_W = 1000,			//	1000,
 	RENDERER_H = 600,
 	FONDO_JUEGO = 0x002222,			//	0xcccccc,		//	 "#ffc",
-	VERSION	= "0.9.8",			//	version inicial
+	VERSION	= "0.9.8c",			//	version inicial
 	FONDO_AYUDA = 0x004488,
 	FONDO_AJUSTE = 0x002244,
 	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
@@ -1122,18 +1123,18 @@ let
 				'Web: ingverger.com.ar\n' +
 				'\n';
 			txtDescAyuda =
-				'M-Timer permite especificar un tiempo a controlar.  \n' +
+				'M-Timer permite controlar un tiempo, que se establece \n' +
+				'previamente, y avisa cuando se ha cumplido.\n' +
 				'El tiempo fijado por defecto se modifica con las flechas que \n' +
 				'apuntan hacia arriba para incrementar y hacia abajo para  \n' +
-				'decrementar. \n' +
-				'Una vez establecido el tiempo disponible se esta en  \n' +
-				'condiciones de iniciar la cuenta regresiva. Esto se hace  \n' +
+				'decrementar.  Una vez establecido el tiempo disponible se esta \n' +
+				'en condiciones de iniciar la cuenta regresiva.  Esto se hace  \n' +
 				'picando en el boton inicio. \n' +
-				'En pantalla se presenta el tiempo restante. Cuando se ha  \n' +
-				'completado el tiempo comienza un sonido audible para alertar  \n' +
-				'sobre esta situación. \n' +
-				'Se puede interrumpir el conteo de tiempo en cualquier instante  \n' +
-				'pulsando el boton detener y reanudar luego.  \n'
+				'En pantalla se presenta el tiempo restante.  Cuando se ha  \n' +
+				'completado el tiempo comienza un sonido audible para \n' +
+				'alertar sobre esta situación. \n' +
+				'Se puede interrumpir el conteo de tiempo en cualquier \n' +
+				'instante pulsando el boton detener y reanudar luego.  \n'
 
 		}	else if (sysLang == "en" || sysLang == "en") { //	ingles
 
@@ -1454,7 +1455,7 @@ function detiene() {
 	muestraBotones();
 	ctrlDetener.visible= false;
 
-	console.log("audioElement.currentTime (detenido): " + audioElement.currentTime )
+	if (DEBUG)	{ console.log("audioElement.currentTime (detenido): " + audioElement.currentTime )	}
 
 	audioElement.pause();
 	audioElement.currentTime = 0;
