@@ -6,6 +6,7 @@ M-Timer
 27/5/2019 - Version 0.9.8	-	Comienzo a utilizar Pixi js
 27/5/2019 - version 0.9.8b
 28/5/2019 - version 0.9.8c
+30/5/2019 - version 0.9.8d
 
 
 

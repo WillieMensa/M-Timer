@@ -36,8 +36,8 @@ const	APLICACION = "M-TIMER",
 	FILA_BOTONES = 550,			//	Y POS
 	RENDERER_W = 1000,			//	1000,
 	RENDERER_H = 600,
-	FONDO_JUEGO = 0x002222,			//	0xcccccc,		//	 "#ffc",
-	VERSION	= "0.9.8c",			//	version inicial
+	FONDO_JUEGO = 0x002222,	//	0xcccccc,		//	 "#ffc",
+	VERSION	= "0.9.8d",			//	version inicial
 	FONDO_AYUDA = 0x004488,
 	FONDO_AJUSTE = 0x002244,
 	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
@@ -45,8 +45,8 @@ const	APLICACION = "M-TIMER",
 	FONT_NIVEL3 = "balooregular",		//	textos:	"sriracharegular",		//
 	COLOR_BOTON = 0x66ddee,				//	COLOR_BOTON = 0x006600,
 	TIEMPO_AVISO = 5000,
-	DEBUG = false;
-	//	DEBUG = true;
+	//	DEBUG = false;
+	DEBUG = true;
 
 
 
@@ -766,6 +766,7 @@ let
 		const style = new PIXI.TextStyle({
 			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
 			fontSize: 12,
+			fill: "white",
 			//	fontStyle: "normal",
 			//	fontWeight: "400"
 		});
