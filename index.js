@@ -8,6 +8,7 @@
 		27/5/2019 - version 0.9.8b
 		28/5/2019 - version 0.9.8c
 		31/5/2019 - version 0.9.9
+		31/5/2019 - version 0.9.91
 
 	*/
 
@@ -38,7 +39,7 @@ const	APLICACION = "M-TIMER",
 	RENDERER_W = 1000,			//	1000,
 	RENDERER_H = 600,
 	FONDO_JUEGO = 0x002222,	//	0xcccccc,		//	 "#ffc",
-	VERSION	= "0.9.9",			//	version inicial
+	VERSION	= "0.9.93",			//	version prueba beta abierta inicial
 	FONDO_AYUDA = 0x004488,
 	FONDO_AJUSTE = 0x002244,
 	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
@@ -46,6 +47,7 @@ const	APLICACION = "M-TIMER",
 	FONT_NIVEL3 = "balooregular",		//	textos:	"sriracharegular",		//
 	COLOR_BOTON = 0x66ddee,				//	COLOR_BOTON = 0x006600,
 	TIEMPO_AVISO = 5000,
+	FLAG_ESC = 0.8,								//	escala tamaño banderitas de idioma
 	DEBUG = false;
 	//	DEBUG = true;
 
@@ -392,6 +394,9 @@ let
 		BotonAtras.on('click', Menu );
 		BotonAtras.on('tap', Menu );
 		
+		EscenarioGral.addChild(BotonAtras);
+		BotonAtras.visible = false;
+
 		
 		/*
 		//	-------------------------------------------------------------
@@ -429,7 +434,7 @@ let
 		ctrlIncMin.buttonMode = true;
 		ctrlIncMin.on('mousedown', subeMinutos );
 		ctrlIncMin.on('touchstart', subeMinutos );
-		ctrlIncMin.on('tap', subeMinutos );
+		//	ctrlIncMin.on('tap', subeMinutos );
 		EscenaMenuInic.addChild(ctrlIncMin);
 
 		
@@ -440,7 +445,7 @@ let
 		ctrlIncSeg.buttonMode = true;
 		ctrlIncSeg.on('mousedown',  subeSegundos );
 		ctrlIncSeg.on('touchstart', subeSegundos );
-		ctrlIncSeg.on('tap', subeSegundos );
+		//	ctrlIncSeg.on('tap', subeSegundos );
 		EscenaMenuInic.addChild(ctrlIncSeg);
 
 
@@ -457,7 +462,7 @@ let
 		ctrlDecMin.buttonMode = true;							// Shows hand cursor
 		ctrlDecMin.on('mousedown',  bajaMinutos );
 		ctrlDecMin.on('touchstart', bajaMinutos );
-		ctrlDecMin.on('tap', bajaMinutos );
+		//	ctrlDecMin.on('tap', bajaMinutos );
 		EscenaMenuInic.addChild(ctrlDecMin);
 
 		ctrlDecSeg = ctrlDecMin.clone();
@@ -466,7 +471,7 @@ let
 		ctrlDecSeg.buttonMode = true;					// Shows hand cursor
 		ctrlDecSeg.on('mousedown',	bajaSegundos );
 		ctrlDecSeg.on('touchstart', bajaSegundos );
-		ctrlDecSeg.on('tap', Menu );
+		//	ctrlDecSeg.on('tap', Menu );
 		EscenaMenuInic.addChild(ctrlDecSeg);
 
 
@@ -514,11 +519,11 @@ let
 		//	aleman
 		var flagAleman = idTexturas["aleman.png"];
 		OpcAleman = new PIXI.Sprite(flagAleman);
-		OpcAleman.x = 840;
+		OpcAleman.x = RENDERER_W - 100;
 		OpcAleman.y = 20;
 		// make it a bit bigger, so it's easier to grab
 		//	OpcAleman.scale.set(1.34);
-		//	OpcAleman.scale.set(nESCALA);
+		OpcAleman.scale.set(FLAG_ESC);
 		OpcAleman.interactive = true;					// Opt-in to interactivity
 		OpcAleman.buttonMode = true;					// Shows hand cursor
 		OpcAleman.on('mousedown',	 IdiomaAleman	);
@@ -529,8 +534,9 @@ let
 		//	espanol
 		var flagEspanol = idTexturas["espanol.png"];
 		OpcEspanol = new PIXI.Sprite(flagEspanol);
-		OpcEspanol.x = 600;
+		OpcEspanol.x = RENDERER_W - 300;
 		OpcEspanol.y = 20;
+		OpcEspanol.scale.set(FLAG_ESC);
 		OpcEspanol.interactive = true;					// Opt-in to interactivity
 		OpcEspanol.buttonMode = true;					// Shows hand cursor
 		OpcEspanol.on('mousedown',	IdiomaEspanol	);
@@ -541,8 +547,9 @@ let
 		//	ingles
 		var flagIngles = idTexturas["ingles.png"];
 		OpcIngles = new PIXI.Sprite(flagIngles);
-		OpcIngles.x = 720;
+		OpcIngles.x = RENDERER_W - 200;
 		OpcIngles.y = 20;
+		OpcIngles.scale.set(FLAG_ESC);
 		OpcIngles.interactive = true;					// Opt-in to interactivity
 		OpcIngles.buttonMode = true;					// Shows hand cursor
 		OpcIngles.on('mousedown',	 IdiomaIngles	);
@@ -588,7 +595,7 @@ let
 
 		//	titulo del menu y juego
 		var	txtTitulo = new PIXI.Text( APLICACION, style );
-		txtTitulo.x = 330;		//	RENDERER_W / 2;
+		txtTitulo.x = 420;		//	RENDERER_W / 2;
 		txtTitulo.y = 50;			//	(RENDERER_H / 2);
 		txtTitulo.anchor.set(0.5);
 		//	txtTitulo.rotation = -0.2;
@@ -706,15 +713,15 @@ let
 
 
 	function Menu() {
-		//	definir cuales son las escenas visibles y cuales invisibles
-		EscenaDeAyudas.visible = false;		//	container ayudas
 		//	EscenaAjustes.visible = false;
 		//	EscenaDeJuego.visible = false;
-		EscenaAcercaDe.visible = false;		//	container estadisticas
+		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
 		//	EscenaFinJuego.visible = false;		//	container aviso de fin del juego
+		//	definir cuales son las escenas visibles y cuales invisibles
+		EscenaAcercaDe.visible = false;		//	container estadisticas
+		EscenaDeAyudas.visible = false;		//	container ayudas
 		EscenaMenuInic.visible = true;		//	container pantalla de inicio
 		EscenarioGral.visible = true;		//	container del juego
-		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
 
 		//	BotonAyuda
 		EscenaMenuInic.addChild(BotonAyuda);
@@ -726,6 +733,8 @@ let
 		//	BotonAcercaDe
 		EscenaMenuInic.addChild(BotonAcercaDe);
 		//	BotonAcercaDe.visible =true;
+
+		BotonAtras.visible = false;
 
 		//	BotonJugar
 		//	EscenaMenuInic.addChild(BotonJugar);
@@ -747,16 +756,18 @@ let
 
 	function AcercaDe() {
 	//	definir cuales son las escenas visibles y cuales invisibles
-		EscenaDeAyudas.visible = false;
-		//	EscenaAjustes.visible = false;
-		//	EscenaDeJuego.visible = false;
 		EscenaAcercaDe.visible = true;
-		//	EscenaFinJuego.visible = false;
+		EscenaDeAyudas.visible = false;
 		EscenaMenuInic.visible = false;
-		EscenarioGral.visible = true;
-		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
+	//		EscenarioGral.visible = true;
+	//	EscenaAjustes.visible = false;
+	//	EscenaDeJuego.visible = false;
+	//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
+	//	EscenaFinJuego.visible = false;
 
 		BotonAtras.visible = true;
+
+		//	console.log( BotonAtras.visible );
 
 		state = AcercaDe;
 
@@ -767,17 +778,17 @@ let
 
 	function Ayuda() {
 	//	definir cuales son las escenas visibles y cuales invisibles
+
 		EscenaAcercaDe.visible = false;
-		//	EscenaAjustes.visible = false;
 		EscenaDeAyudas.visible = true;
-		//	EscenaDeJuego.visible = false;
-		//	EscenaFinJuego.visible = false;
 		EscenaMenuInic.visible = false;
+	//		EscenarioGral.visible = true;
+	//	EscenaAjustes.visible = false;
+	//	EscenaDeJuego.visible = false;
+	//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
+	//	EscenaFinJuego.visible = false;
 
-		EscenarioGral.visible = true;
-		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
-
-		EscenaDeAyudas.addChild(BotonAtras);
+		//	EscenaDeAyudas.addChild(BotonAtras);
 		BotonAtras.visible = true;
 
 		state = Ayuda;
@@ -937,11 +948,8 @@ let
 		EscenaAcercaDe.addChild(richText);
 		EscenaAcercaDe.visible = true;
 
-		EscenaAcercaDe.addChild(BotonAtras);
-
-		//	ocultaBotones();
-
-		BotonAtras.visible = true;
+		//	EscenaAcercaDe.addChild(BotonAtras);
+		//	BotonAtras.visible = true;
 
 		//	BotonAyuda.visible = false;
 		//	BotonAcercaDe.visible = false;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget
  id = "ar.com.ingverger.mtimer"
- versionCode = "00908d"
- version  = "0.9.9" >
+ versionCode = "009093"
+ version  = "0.9.93" >
 
  <name>MTIMER</name>
 
