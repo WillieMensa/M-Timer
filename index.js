@@ -30,14 +30,14 @@
 //	-------------------------
 const	APLICACION = "M-TIMER",
 	COLU_BOTONES = 100,			//	X POS
-	FILA_1_CTRL	=	160,
-	FILA_DIGITOS	=	290,
+	FILA_1_CTRL	=	180,
+	FILA_DIGITOS	=	300,
 	FILA_2_CTRL	=	440,
 	FILA_BOTONES = 550,			//	Y POS
 	RENDERER_W = 1000,			//	1000,
 	RENDERER_H = 600,
 	FONDO_JUEGO = 0x002222,	//	0xcccccc,		//	 "#ffc",
-	VERSION	= "0.9.8d",			//	version inicial
+	VERSION	= "0.9.9",			//	version inicial
 	FONDO_AYUDA = 0x004488,
 	FONDO_AJUSTE = 0x002244,
 	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
@@ -45,8 +45,8 @@ const	APLICACION = "M-TIMER",
 	FONT_NIVEL3 = "balooregular",		//	textos:	"sriracharegular",		//
 	COLOR_BOTON = 0x66ddee,				//	COLOR_BOTON = 0x006600,
 	TIEMPO_AVISO = 5000,
-	//	DEBUG = false;
-	DEBUG = true;
+	DEBUG = false;
+	//	DEBUG = true;
 
 
 
@@ -87,7 +87,7 @@ let	BotonAcercaDe = undefined,
 	BotonAtras = undefined,
 	BotonAyuda = undefined,
 	BotonJugar = undefined,
-	BotonConfig = undefined,
+	//	BotonAjustes = undefined,
 	//	BotonMenu = undefined,
 	Crono = undefined,
 	start = undefined,
@@ -99,12 +99,15 @@ let	BotonAcercaDe = undefined,
 	ctrlDecSeg = undefined,
 	ctrlDetener = undefined,
 	CtrlDetener = undefined,				//	detiene temporizador
+	OpcAleman = undefined,					//	botones seleccion idioma
+	OpcEspanol = undefined,
+	OpcIngles = undefined,
 	//	EscenaDificultad = undefined,		//	container seleccion nivel de dificultad
 	//	EscenaFinJuego = undefined,			//	container aviso de fin del juego
 	EscenaAcercaDe = undefined,			//	container de estadisticas
-	EscenaAjustes = undefined,			//	container de ajustes
+	//	EscenaAjustes = undefined,			//	container de ajustes
 	EscenaDeAyudas = undefined,			//	container ayudas
-	EscenaDeJuego = undefined,			//	container juego
+	//	EscenaDeJuego = undefined,			//	container juego
 	EscenaMenuInic = undefined,			//	container pantalla de inicio
 	EscenarioGral = undefined,
 	idTexturas = undefined,
@@ -143,8 +146,9 @@ let
 
 //	==========================================================================
 //	variables especificas de esta aplicacion
-let nCol = undefined,					//	cantidad de columnas de baldositas en tablero
-	nFil = undefined,					//	cantidad de filas de baldositas en tablero
+let 
+	//	nCol = undefined,					//	cantidad de columnas de baldositas en tablero
+	//	nFil = undefined,					//	cantidad de filas de baldositas en tablero
 	//	nivJuego = 1,						//	nivel de juego; debe ser un valor entre 1 y 12.
 	//	txtNivDif = undefined,
 	//	tilesOnBoard = undefined, 
@@ -205,8 +209,8 @@ let
 		EscenarioGral.addChild(EscenaMenuInic);
 
 		//	Escenario menu juego
-		EscenaDeJuego = new PIXI.Container();
-		EscenarioGral.addChild(EscenaDeJuego);
+		//	EscenaDeJuego = new PIXI.Container();
+		//	EscenarioGral.addChild(EscenaDeJuego);
 
 		//	Create the EscenaFinJuego
 		//	EscenaFinJuego = new PIXI.Container();
@@ -220,8 +224,8 @@ let
 		EscenaAcercaDe = new PIXI.Container();
 		EscenarioGral.addChild(EscenaAcercaDe);
 
-		EscenaAjustes = new PIXI.Container();
-		EscenarioGral.addChild(EscenaAjustes);
+		//	EscenaAjustes = new PIXI.Container();
+		//	EscenarioGral.addChild(EscenaAjustes);
 
 		//	Crear escenario seleccion dificultad
 		//	EscenaDificultad = new PIXI.Container();
@@ -245,7 +249,7 @@ let
 		PantallaAyuda();
 		//	PantallaJugar();
 		PantallaAcercaDe();
-		PantallaAjustes();
+		//	PantallaAjustes();
 		//	PantallaFinJuego();
 		//	PantallaDificultad();
 
@@ -358,20 +362,20 @@ let
 		BotonAyuda.on('click', Ayuda ); // mouse-only
 		BotonAyuda.on('tap', Ayuda ); // touch-only
 		
-		//	txtConfig, BotonConfig
+		//	txtConfig, BotonAjustes
 		//	-------------------------------------------------------------
 		//	Preparacion boton de configuracion
-		BotonConfig = new PIXI.Text( txtConfig, ctrlStyle);
-		BotonConfig.anchor.set(0.5);
-		BotonConfig.x = RENDERER_W / 2;					// Set the initial position
-		BotonConfig.y = FILA_BOTONES;
-		// Opt-in to interactivity
-		BotonConfig.interactive = true;
-		BotonConfig.buttonMode = true;				// Shows hand cursor
-		// Pointers normalize touch and mouse
-		BotonConfig.on('pointerdown', Ajustes );
-		BotonConfig.on('click', Ajustes ); // mouse-only
-		BotonConfig.on('tap', Ajustes ); // touch-only
+		//	BotonAjustes = new PIXI.Text( txtConfig, ctrlStyle);
+		//	BotonAjustes.anchor.set(0.5);
+		//	BotonAjustes.x = RENDERER_W / 2;					// Set the initial position
+		//	BotonAjustes.y = FILA_BOTONES;
+		//	// Opt-in to interactivity
+		//	BotonAjustes.interactive = true;
+		//	BotonAjustes.buttonMode = true;				// Shows hand cursor
+		//	// Pointers normalize touch and mouse
+		//	BotonAjustes.on('pointerdown', Ajustes );
+		//	BotonAjustes.on('click', Ajustes ); // mouse-only
+		//	BotonAjustes.on('tap', Ajustes ); // touch-only
 		
 
 		//	-------------------------------------------------------------
@@ -487,8 +491,13 @@ let
 		//	----------------------------------------
 		//	boton detención
 		ctrlDetener = new PIXI.Graphics();
+		ctrlDetener.beginFill(FONDO_JUEGO, 1);
+		ctrlDetener.drawRect(470, FILA_2_CTRL, 50, 80);
+		//	ctrlDetener.endFill();
+
 		ctrlDetener.beginFill(COLOR_BOTON, 1);
-		ctrlDetener.drawRect(460, FILA_2_CTRL, 80, 80);
+		ctrlDetener.drawRect(470, FILA_2_CTRL, 20, 80);
+		ctrlDetener.drawRect(500, FILA_2_CTRL, 20, 80);
 		ctrlDetener.endFill();
 		ctrlDetener.interactive = true;					// Opt-in to interactivity
 		ctrlDetener.buttonMode = true;					// Shows hand cursor
@@ -498,6 +507,49 @@ let
 		EscenaMenuInic.addChild(ctrlDetener);
 
 	
+
+		//	------------------------------------------
+		//	botones para seleccionar idioma
+		//	aleman
+		var flagAleman = idTexturas["aleman.png"];
+		OpcAleman = new PIXI.Sprite(flagAleman);
+		OpcAleman.x = 840;
+		OpcAleman.y = 20;
+		// make it a bit bigger, so it's easier to grab
+		//	OpcAleman.scale.set(1.34);
+		//	OpcAleman.scale.set(nESCALA);
+		OpcAleman.interactive = true;					// Opt-in to interactivity
+		OpcAleman.buttonMode = true;					// Shows hand cursor
+		OpcAleman.on('mousedown',	 IdiomaAleman	);
+		OpcAleman.on('touchstart', IdiomaAleman	 );
+		OpcAleman.on('tap', IdiomaAleman );
+		EscenaMenuInic.addChild(OpcAleman);
+
+		//	espanol
+		var flagEspanol = idTexturas["espanol.png"];
+		OpcEspanol = new PIXI.Sprite(flagEspanol);
+		OpcEspanol.x = 600;
+		OpcEspanol.y = 20;
+		OpcEspanol.interactive = true;					// Opt-in to interactivity
+		OpcEspanol.buttonMode = true;					// Shows hand cursor
+		OpcEspanol.on('mousedown',	IdiomaEspanol	);
+		OpcEspanol.on('touchstart',	IdiomaEspanol	 );
+		OpcEspanol.on('tap', IdiomaEspanol );
+		EscenaMenuInic.addChild(OpcEspanol);
+
+		//	ingles
+		var flagIngles = idTexturas["ingles.png"];
+		OpcIngles = new PIXI.Sprite(flagIngles);
+		OpcIngles.x = 720;
+		OpcIngles.y = 20;
+		OpcIngles.interactive = true;					// Opt-in to interactivity
+		OpcIngles.buttonMode = true;					// Shows hand cursor
+		OpcIngles.on('mousedown',	 IdiomaIngles	);
+		OpcIngles.on('touchstart', IdiomaIngles	 );
+		OpcIngles.on('tap', IdiomaIngles );
+		EscenaMenuInic.addChild(OpcIngles);
+
+
 
 	}
 
@@ -509,7 +561,10 @@ let
 		EscenaMenuInic.visible = true;
 
 		// create a new Sprite/image from an image path
-		const mlogo = PIXI.Sprite.from('logomensa.png');	
+		//	const mlogo = PIXI.Sprite.from('logomensa.png');	
+
+		var textura = idTexturas["logomensa.png"];
+		const mlogo = new PIXI.Sprite(textura);
 		mlogo.anchor.set(0.5);			// sprite's anchor point
 		mlogo.scale.set(0.5);
 		mlogo.x = 60;
@@ -532,7 +587,7 @@ let
 
 		//	titulo del menu y juego
 		var	txtTitulo = new PIXI.Text( APLICACION, style );
-		txtTitulo.x = RENDERER_W / 2;
+		txtTitulo.x = 330;		//	RENDERER_W / 2;
 		txtTitulo.y = 50;			//	(RENDERER_H / 2);
 		txtTitulo.anchor.set(0.5);
 		//	txtTitulo.rotation = -0.2;
@@ -594,6 +649,9 @@ let
 
 		ctrlDetener.visible = false;
 
+
+
+
 	}
 
 
@@ -649,8 +707,8 @@ let
 	function Menu() {
 		//	definir cuales son las escenas visibles y cuales invisibles
 		EscenaDeAyudas.visible = false;		//	container ayudas
-		EscenaAjustes.visible = false;
-		EscenaDeJuego.visible = false;
+		//	EscenaAjustes.visible = false;
+		//	EscenaDeJuego.visible = false;
 		EscenaAcercaDe.visible = false;		//	container estadisticas
 		//	EscenaFinJuego.visible = false;		//	container aviso de fin del juego
 		EscenaMenuInic.visible = true;		//	container pantalla de inicio
@@ -659,24 +717,24 @@ let
 
 		//	BotonAyuda
 		EscenaMenuInic.addChild(BotonAyuda);
-		BotonAyuda.visible = true;
-		BotonAyuda.alpha=1;
+		//	BotonAyuda.visible = true;
+		//	BotonAyuda.alpha=1;
 
 		//	BotonMenu.visible = true;
 
 		//	BotonAcercaDe
 		EscenaMenuInic.addChild(BotonAcercaDe);
-		BotonAcercaDe.visible =true;
+		//	BotonAcercaDe.visible =true;
 
 		//	BotonJugar
 		//	EscenaMenuInic.addChild(BotonJugar);
 		//	BotonJugar.visible =true;
 		//	BotonJugar.alpha=1;
 
-		//	BotonConfig
-		EscenaMenuInic.addChild(BotonConfig);
-		BotonConfig.visible = true;
-		BotonConfig.alpha=1;
+		//	BotonAjustes
+		//	EscenaMenuInic.addChild(BotonAjustes);
+		//	BotonAjustes.visible = true;
+		//	BotonAjustes.alpha=1;
 
 
 		state = Menu;
@@ -689,16 +747,13 @@ let
 	function AcercaDe() {
 	//	definir cuales son las escenas visibles y cuales invisibles
 		EscenaDeAyudas.visible = false;
-		EscenaAjustes.visible = false;
-		EscenaDeJuego.visible = false;
+		//	EscenaAjustes.visible = false;
+		//	EscenaDeJuego.visible = false;
 		EscenaAcercaDe.visible = true;
 		//	EscenaFinJuego.visible = false;
 		EscenaMenuInic.visible = false;
 		EscenarioGral.visible = true;
 		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
-
-		EscenaAcercaDe.addChild(BotonAtras);
-		BotonAtras.visible = true;
 
 		state = AcercaDe;
 
@@ -710,9 +765,9 @@ let
 	function Ayuda() {
 	//	definir cuales son las escenas visibles y cuales invisibles
 		EscenaAcercaDe.visible = false;
-		EscenaAjustes.visible = false;
+		//	EscenaAjustes.visible = false;
 		EscenaDeAyudas.visible = true;
-		EscenaDeJuego.visible = false;
+		//	EscenaDeJuego.visible = false;
 		//	EscenaFinJuego.visible = false;
 		EscenaMenuInic.visible = false;
 
@@ -732,11 +787,11 @@ let
 	function Ajustes() {
 	//	definir cuales son las escenas visibles y cuales invisibles
 		EscenaDeAyudas.visible = false;
-		EscenaDeJuego.visible = false;
+		//	EscenaDeJuego.visible = false;
 		EscenaAcercaDe.visible = false;
 		//	EscenaFinJuego.visible = false;
 		EscenaMenuInic.visible = false;
-		EscenaAjustes.visible = true;
+		//	EscenaAjustes.visible = true;
 		//	EscenarioGral.visible = true;
 
 		/*
@@ -748,10 +803,10 @@ let
 		</select>
 		*/
 
-		EscenaAjustes.addChild(BotonAtras);
-		BotonAtras.visible = true;
+		//	EscenaAjustes.addChild(BotonAtras);
+		//	BotonAtras.visible = true;
 
-		SelectLanguage();
+		//	SelectLanguage();
 
 		state = Ajustes;
 
@@ -879,14 +934,20 @@ let
 		EscenaAcercaDe.addChild(richText);
 		EscenaAcercaDe.visible = true;
 
-		BotonAyuda.visible = false;
-		BotonAcercaDe.visible = false;
+		EscenaAcercaDe.addChild(BotonAtras);
+
+		//	ocultaBotones();
+
+		BotonAtras.visible = true;
+
+		//	BotonAyuda.visible = false;
+		//	BotonAcercaDe.visible = false;
 		//	ctrlIncMin.visible = false;
 
 		//	EscenaAcercaDe.addChild(BotonMenu);
 		//	BotonMenu.visible = true;
 
-		BotonConfig.visible = false;
+		//	BotonAjustes.visible = false;
 
 		//	BotonSalir.visible =false;
 
@@ -974,7 +1035,7 @@ let
 */
 
 
-
+/*
 	//	---------------------------------------------------
 	function PantallaAjustes() {					//	prepara la pantalla de ajustes
 		
@@ -1009,7 +1070,7 @@ let
 		BotonAtras.visible = true;
 
 	}
-
+*/
 
 
 	//	anulado porque no parece usarse
@@ -1289,7 +1350,7 @@ function startButton() {
 		if (DEBUG) { console.log("Tiempo inicial, stopTime: " + cMin + ":" + cSeg + ", " + stopTime);	}
 
 		ocultaBotones();
-		ctrlDetener.visible = true;
+		//	ctrlDetener.visible = true;
 		iniciaReloj();
 
 	} else {
@@ -1395,6 +1456,12 @@ function ocultaBotones() {
 	ctrlDecSeg.visible = false;
 	ctrlDetener.visible = false;
 
+	OpcAleman.visible = false;
+	OpcEspanol.visible = false;
+	OpcIngles.visible = false;
+
+	BotonAcercaDe.visible = false;
+	BotonAyuda.visible = false;
 }
 
 
@@ -1410,6 +1477,13 @@ function muestraBotones() {
 	ctrlIncSeg.visible = true;
 	ctrlDecSeg.visible = true;
 	ctrlDetener.visible = true;
+
+	OpcAleman.visible = true;
+	OpcEspanol.visible = true;
+	OpcIngles.visible = true;
+
+	BotonAyuda.visible = true;
+	BotonAcercaDe.visible = true;
 }
 
 
@@ -1466,13 +1540,15 @@ function detiene() {
 }
 
 
+
+/*
 	//	===========================================================
 	//	funciones paraSeleccion de idioma
 	function SelectLanguage(){
 		//	trato de hacerlo generico para cualquier seleccion
 		//	debiera funcionar asi:
-		//	se presenta una cuadrito con el titulo (BOTON): 'IDIOMA'
-		//	al pulsar el boton se despliegan los idiomas posibles, destacando el seleccionado
+		//	en este caso presento las opciones en el menu principal con iconos (banderitas)
+		//	doe estan desplegados los idiomas posibles. No el seleccionado
 		//	pulsando en alguno de los idiomas, cambia el seleccionado.
 
 		const	x0 = 400;
@@ -1487,6 +1563,18 @@ function detiene() {
 		BotonOpc1 = undefined,		//	opcion 1
 		BotonOpc2 = undefined,		//	opcion 2
 		BotonOpc3 = undefined;		//	opcion 3
+
+
+	var FlagAleman = idTexturas["aleman.png"];
+	var OpcAleman = new PIXI.Sprite(FlagAleman);
+	OpcAleman.x = 840;
+	OpcAleman.y = 20;
+	// make it a bit bigger, so it's easier to grab
+	//	OpcAleman.scale.set(1.34);
+	//	OpcAleman.scale.set(nESCALA);
+	EscenaMenuInic.addChild(OpcAleman);
+
+
 
 		//	Texto grande; numeros indicadores del nivel actual
 		var styleL = new PIXI.TextStyle({
@@ -1605,6 +1693,8 @@ function detiene() {
 		//	EscenaAjustes.addChild(txtTitulo);
 		
 	}
+*/
+
 
 
 	//	function ElegirIdioma() {

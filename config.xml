@@ -2,7 +2,7 @@
 <widget
  id = "ar.com.ingverger.mtimer"
  versionCode = "00908d"
- version  = "0.9.8d" >
+ version  = "0.9.9" >
 
  <name>MTIMER</name>
 
