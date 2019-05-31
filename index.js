@@ -755,6 +755,8 @@ let
 		EscenarioGral.visible = true;
 		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
 
+		BotonAtras.visible = true;
+
 		state = AcercaDe;
 
 	}
@@ -1176,7 +1178,7 @@ let
 			txtOtro = "OTRO";
 			txtTiempo = "Tiempo: ";
 			txtVolver = "Volver";
-			txtDescAcerca =
+			txtDescAcerca =		//	español
 				'Acerca de MENSA Timer version ' + VERSION + '\n' +
 				'Es un timer \n' +
 				'desarrollado por \n' +
@@ -1184,7 +1186,7 @@ let
 				'Soporte: info@ingverger.com.ar\n' +
 				'Web: ingverger.com.ar\n' +
 				'\n';
-			txtDescAyuda =
+			txtDescAyuda =	//	español
 				'M-Timer permite controlar un tiempo, que se establece \n' +
 				'previamente, y avisa cuando se ha cumplido.\n' +
 				'El tiempo fijado por defecto se modifica con las flechas que \n' +
@@ -1217,13 +1219,12 @@ let
 			//	txtProx = "Next";
 			//	txtTiempo = "Time: ";
 			txtVolver = "Back",
-			txtDescAcerca =
-				'About ' + APLICACION + ' version ' + VERSION  + '\n' +
-				'It is a game to exercise concentration and memory \n' + 
-				'developed by Willie Verger Ingenuity Games \n' + 
-				'Support: info@ingverger.com.ar\n' +
-				'Web: ingverger.com.ar\n' +
-				'\n',
+			txtDescAcerca =		//	ingles
+				'About M-Timer version ' + VERSION + ' \n' +
+				"It's a countdown timer developed by   \n" +
+				'Willie Verger Clever Games  \n \n' +
+				'Support: info@ingverger.com.ar \n' +
+				'Web: ingverger.com.ar',
 			txtDescAyuda =
 				APLICACION + ' allows you to specify the time to be controlled by \n' +
 				'buttons to increase and decrease minutes and seconds. \n' +
@@ -1254,7 +1255,7 @@ let
 			txtVolver = "Umkehren",
 			txtDescAcerca =
 				APLICACION + ' Version ' + VERSION  + '\n' +
-				'Es ist ein app von Willie Verger Clever Games \n' +
+				'Es ist ein app von Willie Verger Clever Games \n \n' +
 				'Unterstützung: info@ingverger.com.ar\n' +
 				'Web: ingverger.com.ar\n' +
 				'\n',
