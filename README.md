@@ -9,7 +9,7 @@ M-Timer
 30/5/2019 - version 0.9.8d
 30/5/2019 - version 0.9.9
 31/5/2019 - version 0.9.93	corrijo doble reaccion en botones ajuste tiempo y tamaño de banderitas
-
+3/6/2019	-	version 0.9.94	continua correccion botones ajuste tiempo
 
 
 # M-Timer

@@ -9,6 +9,8 @@
 		28/5/2019 - version 0.9.8c
 		31/5/2019 - version 0.9.9
 		31/5/2019 - version 0.9.91
+		3/6/2019	-	version 0.9.94	continua correccion botones ajuste tiempo
+
 
 	*/
 
@@ -39,7 +41,7 @@ const	APLICACION = "M-TIMER",
 	RENDERER_W = 1000,			//	1000,
 	RENDERER_H = 600,
 	FONDO_JUEGO = 0x002222,	//	0xcccccc,		//	 "#ffc",
-	VERSION	= "0.9.93",			//	version prueba beta abierta inicial
+	VERSION	= "0.9.94",			//	version prueba beta abierta inicial
 	FONDO_AYUDA = 0x004488,
 	FONDO_AJUSTE = 0x002244,
 	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
@@ -432,9 +434,9 @@ let
 		ctrlIncMin.endFill();
 		ctrlIncMin.interactive = true;
 		ctrlIncMin.buttonMode = true;
-		ctrlIncMin.on('mousedown', subeMinutos );
-		ctrlIncMin.on('touchstart', subeMinutos );
-		//	ctrlIncMin.on('tap', subeMinutos );
+		ctrlIncMin.on('pointerdown', subeMinutos );
+		//	ctrlIncMin.on('click'      , subeMinutos );
+		ctrlIncMin.on('tap'        , subeMinutos );
 		EscenaMenuInic.addChild(ctrlIncMin);
 
 		
@@ -443,8 +445,9 @@ let
 		ctrlIncSeg.position.set(480,0);
 		ctrlIncSeg.interactive = true;
 		ctrlIncSeg.buttonMode = true;
-		ctrlIncSeg.on('mousedown',  subeSegundos );
-		ctrlIncSeg.on('touchstart', subeSegundos );
+		ctrlIncSeg.on('pointerdown', subeSegundos );
+		//	ctrlIncSeg.on('click'      , subeSegundos );
+		ctrlIncSeg.on('tap'        , subeSegundos );
 		//	ctrlIncSeg.on('tap', subeSegundos );
 		EscenaMenuInic.addChild(ctrlIncSeg);
 
@@ -460,8 +463,9 @@ let
 		ctrlDecMin.endFill();
 		ctrlDecMin.interactive = true;						// Opt-in to interactivity
 		ctrlDecMin.buttonMode = true;							// Shows hand cursor
-		ctrlDecMin.on('mousedown',  bajaMinutos );
-		ctrlDecMin.on('touchstart', bajaMinutos );
+		ctrlDecMin.on('pointerdown', bajaMinutos );
+		//	ctrlDecMin.on('click'      , bajaMinutos );
+		ctrlDecMin.on('tap'        , bajaMinutos );
 		//	ctrlDecMin.on('tap', bajaMinutos );
 		EscenaMenuInic.addChild(ctrlDecMin);
 
@@ -469,8 +473,9 @@ let
 		ctrlDecSeg.position.set(480,0);
 		ctrlDecSeg.interactive = true;					// Opt-in to interactivity
 		ctrlDecSeg.buttonMode = true;					// Shows hand cursor
-		ctrlDecSeg.on('mousedown',	bajaSegundos );
-		ctrlDecSeg.on('touchstart', bajaSegundos );
+		ctrlDecSeg.on('pointerdown',	bajaSegundos );
+		//	ctrlDecSeg.on('click'      ,	bajaSegundos );
+		ctrlDecSeg.on('tap'        ,	bajaSegundos );
 		//	ctrlDecSeg.on('tap', Menu );
 		EscenaMenuInic.addChild(ctrlDecSeg);
 
@@ -488,9 +493,9 @@ let
 		ctrlIniciar.endFill();
 		ctrlIniciar.interactive = true;					// Opt-in to interactivity
 		ctrlIniciar.buttonMode = true;					// Shows hand cursor
-		ctrlIniciar.on('mousedown',		startButton	);
-		ctrlIniciar.on('touchstart',	startButton	 );
-		ctrlIniciar.on('tap', startButton	 );
+		ctrlIniciar.on('pointerdown',		startButton	);
+		ctrlIniciar.on('click'      ,	startButton	 );
+		ctrlIniciar.on('tap'        , startButton	 );
 		EscenaMenuInic.addChild(ctrlIniciar);
 
 
@@ -507,9 +512,9 @@ let
 		ctrlDetener.endFill();
 		ctrlDetener.interactive = true;					// Opt-in to interactivity
 		ctrlDetener.buttonMode = true;					// Shows hand cursor
-		ctrlDetener.on('mousedown',		detiene	);
-		ctrlDetener.on('touchstart',	detiene	 );
-		ctrlDetener.on('tap', detiene	 );
+		ctrlDetener.on('pointerdown',		detiene	);
+		ctrlDetener.on('click'      ,	detiene	 );
+		ctrlDetener.on('tap'        , detiene	 );
 		EscenaMenuInic.addChild(ctrlDetener);
 
 	
@@ -526,9 +531,9 @@ let
 		OpcAleman.scale.set(FLAG_ESC);
 		OpcAleman.interactive = true;					// Opt-in to interactivity
 		OpcAleman.buttonMode = true;					// Shows hand cursor
-		OpcAleman.on('mousedown',	 IdiomaAleman	);
-		OpcAleman.on('touchstart', IdiomaAleman	 );
-		OpcAleman.on('tap', IdiomaAleman );
+		OpcAleman.on('pointerdown', IdiomaAleman	);
+		OpcAleman.on('click'      , IdiomaAleman	 );
+		OpcAleman.on('tap'        , IdiomaAleman );
 		EscenaMenuInic.addChild(OpcAleman);
 
 		//	espanol
@@ -539,9 +544,9 @@ let
 		OpcEspanol.scale.set(FLAG_ESC);
 		OpcEspanol.interactive = true;					// Opt-in to interactivity
 		OpcEspanol.buttonMode = true;					// Shows hand cursor
-		OpcEspanol.on('mousedown',	IdiomaEspanol	);
-		OpcEspanol.on('touchstart',	IdiomaEspanol	 );
-		OpcEspanol.on('tap', IdiomaEspanol );
+		OpcEspanol.on('pointerdown',	IdiomaEspanol	);
+		OpcEspanol.on('click'      ,	IdiomaEspanol	 );
+		OpcEspanol.on('tap'        ,	IdiomaEspanol );
 		EscenaMenuInic.addChild(OpcEspanol);
 
 		//	ingles
@@ -552,12 +557,10 @@ let
 		OpcIngles.scale.set(FLAG_ESC);
 		OpcIngles.interactive = true;					// Opt-in to interactivity
 		OpcIngles.buttonMode = true;					// Shows hand cursor
-		OpcIngles.on('mousedown',	 IdiomaIngles	);
-		OpcIngles.on('touchstart', IdiomaIngles	 );
-		OpcIngles.on('tap', IdiomaIngles );
+		OpcIngles.on('pointerdown',	 IdiomaIngles	);
+		OpcIngles.on('click'      , IdiomaIngles	 );
+		OpcIngles.on('tap'        , IdiomaIngles );
 		EscenaMenuInic.addChild(OpcIngles);
-
-
 
 	}
 
