@@ -10,6 +10,7 @@ M-Timer
 30/5/2019 - version 0.9.9
 31/5/2019 - version 0.9.93	corrijo doble reaccion en botones ajuste tiempo y tamaño de banderitas
 3/6/2019	-	version 0.9.94	continua correccion botones ajuste tiempo
+7/6/2019	-	version 0.9.99	continua correccion botones ajuste tiempo
 
 
 # M-Timer
@@ -21,7 +22,7 @@ by Willie Verger Juegos de Ingenio / Wit Games / wit Spiele
 ## Título / Titel
 # M-Timer / M-Timer
 
-### Descripción breve (menos de 80 caracteres)
+### Descripci&oacute;n breve (menos de 80 caracteres)
 ### Brief description  (less than 80 characters)
 ### Kurze Beschreibung (weniger als 80 Zeichen).
 
@@ -33,21 +34,16 @@ M-Timer es ist ein Werkzeug, um die einer Aktivität zugewiesene Zeit zu steuern.
 
 
 
-## Descripción completa
+## Descripci&oacute;n completa
 
-M-Timer permite controlar un tiempo que se establece
-previamente y avisa cuando se ha cumplido.
-El tiempo, fijado por defecto, se modifica con las flechas
-que apuntan hacia arriba para incrementar y hacia abajo para
-decrementar. Una vez establecido el tiempo se esta en
-condiciones de iniciar la cuenta regresiva. Esto se hace
-picando en el boton inicio.
-En pantalla se presenta el tiempo restante. Cuando se ha
-completado el tiempo comienza un sonido audible para alertar
-sobre esta situación.
-Se puede interrumpir el conteo de tiempo en cualquier instante
-pulsando el boton detener y reanudar luego.
-
+M-Timer
+Un temporizador con números gigantes.
+M-Timer permite controlar un tiempo establecido previamente y avisa cuando se ha cumplido.
+El tiempo, fijado por defecto, se modifica con las flechas que apuntan hacia arriba para incrementar y hacia abajo para decrementar.
+Una vez establecido el tiempo se esta en condiciones de iniciar la cuenta regresiva. Esto se hace picando en el boton inicio.
+En pantalla se presenta el tiempo restante. Cuando se ha completado el tiempo comienza un sonido audible para alertar sobre esta situaci&oacute;n.
+Se puede interrumpir el conteo de tiempo en cualquier instante pulsando el boton detener y reanudar luego.
+M-Timer puede configurarse para idioma Ingl&eacute;s, Español y Alem&aacute;n.
 
 
 ### Palabras clave
@@ -55,7 +51,7 @@ herramientas, utilitarios, timer, reloj, mensa.
 
 Espero esta aplicacion les resulte de utilidad.
 
-Clasificación de la aplicación: para todos los públicos.
+Clasificaci&oacute;n de la aplicaci&oacute;n: para todos los públicos.
 
 ------------------------------------------------------------
 ## Complete description
