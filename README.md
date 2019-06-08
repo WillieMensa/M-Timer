@@ -36,13 +36,20 @@ M-Timer es ist ein Werkzeug, um die einer Aktivität zugewiesene Zeit zu steuern.
 
 ## Descripci&oacute;n completa
 
-M-Timer
-Un temporizador con números gigantes.
+### M-Timer
+
+#### Un temporizador con números gigantes.
+
 M-Timer permite controlar un tiempo establecido previamente y avisa cuando se ha cumplido.
+
 El tiempo, fijado por defecto, se modifica con las flechas que apuntan hacia arriba para incrementar y hacia abajo para decrementar.
+
 Una vez establecido el tiempo se esta en condiciones de iniciar la cuenta regresiva. Esto se hace picando en el boton inicio.
+
 En pantalla se presenta el tiempo restante. Cuando se ha completado el tiempo comienza un sonido audible para alertar sobre esta situaci&oacute;n.
+
 Se puede interrumpir el conteo de tiempo en cualquier instante pulsando el boton detener y reanudar luego.
+
 M-Timer puede configurarse para idioma Ingl&eacute;s, Español y Alem&aacute;n.
 
 
