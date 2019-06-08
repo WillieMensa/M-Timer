@@ -11,6 +11,7 @@
 		31/5/2019 - version 0.9.91
 		3/6/2019	-	version 0.9.94	continua correccion botones ajuste tiempo
 		7/6/2019	-	version 0.9.99	continua correccion botones ajuste tiempo
+		8/6/2019  - version 0.10.01 reparacion defectos touch en botones de ajuste de tiempo
 
 
 	*/
@@ -435,9 +436,9 @@ let
 		ctrlIncMin.endFill();
 		ctrlIncMin.interactive = true;
 		ctrlIncMin.buttonMode = true;
-		ctrlIncMin.on('pointerdown', subeMinutos );
-		//	ctrlIncMin.on('click'      , subeMinutos );
-		//	ctrlIncMin.on('tap'        , subeMinutos );
+		ctrlIncMin.on('pointerdown', subeMinutos );				//	no actua en phone
+		//	ctrlIncMin.on('click'      , subeMinutos );		// mouse-only
+		ctrlIncMin.on('tap'        , subeMinutos );		// touch-only
 		EscenaMenuInic.addChild(ctrlIncMin);
 
 		
@@ -448,7 +449,7 @@ let
 		ctrlIncSeg.buttonMode = true;
 		ctrlIncSeg.on('pointerdown', subeSegundos );
 		//	ctrlIncSeg.on('click'      , subeSegundos );
-		//	ctrlIncSeg.on('tap'        , subeSegundos );
+		ctrlIncSeg.on('tap'        , subeSegundos );
 		EscenaMenuInic.addChild(ctrlIncSeg);
 
 
@@ -465,7 +466,7 @@ let
 		ctrlDecMin.buttonMode = true;							// Shows hand cursor
 		ctrlDecMin.on('pointerdown', bajaMinutos );
 		//	ctrlDecMin.on('click'      , bajaMinutos );
-		//	ctrlDecMin.on('tap'        , bajaMinutos );
+		ctrlDecMin.on('tap'        , bajaMinutos );
 		EscenaMenuInic.addChild(ctrlDecMin);
 
 
@@ -475,7 +476,7 @@ let
 		ctrlDecSeg.buttonMode = true;					// Shows hand cursor
 		ctrlDecSeg.on('pointerdown',	bajaSegundos );
 		//	ctrlDecSeg.on('click'      ,	bajaSegundos );
-		//	ctrlDecSeg.on('tap'        ,	bajaSegundos );
+		ctrlDecSeg.on('tap'        ,	bajaSegundos );
 		EscenaMenuInic.addChild(ctrlDecSeg);
 
 
