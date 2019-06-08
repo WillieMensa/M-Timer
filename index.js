@@ -435,8 +435,8 @@ let
 		ctrlIncMin.endFill();
 		ctrlIncMin.interactive = true;
 		ctrlIncMin.buttonMode = true;
-		//	ctrlIncMin.on('pointerdown', subeMinutos );
-		ctrlIncMin.on('click'      , subeMinutos );
+		ctrlIncMin.on('pointerdown', subeMinutos );
+		//	ctrlIncMin.on('click'      , subeMinutos );
 		//	ctrlIncMin.on('tap'        , subeMinutos );
 		EscenaMenuInic.addChild(ctrlIncMin);
 
@@ -446,8 +446,8 @@ let
 		ctrlIncSeg.position.set(480,0);
 		ctrlIncSeg.interactive = true;
 		ctrlIncSeg.buttonMode = true;
-		//	ctrlIncSeg.on('pointerdown', subeSegundos );
-		ctrlIncSeg.on('click'      , subeSegundos );
+		ctrlIncSeg.on('pointerdown', subeSegundos );
+		//	ctrlIncSeg.on('click'      , subeSegundos );
 		//	ctrlIncSeg.on('tap'        , subeSegundos );
 		EscenaMenuInic.addChild(ctrlIncSeg);
 
@@ -463,8 +463,8 @@ let
 		ctrlDecMin.endFill();
 		ctrlDecMin.interactive = true;						// Opt-in to interactivity
 		ctrlDecMin.buttonMode = true;							// Shows hand cursor
-		//	ctrlDecMin.on('pointerdown', bajaMinutos );
-		ctrlDecMin.on('click'      , bajaMinutos );
+		ctrlDecMin.on('pointerdown', bajaMinutos );
+		//	ctrlDecMin.on('click'      , bajaMinutos );
 		//	ctrlDecMin.on('tap'        , bajaMinutos );
 		EscenaMenuInic.addChild(ctrlDecMin);
 
@@ -473,8 +473,8 @@ let
 		ctrlDecSeg.position.set(480,0);
 		ctrlDecSeg.interactive = true;					// Opt-in to interactivity
 		ctrlDecSeg.buttonMode = true;					// Shows hand cursor
-		//	ctrlDecSeg.on('pointerdown',	bajaSegundos );
-		ctrlDecSeg.on('click'      ,	bajaSegundos );
+		ctrlDecSeg.on('pointerdown',	bajaSegundos );
+		//	ctrlDecSeg.on('click'      ,	bajaSegundos );
 		//	ctrlDecSeg.on('tap'        ,	bajaSegundos );
 		EscenaMenuInic.addChild(ctrlDecSeg);
 

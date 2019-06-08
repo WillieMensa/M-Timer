@@ -64,9 +64,13 @@ Clasificaci&oacute;n de la aplicaci&oacute;n: para todos los públicos.
 ## Complete description
 
 The available time is set in minutes and seconds.
+
 The time set by default is modified with the arrows pointing up to increase and down to decrease.
+
 Once established the available time is in condition to start the countdown. This is done by clicking on the start button (play)
+
 The remaining time is displayed on the screen. When the time has finished, an audible sound begins to alert about this situation.
+
 You can interrupt the time count at any time by pressing the stop button.
 
 
