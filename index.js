@@ -12,6 +12,7 @@
 		3/6/2019	-	version 0.9.94	continua correccion botones ajuste tiempo
 		7/6/2019	-	version 0.9.99	continua correccion botones ajuste tiempo
 		8/6/2019  - version 0.10.01 reparacion defectos touch en botones de ajuste de tiempo
+		8/6/2019  - version 0.10.02 reparacion (definitiva) defectos touch en botones de ajuste de tiempo
 
 
 	*/
@@ -43,7 +44,7 @@ const	APLICACION = "M-TIMER",
 	RENDERER_W = 1000,			//	1000,
 	RENDERER_H = 600,
 	FONDO_JUEGO = 0x002222,	//	0xcccccc,		//	 "#ffc",
-	VERSION	= "0.9.99",			//	version prueba beta abierta inicial
+	VERSION	= "0.10.02",			//	version prueba beta abierta inicial
 	FONDO_AYUDA = 0x004488,
 	FONDO_AJUSTE = 0x002244,
 	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
@@ -436,9 +437,10 @@ let
 		ctrlIncMin.endFill();
 		ctrlIncMin.interactive = true;
 		ctrlIncMin.buttonMode = true;
-		ctrlIncMin.on('pointerdown', subeMinutos );				//	no actua en phone
-		//	ctrlIncMin.on('click'      , subeMinutos );		// mouse-only
-		ctrlIncMin.on('tap'        , subeMinutos );		// touch-only
+		//	ctrlIncMin.on('pointerdown', subeMinutos );				//	no actua en phone
+		//	la combinacion que sigue: click y tap parece funcionar bien.
+		ctrlIncMin.on('click'      , subeMinutos );		// mouse-only.	Funciona OK en PC. 
+		ctrlIncMin.on('tap'        , subeMinutos );		// touch-only. Actua en phone, no actua en PC (mouse)
 		EscenaMenuInic.addChild(ctrlIncMin);
 
 		
@@ -447,8 +449,8 @@ let
 		ctrlIncSeg.position.set(480,0);
 		ctrlIncSeg.interactive = true;
 		ctrlIncSeg.buttonMode = true;
-		ctrlIncSeg.on('pointerdown', subeSegundos );
-		//	ctrlIncSeg.on('click'      , subeSegundos );
+		//	ctrlIncSeg.on('pointerdown', subeSegundos );
+		ctrlIncSeg.on('click'      , subeSegundos );
 		ctrlIncSeg.on('tap'        , subeSegundos );
 		EscenaMenuInic.addChild(ctrlIncSeg);
 
@@ -464,8 +466,8 @@ let
 		ctrlDecMin.endFill();
 		ctrlDecMin.interactive = true;						// Opt-in to interactivity
 		ctrlDecMin.buttonMode = true;							// Shows hand cursor
-		ctrlDecMin.on('pointerdown', bajaMinutos );
-		//	ctrlDecMin.on('click'      , bajaMinutos );
+		//	ctrlDecMin.on('pointerdown', bajaMinutos );
+		ctrlDecMin.on('click'      , bajaMinutos );
 		ctrlDecMin.on('tap'        , bajaMinutos );
 		EscenaMenuInic.addChild(ctrlDecMin);
 
@@ -474,8 +476,8 @@ let
 		ctrlDecSeg.position.set(480,0);
 		ctrlDecSeg.interactive = true;					// Opt-in to interactivity
 		ctrlDecSeg.buttonMode = true;					// Shows hand cursor
-		ctrlDecSeg.on('pointerdown',	bajaSegundos );
-		//	ctrlDecSeg.on('click'      ,	bajaSegundos );
+		//	ctrlDecSeg.on('pointerdown',	bajaSegundos );
+		ctrlDecSeg.on('click'      ,	bajaSegundos );
 		ctrlDecSeg.on('tap'        ,	bajaSegundos );
 		EscenaMenuInic.addChild(ctrlDecSeg);
 

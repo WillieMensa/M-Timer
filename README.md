@@ -12,6 +12,7 @@ M-Timer
 3/6/2019	-	version 0.9.94	continua correccion botones ajuste tiempo
 7/6/2019	-	version 0.9.99	continua correccion botones ajuste tiempo
 8/6/2019  - version 0.10.01 reparacion defectos touch en botones de ajuste de tiempo
+8/6/2019  - version 0.10.02 reparacion (definitiva) defectos touch en botones de ajuste de tiempo
 
 
 # M-Timer
