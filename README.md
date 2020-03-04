@@ -28,11 +28,12 @@ by Willie Verger Juegos de Ingenio / Wit Games / wit Spiele
 ### Brief description  (less than 80 characters)
 ### Kurze Beschreibung (weniger als 80 Zeichen).
 
-M-Timer es una herramienta para controlar el tiempo asignado a una actividad.
+M-Timer es un temporizador con números gigantes.
 
-M-Timer it is a tool to control the time allocated to an activity.
+M-Timer is a timer with giant numbers.
 
-M-Timer es ist ein Werkzeug, um die einer Aktivität zugewiesene Zeit zu steuern.
+M-Timer es ist ein timer mit Grosse nummer.
+Werkzeug, um die einer Aktivität zugewiesene Zeit zu steuern.
 
 
 
@@ -106,3 +107,5 @@ Mejoras posibles
 
 ------------------------------------------------------------
 
+
+ar.com.ingverger.mtimer
