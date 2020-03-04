@@ -3,8 +3,7 @@
 	id="ar.com.ingverger.mtimer" 
 	versionCode = "10102"
 	version  = "1.1.2" 
-	xmlns="http://www.w3.org/ns/widgets" 
-	xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	xmlns="http://www.w3.org/ns/widgets" >
 
     <name>MTimer</name>
     <description>
@@ -15,7 +14,7 @@
 		En pantalla se presenta el tiempo restante. Cuando se ha completado el tiempo comienza un sonido audible para alertar sobre esta situación.
 		Se puede interrumpir el conteo de tiempo en cualquier instante pulsando el boton detener.
     </description>
-	<author href="http://www.ingverger.com.ar" email="ingverger@gmail.com">
+	<author href="http://www.ingverger.com.ar/mtimer" email="ingverger@gmail.com">
 		Willie Verger Clever Games
 	</author>
 
@@ -30,7 +29,7 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
-	<icon   src="icon.png" />
+		<icon   src="icon.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
