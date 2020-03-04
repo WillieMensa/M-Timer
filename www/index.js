@@ -44,7 +44,7 @@ const	APLICACION = "M-TIMER",
 	RENDERER_W = 1000,			//	1000,
 	RENDERER_H = 600,
 	FONDO_JUEGO = 0x002222,	//	0xcccccc,		//	 "#ffc",
-	VERSION	= "0.10.02",			//	version prueba beta abierta inicial
+	VERSION	= "1.1.2",			//	version de produccion
 	FONDO_AYUDA = 0x004488,
 	FONDO_AJUSTE = 0x002244,
 	FONT_NIVEL1 = "balooregular",		//	Titulos:	"luckiest_guyregular",	"Bangers",	"Luckiest Guy",	"Titan One", "Sigmar One"
@@ -891,37 +891,6 @@ let
 
 
 
-/*
-	function end() {
-		//	definir cuales son las escenas visibles y cuales invisibles
-
-		if (DEBUG) { console.log("=== function end ===" ); }
-
-		EscenaDeAyudas.visible = false;		//	container ayudas
-		EscenaDeJuego.visible = true;
-		EscenaAcercaDe.visible = false;		//	container estadisticas
-		//	EscenaFinJuego.visible = true;		//	container aviso de fin del juego
-		EscenaMenuInic.visible = false;		//	container pantalla de inicio
-		EscenarioGral.visible = true;		//	container del juego
-		//	EscenaDificultad.visible = false;	//	seleccion nivel dificultad
-
-		EscenaDeJuego.alpha = 0.8 ;
-
-		//	BotonJugar
-		//	EscenaFinJuego.addChild(BotonJugar);
-		//	BotonJugar.visible =true;
-		//	BotonJugar.alpha=1;
-
-		//	EscenaFinJuego.addChild(BotonMenu);
-
-		//	BotonAyuda.visible = true;
-		//	BotonAcercaDe.visible = true;
-
-		state = end;
-		
-	}
-
-*/
 
 	//	-------------------------------------------------------
 	//	Funciones comunes a todas las aplicaciones con codigo especifico para la app
@@ -929,12 +898,6 @@ let
 	//	-------------------------------------------------------
 
 	function PantallaAcercaDe() {
-		//	var graphics = new PIXI.Graphics();
-		//	// draw a rounded rectangle
-		//	graphics.lineStyle(4, 0x332211, 0.95)
-		//	graphics.beginFill( FONDO_AYUDA, 0.95);
-		//	graphics.drawRoundedRect(100, 100, RENDERER_W-200, RENDERER_H-200 );
-		//	graphics.endFill();
 
 		var fondo = fondoPantalla();
 		EscenaAcercaDe.addChild(fondo);
@@ -953,172 +916,9 @@ let
 		EscenaAcercaDe.addChild(richText);
 		EscenaAcercaDe.visible = true;
 
-		//	EscenaAcercaDe.addChild(BotonAtras);
-		//	BotonAtras.visible = true;
-
-		//	BotonAyuda.visible = false;
-		//	BotonAcercaDe.visible = false;
-		//	ctrlIncMin.visible = false;
-
-		//	EscenaAcercaDe.addChild(BotonMenu);
-		//	BotonMenu.visible = true;
-
-		//	BotonAjustes.visible = false;
-
-		//	BotonSalir.visible =false;
-
 	}
 
 
-
-/*
-	function PantallaJugar() {
-		var tablero,
-			i = undefined,			//	para conteo usos varios
-			aPosPolig = undefined,
-			num, cImagen;
-
-			ejemplo de usos
-
-		var tableroTexture = id["tablero.png"];
-		tablero = new PIXI.Sprite(tableroTexture);
-		//	tablero = id["sumado-tablero.png"];
-
-		tablero.x = TABLERO_OFF_X;
-		tablero.y = TABLERO_OFF_Y;
-		// make it a bit bigger, so it's easier to grab
-		//	tablero.scale.set(1.34);
-		tablero.scale.set(nESCALA);
-		EscenaDeJuego.addChild(tablero);
-
-		//	control del tiempo
-		Crono = new PIXI.Text( txtTiempo, { fontFamily: FONT_NIVEL3, fontSize: "16px", fill: "#a00"  } );	
-		Crono.position.set(400, 10 );
-		EscenaDeJuego.addChild(Crono);
-
-		//	creacion de los sprites draggables para cada nro
-		//	modelo en sumado.js
-
-
-	}
-
-
-
-	//	--------------------------------------
-	function play() {
-
-		//	if ( VerificaSuma() ) {
-		if ( chosenTiles.length == 0 ) {
-
-			EscenaFinJuego.visible = true;		//	container aviso de fin del juego
-			EscenaDeJuego.visible = false;
-			EscenaDeJuego.alpha = 0.8 ;
-
-			BotonJugar.visible = true;
-			BotonMenu.visible = true;
-
-			//	cancelAnimationFrame(myReq);
-
-			state = end;
-
-		} else {
-			elapsed = Math.floor(( new Date().getTime() - start ) / 100 ) / 10;
-		}
-		Crono.text = txtTiempo + elapsed + " seg.";
-
-	}
-*/
-
-
-/*
-	function PantallaFinJuego() {
-
-		const style = new PIXI.TextStyle({
-			fill: "#880000",
-			fontFamily: FONT_NIVEL2,
-			fontSize: 48,
-			fontWeight: "bold"
-		});
-
-		const	MessageFin = new PIXI.Text( txtFin, style);
-		MessageFin.x = ( RENDERER_W - MessageFin.width ) / 2;
-		MessageFin.y = ( RENDERER_H - MessageFin.height ) / 2;
-		//	EscenaFinJuego.addChild(MessageFin);
-		EscenaFinJuego.addChild(BotonJugar);
-		EscenaFinJuego.addChild(BotonMenu);
-
-	}
-*/
-
-
-/*
-	//	---------------------------------------------------
-	function PantallaAjustes() {					//	prepara la pantalla de ajustes
-		
-		//	var graphics = new PIXI.Graphics();
-		//	// draw a rounded rectangle
-		//	graphics.lineStyle(4, 0x332211, 0.95)
-		//	graphics.beginFill( FONDO_AYUDA, 0.95);
-		//	graphics.drawRoundedRect(40, 40, RENDERER_W-120, RENDERER_H-120 );
-		//	graphics.endFill();
-		//	EscenaAjustes.addChild(graphics);
-
-		//	texto a incluir; acercade 
-		const style = new PIXI.TextStyle({
-			fill: COLOR_BOTON,
-			fontFamily: FONT_NIVEL3,		//	fontFamily: "Sriracha",
-			fontSize: 48,
-			fontStyle: "normal",
-			fontWeight: "400"
-		});
-		//	const richText = new PIXI.Text( "Texto, si es que hubiese, para los ajustes", style );
-		const richText = new PIXI.Text( txtConfig, style );
-		richText.x = RENDERER_W / 2;
-		richText.y = 90;
-		richText.anchor.set(0.5);
-
-		EscenaAjustes.addChild(richText);
-		EscenaAjustes.visible = true;
-
-		//	Botones que se deben visualizar en pantalla de ayuda
-		//	unicamente el de volver, entonces, remueve borones del padre y muestra el de ayuda
-		EscenaAjustes.addChild(BotonAtras);
-		BotonAtras.visible = true;
-
-	}
-*/
-
-
-	//	anulado porque no parece usarse
-/*
-//	--------------------------------------------------
-	function Jugar() {
-		//	acciones a realizar durante el juego
-
-		if (DEBUG) { console.log("=== function Jugar ===" ); }
-
-		
-		//	definir cuales son las escenas visibles y cuales invisibles
-		EscenaDeAyudas.visible = false;
-		EscenaDeJuego.visible = true;
-		EscenaAcercaDe.visible = false;
-		EscenaFinJuego.visible = false;
-		EscenaMenuInic.visible = false;
-		//	EscenarioGral.visible = true;
-
-		EscenaDeJuego.alpha = 0.99 ;
-
-
-		//	GenJuego()		//	genera un nuevo juego
-
-		//	iniciamos contador de tiempo
-		start = new Date().getTime();
-		elapsed = 0;
-
-		state = play;
-
-	}
-*/
 
 
 
@@ -1187,7 +987,6 @@ let
 			txtIngles = "Ingles";
 			txtAleman = "Aleman";
 			txtJugar = "Jugar";
-			//	txtMenu = "Menu";
 			txtNoSol = " Sin solución ";
 			txtOtro = "OTRO";
 			txtTiempo = "Tiempo: ";
@@ -1226,12 +1025,6 @@ let
 			txtIngles = "English";
 			txtAleman = "German";
 			txtJugar = "Play",
-			//	txtMenu = "Menu",
-			//	txtNivel = "Level";
-			//	txtNoSoluc = "No Solution ";
-			//	txtOtro = "Another",
-			//	txtProx = "Next";
-			//	txtTiempo = "Time: ";
 			txtVolver = "Back",
 			txtDescAcerca =		//	ingles
 				'About M-Timer version ' + VERSION + ' \n' +
@@ -1261,10 +1054,6 @@ let
 			txtIngles = "Englisch";
 			txtAleman = "Deutsch";
 			txtJugar = "Spielen",
-			//	txtMenu = "Menu",
-			//	txtNivel = "Niveau";
-			//	txtNoSoluc = "keine Losung";
-			//	txtProx = "Nächste";
 			txtTiempo = "Verstrichene Zeit: ";
 			txtVolver = "Umkehren",
 			txtDescAcerca =
@@ -1440,8 +1229,7 @@ function iniciaReloj() {
 		}
 
 	}, 1000);		//	fin de la funcion pasada a setInterval
-
-
+	 
 }
 
 
@@ -1551,164 +1339,8 @@ function detiene() {
 	audioElement.currentTime = 0;
 	//	audioElement.muted = true;
 
-
 }
 
-
-
-/*
-	//	===========================================================
-	//	funciones paraSeleccion de idioma
-	function SelectLanguage(){
-		//	trato de hacerlo generico para cualquier seleccion
-		//	debiera funcionar asi:
-		//	en este caso presento las opciones en el menu principal con iconos (banderitas)
-		//	doe estan desplegados los idiomas posibles. No el seleccionado
-		//	pulsando en alguno de los idiomas, cambia el seleccionado.
-
-		const	x0 = 400;
-		const	y0 = FILA_1_CTRL;
-		const	anchoCaja = 200,
-			altoCaja = 60,
-			COLOR_CAJA = 0x002266,				//	0x99bbff,
-			COLOR_FLECHA = 0x990033;
-
-	var
-		BotonTema = undefined,		//	tema seleccion
-		BotonOpc1 = undefined,		//	opcion 1
-		BotonOpc2 = undefined,		//	opcion 2
-		BotonOpc3 = undefined;		//	opcion 3
-
-
-	var FlagAleman = idTexturas["aleman.png"];
-	var OpcAleman = new PIXI.Sprite(FlagAleman);
-	OpcAleman.x = 840;
-	OpcAleman.y = 20;
-	// make it a bit bigger, so it's easier to grab
-	//	OpcAleman.scale.set(1.34);
-	//	OpcAleman.scale.set(nESCALA);
-	EscenaMenuInic.addChild(OpcAleman);
-
-
-
-		//	Texto grande; numeros indicadores del nivel actual
-		var styleL = new PIXI.TextStyle({
-			fill: COLOR_BOTON,					    //	
-			fontFamily: FONT_NIVEL2,			//	fontFamily: 'Titan One',			//	cursive;
-			fontSize: 64,
-			fontWeight: "bold",
-			padding: 12,
-		});
-
-		//	---------------------------------------------------------------
-		//	Texto pequeño; Titulo del selector, texto de la caja e indicador de nivel
-		var styleS = new PIXI.TextStyle({
-			fill: COLOR_BOTON,					    //	
-			fontFamily: FONT_NIVEL2,			//	fontFamily: 'Titan One',			//	cursive;
-			fontSize: 32,
-			fontWeight: "normal",
-			padding: 4,
-		});
-
-		//	boton para indicar seleccion de idioma
-		// draw a rounded rectangle
-		var graphics = new PIXI.Graphics();
-		graphics.beginFill(0xccddee, 0.98);
-		graphics.drawRoundedRect(x0-10, y0, anchoCaja+20, 280, 20);
-		graphics.endFill();
-		EscenaAjustes.addChild(graphics);
-		//	texto identifica tema a seleccionar
-		BotonTema = new PIXI.Text( txtIdioma, {
-					fill: 0x002244,					    //	
-					fontFamily: FONT_NIVEL2,			//	fontFamily: 'Titan One',			//	cursive;
-					fontSize: 36,
-					fontWeight: "normal",
-					padding: 4,
-				}
-			);
-		BotonTema.x = x0 + (0.5 * anchoCaja);
-		BotonTema.y = y0 + (30);
-		BotonTema.anchor.set(0.5);
-		//	BotonTema.interactive = true;				
-		//	BotonTema.buttonMode = true;			// Shows hand cursor
-		//	BotonTema.on('pointerdown', ElegirIdioma );
-		graphics.addChild(BotonTema);
-
-		//	opciones
-		// boton idioma español. draw a rounded rectangle
-		var rect1 = new PIXI.Graphics();
-		rect1.beginFill(COLOR_CAJA, 0.98);
-		rect1.drawRoundedRect(x0, y0+70, anchoCaja, altoCaja, 10);
-		rect1.endFill();
-		rect1.interactive = true;				
-		rect1.buttonMode = true;			// Shows hand cursor
-		rect1.on('pointerdown', IdiomaEspanol );
-		EscenaAjustes.addChild(rect1);
-
-		BotonOpc1 = new PIXI.Text( txtEspanol, styleS );
-		BotonOpc1.x = x0 + (0.5 * anchoCaja);
-		BotonOpc1.y = y0 + 100;
-		BotonOpc1.anchor.set(0.5);
-		EscenaAjustes.addChild(BotonOpc1);
-
-
-		// boton idioma ingles. draw a rounded rectangle
-		var rect2 = new PIXI.Graphics();
-		rect2.beginFill(COLOR_CAJA, 0.98);
-		rect2.drawRoundedRect(x0, y0+140, anchoCaja, altoCaja, 10);
-		rect2.endFill();
-		rect2.interactive = true;				
-		rect2.buttonMode = true;			// Shows hand cursor
-		rect2.on('pointerdown', IdiomaIngles );
-		EscenaAjustes.addChild(rect2);
-
-		BotonOpc2 = new PIXI.Text( txtIngles, styleS );
-		BotonOpc2.x = x0 + (0.5 * anchoCaja);
-		BotonOpc2.y = y0 + (170);
-		BotonOpc2.anchor.set(0.5);
-		//	BotonOpc2.interactive = true;				
-		//	BotonOpc2.buttonMode = true;			// Shows hand cursor
-		//	BotonOpc2.on('pointerdown', IdiomaIngles );
-		EscenaAjustes.addChild(BotonOpc2);
-
-		// draw a rounded rectangle
-		var rect3 = new PIXI.Graphics();
-		rect3.beginFill(COLOR_CAJA, 0.98);
-		rect3.drawRoundedRect(x0, y0+210, anchoCaja, altoCaja, 10);
-		rect3.endFill();
-		rect3.interactive = true;				
-		rect3.buttonMode = true;			// Shows hand cursor
-		rect3.on('pointerdown', IdiomaAleman );
-		EscenaAjustes.addChild(rect3);
-
-		BotonOpc3 = new PIXI.Text( txtAleman, styleS );
-		BotonOpc3.x = x0 + (0.5 * anchoCaja);
-		BotonOpc3.y = y0 + (240);
-		BotonOpc3.anchor.set(0.5);
-		//	BotonOpc3.interactive = true;				
-		//	BotonOpc3.buttonMode = true;			// Shows hand cursor
-		//	BotonOpc3.on('pointerdown', IdiomaAleman );
-		EscenaAjustes.addChild(BotonOpc3);
-
-
-		//	numero indicador de nivel de dificultad
-		//	la variable debe definirse entre las globales para ser luego actualizada 
-		//	mediante los botones que tambien deben ser reconocidos global
-		//	txtNivDif = new PIXI.Text( "8", style );
-		//	txtNivDif.x = x0+(anchoCaja/2);
-		//	txtNivDif.y = y0 + (0.56 * altoCaja);
-		//	txtNivDif.anchor.set(0.5);
-
-		//	var txtTitulo = new PIXI.Text( txtIdioma, style );
-		//	txtTitulo.x = x0+(anchoCaja/2);
-		//	txtTitulo.y = y0 + 16 ;
-		//	txtTitulo.anchor.set(0.5);
-
-		//	EscenaAjustes.addChild(txtNivDif);
-		//	EscenaAjustes.addChild(txtTitulo);
-		
-	}
-*/
 
 
 
