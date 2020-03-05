@@ -24,7 +24,7 @@
 
     <platform name="android">
         <allow-intent href="market:*" />
-	<icon   src="icon.png" />
+	<icon   src="iconMtimer.png" />
     </platform>
     <preference name="android-targetSdkVersion"  value="28" />
 
