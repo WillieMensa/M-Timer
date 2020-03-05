@@ -25,11 +25,7 @@
 
 	<platform name="android">
         <allow-intent href="market:*" />
-	<icon   src="icon.png" />
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
+	<icon   src="iconMtimer.png" />
     </platform>
 
 	<preference name="android-targetSdkVersion"  value="28" />
