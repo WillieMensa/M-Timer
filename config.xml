@@ -3,8 +3,7 @@
 	id="ar.com.ingverger.mtimer" 
 	versionCode = "10102"
 	version  = "1.1.2" 
-	xmlns="http://www.w3.org/ns/widgets" 
-	xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	xmlns="http://www.w3.org/ns/widgets" >
 
     <name>MTimer</name>
     <description>
@@ -12,7 +11,7 @@
 		Se establece el tiempo disponible en minutos y segundos.
 		El tiempo fijado por defecto se modifica con las flechas que apuntan hacia arriba para incrementar y hacia abajo para decrementar.
 		Una vez establecido el tiempo disponible se esta en condiciones de iniciar la cuenta regresiva. Esto se hace picando en el boton inicio (play)
-		En pantalla se presenta el tiempo restante. Cuando se ha completado el tiempo comienza un sonido audible para alertar sobre esta situación.
+		En pantalla se presenta el tiempo restante. Cuando se ha completado el tiempo comienza un sonido audible para alertar sobre esta situaciÃ³n.
 		Se puede interrumpir el conteo de tiempo en cualquier instante pulsando el boton detener.
     </description>
 	<author href="http://www.ingverger.com.ar" email="ingverger@gmail.com">
